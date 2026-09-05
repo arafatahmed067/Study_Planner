@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,11 @@
 <title>StudyFlow — Personal Study Tracker</title>
 
 <style>
+/* =========================================================
+   STUDYFLOW
+   Complete standalone HTML / CSS / JavaScript
+   ========================================================= */
+
 *{
     margin:0;
     padding:0;
@@ -69,9 +75,9 @@ button{
     display:none!important;
 }
 
-/* =========================
+/* =========================================================
    SCROLLBAR
-========================= */
+   ========================================================= */
 
 ::-webkit-scrollbar{
     width:7px;
@@ -85,16 +91,73 @@ button{
 ::-webkit-scrollbar-thumb{
     background:rgba(115,124,143,.3);
     border-radius:99px;
-    transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover{
     background:rgba(99,91,255,.75);
 }
 
-/* =========================
+/* =========================================================
+   BACKGROUND ANIMATION
+   ========================================================= */
+
+.background-effects{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:-1;
+}
+
+.background-effects::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(99,91,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(99,91,255,.025) 1px,transparent 1px);
+    background-size:40px 40px;
+    mask-image:linear-gradient(to bottom,black,transparent);
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(10px);
+    opacity:.25;
+}
+
+.orb.one{
+    width:380px;
+    height:380px;
+    background:#635bff;
+    top:-160px;
+    left:-130px;
+    animation:floatBlob 9s ease-in-out infinite;
+}
+
+.orb.two{
+    width:320px;
+    height:320px;
+    background:#3984ff;
+    right:-120px;
+    bottom:-100px;
+    animation:floatBlob 11s ease-in-out infinite reverse;
+}
+
+.orb.three{
+    width:220px;
+    height:220px;
+    background:#9b7cff;
+    left:45%;
+    top:30%;
+    opacity:.08;
+    animation:floatBlob 13s ease-in-out infinite;
+}
+
+/* =========================================================
    LOGIN
-========================= */
+   ========================================================= */
 
 .login-screen{
     min-height:100vh;
@@ -104,34 +167,6 @@ button{
     padding:20px;
     position:relative;
     overflow:hidden;
-}
-
-.login-screen::before,
-.login-screen::after{
-    content:"";
-    position:absolute;
-    border-radius:50%;
-    filter:blur(10px);
-    pointer-events:none;
-    opacity:.4;
-}
-
-.login-screen::before{
-    width:350px;
-    height:350px;
-    background:rgba(99,91,255,.2);
-    top:-120px;
-    left:-100px;
-    animation:floatBlob 8s ease-in-out infinite;
-}
-
-.login-screen::after{
-    width:300px;
-    height:300px;
-    background:rgba(57,132,255,.18);
-    bottom:-100px;
-    right:-80px;
-    animation:floatBlob 10s ease-in-out infinite reverse;
 }
 
 .login-box{
@@ -145,7 +180,7 @@ button{
     position:relative;
     z-index:1;
     animation:loginIn .65s cubic-bezier(.2,.8,.2,1);
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(10px);
 }
 
 .logo{
@@ -161,21 +196,48 @@ button{
     font-weight:900;
     margin-bottom:22px;
     box-shadow:0 12px 25px rgba(99,91,255,.35);
-    animation:logoPop .7s .1s both, pulseGlow 3s ease-in-out infinite;
+    animation:logoPop .7s .1s both,pulseGlow 3s ease-in-out infinite;
 }
 
 .login-box h1{
     font-size:31px;
     margin-bottom:7px;
-    background: linear-gradient(135deg, var(--text), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background:linear-gradient(135deg,var(--text),var(--primary));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .login-box p{
     color:var(--muted);
     line-height:1.6;
     margin-bottom:25px;
+}
+
+.login-switch{
+    display:flex;
+    gap:6px;
+    margin-bottom:18px;
+    padding:5px;
+    border-radius:13px;
+    background:var(--card2);
+    border:1px solid var(--border);
+}
+
+.login-switch button{
+    flex:1;
+    border:0;
+    padding:10px;
+    border-radius:9px;
+    background:transparent;
+    color:var(--muted);
+    font-weight:700;
+    transition:.25s;
+}
+
+.login-switch button.active{
+    background:var(--card);
+    color:var(--primary);
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
 }
 
 .input,
@@ -189,16 +251,16 @@ textarea{
     padding:13px 16px;
     outline:none;
     transition:
-        border-color .25s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow .25s cubic-bezier(0.4, 0, 0.2, 1),
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        background .25s ease;
+        border-color .25s,
+        box-shadow .25s,
+        transform .25s,
+        background .25s;
 }
 
 .input:hover,
 select:hover,
 textarea:hover{
-    border-color: rgba(99,91,255,.4);
+    border-color:rgba(99,91,255,.4);
 }
 
 .input:focus,
@@ -206,7 +268,7 @@ select:focus,
 textarea:focus{
     border-color:var(--primary);
     box-shadow:0 0 0 5px rgba(99,91,255,.15);
-    transform: translateY(-1px);
+    transform:translateY(-1px);
 }
 
 textarea{
@@ -221,26 +283,32 @@ textarea{
     padding:13px 20px;
     border-radius:12px;
     font-weight:700;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    position:relative;
+    overflow:hidden;
     transition:
-        transform .25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow .25s ease,
-        background .3s ease;
+        transform .25s,
+        box-shadow .25s,
+        background .3s;
 }
 
-.primary::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    transition: 0.5s;
+.primary::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.25),
+        transparent
+    );
+    transition:.5s;
 }
 
-.primary:hover::after {
-    left: 100%;
+.primary:hover::after{
+    left:100%;
 }
 
 .primary:hover{
@@ -250,7 +318,7 @@ textarea{
 }
 
 .primary:active{
-    transform:translateY(-1px) scale(.97);
+    transform:scale(.97);
 }
 
 .full{
@@ -262,20 +330,27 @@ textarea{
     color:var(--primary);
     margin-top:18px;
     font-size:14px;
-    font-weight: 600;
+    font-weight:600;
     cursor:pointer;
-    transition: all .25s ease;
+    transition:.25s;
 }
 
 .login-admin:hover{
     opacity:.8;
     transform:translateY(-2px);
-    text-decoration: underline;
+    text-decoration:underline;
 }
 
-/* =========================
+.login-error{
+    color:var(--danger);
+    font-size:12px;
+    margin:8px 0;
+    min-height:18px;
+}
+
+/* =========================================================
    APP
-========================= */
+   ========================================================= */
 
 .app{
     display:none;
@@ -286,29 +361,26 @@ textarea{
     min-height:100vh;
 }
 
-/* =========================
-   SIDEBAR FIX
-========================= */
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
 
 .sidebar{
     width:255px;
     background:var(--card);
     border-right:1px solid var(--border);
-
     position:fixed;
     left:0;
     top:0;
     bottom:0;
-
     z-index:50;
     display:flex;
     flex-direction:column;
     padding:20px 14px;
     overflow:hidden;
-
     transition:
-        background .35s ease,
-        border-color .35s ease,
+        background .35s,
+        border-color .35s,
         transform .35s cubic-bezier(.2,.8,.2,1);
 }
 
@@ -320,9 +392,9 @@ textarea{
     font-weight:900;
     padding:10px 12px 25px;
     flex-shrink:0;
-    background: linear-gradient(135deg, var(--text), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background:linear-gradient(135deg,var(--text),var(--primary));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .side-logo-icon{
@@ -335,8 +407,8 @@ textarea{
     align-items:center;
     justify-content:center;
     box-shadow:0 8px 20px rgba(99,91,255,.3);
-    -webkit-text-fill-color: white;
-    animation: pulseGlow 3s infinite;
+    -webkit-text-fill-color:white;
+    animation:pulseGlow 3s infinite;
 }
 
 .nav-scroll{
@@ -352,7 +424,7 @@ textarea{
     text-transform:uppercase;
     letter-spacing:1.2px;
     margin:18px 12px 8px;
-    font-weight: 800;
+    font-weight:800;
 }
 
 .nav-btn{
@@ -368,48 +440,46 @@ textarea{
     display:flex;
     align-items:center;
     gap:10px;
-    position: relative;
-    overflow: hidden;
+    position:relative;
+    overflow:hidden;
     transition:
-        background .25s cubic-bezier(0.4, 0, 0.2, 1),
-        color .25s cubic-bezier(0.4, 0, 0.2, 1),
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow .25s ease;
+        background .25s,
+        color .25s,
+        transform .25s,
+        box-shadow .25s;
 }
 
-.nav-btn::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%) scaleY(0);
-    width: 4px;
-    height: 60%;
-    background: var(--primary);
-    border-radius: 0 4px 4px 0;
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+.nav-btn::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:50%;
+    transform:translateY(-50%) scaleY(0);
+    width:4px;
+    height:60%;
+    background:var(--primary);
+    border-radius:0 4px 4px 0;
+    transition:transform .25s;
 }
 
 .nav-btn:hover{
     background:var(--card2);
     color:var(--text);
     transform:translateX(5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
-.nav-btn:hover::before {
-    transform: translateY(-50%) scaleY(1);
+.nav-btn:hover::before,
+.nav-btn.active::before{
+    transform:translateY(-50%) scaleY(1);
 }
 
 .nav-btn.active{
     background:rgba(99,91,255,.12);
     color:var(--primary);
-    font-weight: 700;
-    box-shadow: inset 4px 0 0 var(--primary), 0 4px 15px rgba(99,91,255,.1);
-}
-
-.nav-btn.active::before {
-    transform: translateY(-50%) scaleY(1);
+    font-weight:700;
+    box-shadow:
+        inset 4px 0 0 var(--primary),
+        0 4px 15px rgba(99,91,255,.1);
 }
 
 .sidebar-bottom{
@@ -426,16 +496,13 @@ textarea{
     border-radius:14px;
     padding:12px;
     margin-bottom:10px;
-    transition:
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow .25s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color .25s ease;
+    transition:.25s;
 }
 
 .user-mini:hover{
     transform:translateY(-3px);
     box-shadow:var(--shadow);
-    border-color: rgba(99,91,255,.3);
+    border-color:rgba(99,91,255,.3);
 }
 
 .user-mini-name{
@@ -449,9 +516,9 @@ textarea{
     margin-top:3px;
 }
 
-/* =========================
-   MAIN
-========================= */
+/* =========================================================
+   MAIN / TOPBAR
+   ========================================================= */
 
 .main{
     margin-left:255px;
@@ -472,9 +539,7 @@ textarea{
     position:sticky;
     top:0;
     z-index:30;
-    transition:
-        background .35s ease,
-        border-color .35s ease;
+    transition:.35s;
 }
 
 body.dark .topbar{
@@ -484,7 +549,6 @@ body.dark .topbar{
 .top-title{
     font-weight:800;
     font-size:19px;
-    letter-spacing: -0.3px;
 }
 
 .top-actions{
@@ -499,18 +563,14 @@ body.dark .topbar{
     color:var(--text);
     border-radius:11px;
     padding:10px 14px;
-    font-weight: 600;
-    transition:
-        border-color .25s cubic-bezier(0.4, 0, 0.2, 1),
-        background .25s cubic-bezier(0.4, 0, 0.2, 1),
-        transform .25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow .25s ease;
+    font-weight:600;
+    transition:.25s;
 }
 
 .small-btn:hover{
     border-color:var(--primary);
-    background: rgba(99,91,255,.05);
-    color: var(--primary);
+    background:rgba(99,91,255,.05);
+    color:var(--primary);
     transform:translateY(-3px);
     box-shadow:0 8px 20px rgba(99,91,255,.15);
 }
@@ -518,6 +578,14 @@ body.dark .topbar{
 .small-btn:active{
     transform:scale(.95);
 }
+
+.mobile-menu{
+    display:none;
+}
+
+/* =========================================================
+   PAGES
+   ========================================================= */
 
 .page{
     display:none;
@@ -542,7 +610,6 @@ body.dark .topbar{
 .page-heading h1{
     font-size:30px;
     margin-bottom:6px;
-    letter-spacing: -0.5px;
 }
 
 .page-heading p{
@@ -555,9 +622,9 @@ body.dark .topbar{
     flex-wrap:wrap;
 }
 
-/* =========================
+/* =========================================================
    CARDS
-========================= */
+   ========================================================= */
 
 .card{
     background:var(--card);
@@ -565,33 +632,36 @@ body.dark .topbar{
     border-radius:20px;
     padding:24px;
     box-shadow:var(--shadow);
-    position: relative;
-    overflow: hidden;
-    transition:
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease,
-        background .35s ease;
+    position:relative;
+    overflow:hidden;
+    transition:.3s;
 }
 
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:3px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--primary),
+        transparent
+    );
+    opacity:0;
+    transition:.3s;
 }
 
 .card:hover{
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
-    border-color: rgba(99,91,255,.3);
+    transform:translateY(-5px);
+    box-shadow:var(--shadow-hover);
+    border-color:rgba(99,91,255,.3);
 }
 
-.card:hover::before {
-    opacity: 1;
+.card:hover::before{
+    opacity:1;
 }
 
 .card-title{
@@ -603,18 +673,16 @@ body.dark .topbar{
 
 .card-title h2{
     font-size:18px;
-    letter-spacing: -0.2px;
 }
 
 .card-title span{
     color:var(--muted);
     font-size:12px;
-    font-weight: 600;
 }
 
-/* =========================
+/* =========================================================
    DASHBOARD
-========================= */
+   ========================================================= */
 
 .stats-grid{
     display:grid;
@@ -629,22 +697,26 @@ body.dark .topbar{
     border-radius:18px;
     padding:20px;
     box-shadow:var(--shadow);
-    position: relative;
-    overflow: hidden;
-    transition:
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease;
+    position:relative;
+    overflow:hidden;
+    transition:.3s;
 }
 
-.stat::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; width: 100%; height: 3px;
-    background: linear-gradient(90deg, var(--primary), #3984ff);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
+.stat::after{
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:3px;
+    background:linear-gradient(
+        90deg,
+        var(--primary),
+        #3984ff
+    );
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:.35s;
 }
 
 .stat:hover{
@@ -653,32 +725,31 @@ body.dark .topbar{
     border-color:rgba(99,91,255,.35);
 }
 
-.stat:hover::after {
-    transform: scaleX(1);
+.stat:hover::after{
+    transform:scaleX(1);
 }
 
 .stat-icon{
     font-size:22px;
     margin-bottom:12px;
-    display: inline-block;
-    transition: transform 0.3s ease;
+    display:inline-block;
+    transition:.3s;
 }
 
-.stat:hover .stat-icon {
-    transform: scale(1.15) rotate(5deg);
+.stat:hover .stat-icon{
+    transform:scale(1.15) rotate(5deg);
 }
 
 .stat-label{
     color:var(--muted);
     font-size:12px;
-    font-weight: 600;
+    font-weight:600;
     margin-bottom:8px;
 }
 
 .stat-value{
     font-size:28px;
     font-weight:900;
-    letter-spacing: -0.5px;
 }
 
 .stat-extra{
@@ -700,6 +771,10 @@ body.dark .topbar{
     margin-top:20px;
 }
 
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
 .progress-box{
     margin-bottom:18px;
 }
@@ -708,7 +783,7 @@ body.dark .topbar{
     display:flex;
     justify-content:space-between;
     font-size:13px;
-    font-weight: 600;
+    font-weight:600;
     margin-bottom:8px;
 }
 
@@ -717,33 +792,46 @@ body.dark .topbar{
     border-radius:99px;
     overflow:hidden;
     background:var(--border);
-    position: relative;
+    position:relative;
 }
 
 .progress-inner{
     height:100%;
     border-radius:99px;
-    background:linear-gradient(90deg,var(--primary),#8a83ff);
+    background:linear-gradient(
+        90deg,
+        var(--primary),
+        #8a83ff
+    );
     transition:width .7s cubic-bezier(.2,.8,.2,1);
-    position: relative;
-    overflow: hidden;
+    position:relative;
+    overflow:hidden;
 }
 
-.progress-inner::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.3), rgba(255,255,255,0));
-    animation: shimmer 2s infinite;
+.progress-inner::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.3),
+        transparent
+    );
+    animation:shimmer 2s infinite;
 }
 
 .success-bar{
-    background:linear-gradient(90deg,var(--success),#35c58f);
+    background:linear-gradient(
+        90deg,
+        var(--success),
+        #35c58f
+    );
 }
 
-/* =========================
+/* =========================================================
    COUNTDOWN
-========================= */
+   ========================================================= */
 
 .exam-highlight{
     text-align:center;
@@ -774,38 +862,31 @@ body.dark .topbar{
     border-radius:12px;
     padding:14px 6px;
     text-align:center;
-    transition:
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color .25s ease,
-        box-shadow .25s ease;
+    transition:.25s;
 }
 
 .time-unit:hover{
     transform:translateY(-4px);
-    border-color: rgba(99,91,255,.4);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+    border-color:rgba(99,91,255,.4);
 }
 
 .time-number{
     font-size:22px;
     font-weight:900;
-    background: linear-gradient(135deg, var(--text), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .time-label{
     color:var(--muted);
     font-size:9px;
     text-transform:uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing:.8px;
     margin-top:4px;
-    font-weight: 700;
+    font-weight:700;
 }
 
-/* =========================
-   TASK
-========================= */
+/* =========================================================
+   TASKS
+   ========================================================= */
 
 .task-list{
     display:flex;
@@ -820,19 +901,14 @@ body.dark .topbar{
     padding:13px 16px;
     border:1px solid var(--border);
     border-radius:13px;
-    background: var(--card);
-    transition:
-        background .25s ease,
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color .25s ease,
-        box-shadow .25s ease;
+    background:var(--card);
+    transition:.25s;
 }
 
 .task-row:hover{
     background:var(--card2);
     transform:translateX(5px);
     border-color:rgba(99,91,255,.3);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.04);
 }
 
 .checkbox{
@@ -845,30 +921,25 @@ body.dark .topbar{
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    transition:
-        background .25s ease,
-        border-color .25s ease,
-        transform .25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-        box-shadow .25s ease;
+    transition:.25s;
 }
 
 .checkbox:hover{
     transform:scale(1.15);
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(99,91,255,0.2);
+    border-color:var(--primary);
 }
 
 .checkbox.done{
     background:var(--success);
     border-color:var(--success);
     color:white;
-    animation: checkPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation:checkPop .3s;
 }
 
 .task-row.done .task-name{
     text-decoration:line-through;
     color:var(--muted);
-    opacity: 0.7;
+    opacity:.7;
 }
 
 .task-name{
@@ -876,7 +947,6 @@ body.dark .topbar{
     font-size:13.5px;
     min-width:0;
     overflow-wrap:anywhere;
-    font-weight: 500;
 }
 
 .priority{
@@ -885,26 +955,22 @@ body.dark .topbar{
     border-radius:99px;
     font-weight:800;
     text-transform:uppercase;
-    letter-spacing: 0.5px;
     flex-shrink:0;
 }
 
 .priority.high{
     background:rgba(224,82,82,.12);
     color:var(--danger);
-    border: 1px solid rgba(224,82,82,.2);
 }
 
 .priority.medium{
     background:rgba(232,163,23,.13);
     color:var(--warning);
-    border: 1px solid rgba(232,163,23,.2);
 }
 
 .priority.low{
     background:rgba(57,132,255,.12);
     color:var(--blue);
-    border: 1px solid rgba(57,132,255,.2);
 }
 
 .delete{
@@ -912,8 +978,8 @@ body.dark .topbar{
     background:transparent;
     color:var(--muted);
     font-size:18px;
-    cursor: pointer;
-    transition: all .25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor:pointer;
+    transition:.25s;
 }
 
 .delete:hover{
@@ -921,9 +987,9 @@ body.dark .topbar{
     transform:scale(1.25) rotate(8deg);
 }
 
-/* =========================
+/* =========================================================
    CHART
-========================= */
+   ========================================================= */
 
 .chart{
     height:230px;
@@ -946,7 +1012,7 @@ body.dark .topbar{
 
 .chart-value{
     font-size:10px;
-    font-weight: 600;
+    font-weight:600;
     color:var(--muted);
 }
 
@@ -954,28 +1020,28 @@ body.dark .topbar{
     width:min(36px,80%);
     min-height:4px;
     border-radius:8px 8px 0 0;
-    background:linear-gradient(180deg,#8a83ff,var(--primary));
-    box-shadow: 0 -4px 15px rgba(99,91,255,.2);
-    transition:
-        height .7s cubic-bezier(.2,.8,.2,1),
-        opacity .25s ease,
-        filter .25s ease;
+    background:linear-gradient(
+        180deg,
+        #8a83ff,
+        var(--primary)
+    );
+    box-shadow:0 -4px 15px rgba(99,91,255,.2);
+    transition:height .7s cubic-bezier(.2,.8,.2,1);
 }
 
 .chart-bar:hover{
-    opacity:.9;
-    filter: brightness(1.15);
+    filter:brightness(1.15);
 }
 
 .chart-label{
     color:var(--muted);
     font-size:10.5px;
-    font-weight: 600;
+    font-weight:600;
 }
 
-/* =========================
+/* =========================================================
    FORMS
-========================= */
+   ========================================================= */
 
 .form-grid{
     display:grid;
@@ -1006,9 +1072,9 @@ body.dark .topbar{
     margin-top:12px;
 }
 
-/* =========================
+/* =========================================================
    SUBJECTS
-========================= */
+   ========================================================= */
 
 .subject-grid{
     display:grid;
@@ -1021,33 +1087,16 @@ body.dark .topbar{
     border:1px solid var(--border);
     border-radius:18px;
     padding:22px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition:
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease;
-}
-
-.subject-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--primary);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    transition:.3s;
 }
 
 .subject-card:hover{
     transform:translateY(-6px);
     box-shadow:var(--shadow-hover);
     border-color:rgba(99,91,255,.35);
-}
-
-.subject-card:hover::before {
-    opacity: 1;
 }
 
 .subject-top{
@@ -1059,13 +1108,11 @@ body.dark .topbar{
 .subject-name{
     font-size:18px;
     font-weight:800;
-    letter-spacing: -0.2px;
 }
 
 .subject-code{
     color:var(--muted);
     font-size:11.5px;
-    font-weight: 600;
     margin-top:4px;
 }
 
@@ -1073,10 +1120,6 @@ body.dark .topbar{
     font-size:28px;
     font-weight:900;
     margin:18px 0 10px;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--text), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .subject-actions{
@@ -1086,9 +1129,9 @@ body.dark .topbar{
     flex-wrap:wrap;
 }
 
-/* =========================
+/* =========================================================
    GOALS
-========================= */
+   ========================================================= */
 
 .goal-grid{
     display:grid;
@@ -1101,17 +1144,13 @@ body.dark .topbar{
     border:1px solid var(--border);
     border-radius:18px;
     padding:22px;
-    box-shadow: var(--shadow);
-    transition:
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease;
+    box-shadow:var(--shadow);
+    transition:.3s;
 }
 
 .goal-card:hover{
     transform:translateY(-6px);
     box-shadow:var(--shadow-hover);
-    border-color:rgba(99,91,255,.35);
 }
 
 .goal-type{
@@ -1119,12 +1158,12 @@ body.dark .topbar{
     color:var(--primary);
     text-transform:uppercase;
     font-weight:900;
-    letter-spacing: 0.8px;
+    letter-spacing:.8px;
 }
 
 .goal-title{
     font-weight:800;
-    font-size: 16px;
+    font-size:16px;
     margin:8px 0;
 }
 
@@ -1133,13 +1172,12 @@ body.dark .topbar{
     justify-content:space-between;
     color:var(--muted);
     font-size:12.5px;
-    font-weight: 600;
     margin:10px 0;
 }
 
-/* =========================
+/* =========================================================
    EXAMS
-========================= */
+   ========================================================= */
 
 .exam-grid{
     display:grid;
@@ -1152,17 +1190,13 @@ body.dark .topbar{
     background:var(--card);
     border-radius:18px;
     padding:22px;
-    box-shadow: var(--shadow);
-    transition:
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease;
+    box-shadow:var(--shadow);
+    transition:.3s;
 }
 
 .exam-card:hover{
     transform:translateY(-6px);
     box-shadow:var(--shadow-hover);
-    border-color:rgba(99,91,255,.35);
 }
 
 .exam-top{
@@ -1174,13 +1208,11 @@ body.dark .topbar{
 .exam-title{
     font-size:19px;
     font-weight:900;
-    letter-spacing: -0.2px;
 }
 
 .exam-subject{
     color:var(--muted);
     font-size:12px;
-    font-weight: 600;
     margin-top:4px;
 }
 
@@ -1193,29 +1225,23 @@ body.dark .topbar{
 .exam-count-item{
     flex:1;
     background:var(--card2);
-    border: 1px solid var(--border);
+    border:1px solid var(--border);
     border-radius:11px;
     text-align:center;
     padding:10px 4px;
-    transition: transform 0.2s ease;
-}
-
-.exam-count-item:hover {
-    transform: translateY(-2px);
-    border-color: rgba(99,91,255,.3);
 }
 
 .exam-count-item strong{
     display:block;
     font-size:19px;
-    font-weight: 900;
+    font-weight:900;
 }
 
 .exam-count-item span{
     color:var(--muted);
     font-size:8.5px;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-weight:700;
+    text-transform:uppercase;
 }
 
 .reminder-list{
@@ -1231,13 +1257,12 @@ body.dark .topbar{
     background:rgba(99,91,255,.1);
     color:var(--primary);
     font-size:10.5px;
-    font-weight: 700;
-    border: 1px solid rgba(99,91,255,.2);
+    font-weight:700;
 }
 
-/* =========================
+/* =========================================================
    CALENDAR
-========================= */
+   ========================================================= */
 
 .calendar-head{
     display:flex;
@@ -1256,9 +1281,9 @@ body.dark .topbar{
     text-align:center;
     color:var(--muted);
     font-size:11px;
-    font-weight: 800;
+    font-weight:800;
     padding:6px;
-    text-transform: uppercase;
+    text-transform:uppercase;
 }
 
 .cal-day{
@@ -1267,21 +1292,17 @@ body.dark .topbar{
     border-radius:11px;
     padding:8px;
     background:var(--card2);
-    transition:
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color .25s ease,
-        box-shadow .25s ease;
+    transition:.25s;
 }
 
 .cal-day:hover{
     transform:translateY(-3px);
     border-color:rgba(99,91,255,.4);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
 }
 
 .cal-day.today{
     outline:2px solid var(--primary);
-    background: rgba(99,91,255,.04);
+    background:rgba(99,91,255,.04);
 }
 
 .cal-num{
@@ -1296,30 +1317,29 @@ body.dark .topbar{
     color:var(--primary);
     border-radius:5px;
     font-size:9px;
-    font-weight: 700;
+    font-weight:700;
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
-    border: 1px solid rgba(99,91,255,.25);
 }
 
-/* =========================
+/* =========================================================
    POMODORO
-========================= */
+   ========================================================= */
 
 .timer-card{
     max-width:680px;
     margin:auto;
     text-align:center;
-    padding: 35px 25px;
+    padding:35px 25px;
 }
 
 .timer-mode{
     color:var(--primary);
     font-weight:800;
     font-size:14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    letter-spacing:1px;
+    text-transform:uppercase;
     margin-bottom:14px;
 }
 
@@ -1329,10 +1349,6 @@ body.dark .topbar{
     letter-spacing:4px;
     margin:14px 0 24px;
     font-variant-numeric:tabular-nums;
-    background: linear-gradient(135deg, var(--text), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 10px 30px rgba(99,91,255,0.1);
 }
 
 .timer-controls{
@@ -1350,9 +1366,9 @@ body.dark .topbar{
     text-align:left;
 }
 
-/* =========================
+/* =========================================================
    NOTES
-========================= */
+   ========================================================= */
 
 .notes-grid{
     display:grid;
@@ -1371,21 +1387,13 @@ body.dark .topbar{
     border:1px solid var(--border);
     border-radius:12px;
     cursor:pointer;
-    background: var(--card);
-    transition:
-        background .25s ease,
-        border-color .25s ease,
-        transform .25s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow .25s ease;
-}
-
-.note-item:hover{
-    transform:translateX(4px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    background:var(--card);
+    transition:.25s;
 }
 
 .note-item:hover,
 .note-item.selected{
+    transform:translateX(4px);
     border-color:var(--primary);
     background:rgba(99,91,255,.07);
 }
@@ -1393,19 +1401,17 @@ body.dark .topbar{
 .note-item strong{
     display:block;
     font-size:13.5px;
-    font-weight: 700;
-    margin-bottom: 3px;
+    margin-bottom:3px;
 }
 
 .note-item span{
     color:var(--muted);
     font-size:11px;
-    font-weight: 600;
 }
 
-/* =========================
+/* =========================================================
    ACHIEVEMENTS
-========================= */
+   ========================================================= */
 
 .achievement-grid{
     display:grid;
@@ -1419,12 +1425,8 @@ body.dark .topbar{
     padding:22px;
     background:var(--card);
     opacity:.4;
-    box-shadow: var(--shadow);
-    transition:
-        opacity .3s ease,
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease,
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow:var(--shadow);
+    transition:.3s;
 }
 
 .achievement:hover{
@@ -1434,37 +1436,34 @@ body.dark .topbar{
 .achievement.unlocked{
     opacity:1;
     border-color:var(--primary);
-    box-shadow: var(--shadow-hover);
-    background: linear-gradient(135deg, var(--card), rgba(99,91,255,.03));
+    box-shadow:var(--shadow-hover);
 }
 
 .achievement-icon{
     font-size:30px;
     margin-bottom:12px;
-    display: inline-block;
-    transition: transform 0.3s ease;
+    display:inline-block;
+    transition:.3s;
 }
 
-.achievement.unlocked:hover .achievement-icon {
-    transform: scale(1.2) rotate(10deg);
+.achievement.unlocked:hover .achievement-icon{
+    transform:scale(1.2) rotate(10deg);
 }
 
 .achievement strong{
     display:block;
     margin-bottom:6px;
-    font-size: 16px;
-    font-weight: 800;
+    font-size:16px;
 }
 
 .achievement span{
     color:var(--muted);
     font-size:11.5px;
-    font-weight: 600;
 }
 
-/* =========================
+/* =========================================================
    ADMIN
-========================= */
+   ========================================================= */
 
 .admin{
     display:none;
@@ -1474,6 +1473,16 @@ body.dark .topbar{
     padding:32px;
     max-width:1450px;
     margin:auto;
+}
+
+.admin-topbar{
+    height:75px;
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 32px;
 }
 
 .admin-users{
@@ -1488,28 +1497,22 @@ body.dark .topbar{
     border-radius:18px;
     padding:22px;
     box-shadow:var(--shadow);
-    transition:
-        transform .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow .3s cubic-bezier(0.2, 0.8, 0.2, 1),
-        border-color .3s ease;
+    transition:.3s;
 }
 
 .admin-user:hover{
     transform:translateY(-6px);
     box-shadow:var(--shadow-hover);
-    border-color: rgba(99,91,255,.35);
 }
 
 .admin-user-name{
     font-weight:900;
     font-size:19px;
-    letter-spacing: -0.2px;
 }
 
 .admin-meta{
     color:var(--muted);
     font-size:11.5px;
-    font-weight: 600;
     margin:6px 0 18px;
 }
 
@@ -1525,31 +1528,41 @@ body.dark .topbar{
     padding:10px 6px;
     background:var(--card2);
     border-radius:10px;
-    border: 1px solid var(--border);
+    border:1px solid var(--border);
 }
 
 .mini strong{
     display:block;
-    font-size: 14px;
-    font-weight: 800;
+    font-size:14px;
 }
 
 .mini span{
     font-size:9px;
     color:var(--muted);
-    font-weight: 700;
-    text-transform: uppercase;
+    font-weight:700;
+    text-transform:uppercase;
 }
 
-/* =========================
+.admin-section{
+    margin-bottom:24px;
+}
+
+.admin-import{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+}
+
+/* =========================================================
    EMPTY / NOTICE
-========================= */
+   ========================================================= */
 
 .empty{
     text-align:center;
     padding:35px 10px;
     color:var(--muted);
-    font-weight: 600;
+    font-weight:600;
 }
 
 .notice{
@@ -1561,31 +1574,27 @@ body.dark .topbar{
     font-size:12.5px;
     line-height:1.6;
     margin-bottom:20px;
-    font-weight: 500;
 }
 
-/* =========================
+/* =========================================================
    MODAL
-========================= */
+   ========================================================= */
 
 .modal{
     position:fixed;
     inset:0;
     background:rgba(0,0,0,.6);
     backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
     display:none;
     align-items:center;
     justify-content:center;
     padding:20px;
     z-index:1000;
-    opacity:0;
-    transition: opacity 0.25s ease;
 }
 
 .modal.show{
     display:flex;
-    animation:modalBgIn .25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation:modalBgIn .25s forwards;
 }
 
 .modal-box{
@@ -1594,27 +1603,44 @@ body.dark .topbar{
     max-height:90vh;
     overflow:auto;
     background:var(--card);
-    border: 1px solid var(--border);
+    border:1px solid var(--border);
     border-radius:24px;
     padding:28px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-    transform:translateY(20px) scale(.95);
-    animation:modalBoxIn .35s cubic-bezier(.2,.8,.2,1) forwards;
+    box-shadow:0 25px 60px rgba(0,0,0,.3);
+    animation:modalBoxIn .35s cubic-bezier(.2,.8,.2,1);
 }
 
 .modal-box h2{
     margin-bottom:18px;
-    font-size: 22px;
-    letter-spacing: -0.3px;
+    font-size:22px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* =========================================================
+   TABLE
+   ========================================================= */
 
-.mobile-menu{
-    display:none;
+.data-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
 }
+
+.data-table th,
+.data-table td{
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid var(--border);
+}
+
+.data-table th{
+    color:var(--muted);
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media(max-width:1100px){
 
@@ -1718,20 +1744,17 @@ body.dark .topbar{
         grid-template-columns:1fr;
     }
 
-    .cal-day{
-        min-height:60px;
-    }
-
-    .cal-event{
-        display:none;
-    }
-
     .calendar-grid{
         gap:4px;
     }
 
     .cal-day{
+        min-height:60px;
         padding:6px;
+    }
+
+    .cal-event{
+        display:none;
     }
 
     .login-box{
@@ -1739,9 +1762,9 @@ body.dark .topbar{
     }
 }
 
-/* =========================
+/* =========================================================
    ANIMATIONS
-========================= */
+   ========================================================= */
 
 @keyframes pageIn{
     from{
@@ -1786,47 +1809,42 @@ body.dark .topbar{
 }
 
 @keyframes pulseGlow{
-    0%, 100%{
-        box-shadow: 0 0 15px rgba(99,91,255,0.3);
+    0%,100%{
+        box-shadow:0 0 15px rgba(99,91,255,.3);
     }
     50%{
-        box-shadow: 0 0 25px rgba(99,91,255,0.6);
+        box-shadow:0 0 25px rgba(99,91,255,.6);
     }
 }
 
 @keyframes shimmer{
     0%{
-        transform: translateX(-100%);
+        transform:translateX(-100%);
     }
     100%{
-        transform: translateX(100%);
+        transform:translateX(100%);
     }
 }
 
 @keyframes checkPop{
-    0%{
-        transform: scale(0.8);
-    }
-    50%{
-        transform: scale(1.3);
-    }
-    100%{
-        transform: scale(1);
-    }
+    0%{transform:scale(.8)}
+    50%{transform:scale(1.3)}
+    100%{transform:scale(1)}
 }
 
 @keyframes modalBgIn{
-    from{
-        opacity:0;
-    }
-    to{
-        opacity:1;
-    }
+    from{opacity:0}
+    to{opacity:1}
 }
 
 @keyframes modalBoxIn{
+    from{
+        transform:translateY(20px) scale(.95);
+        opacity:0;
+    }
     to{
         transform:translateY(0) scale(1);
+        opacity:1;
     }
 }
 
@@ -1845,6 +1863,16 @@ body.dark .topbar{
 
 <body>
 
+<div class="background-effects">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+</div>
+
+<!-- =======================================================
+     LOGIN
+     ======================================================= -->
+
 <div class="login-screen" id="loginScreen">
 
     <div class="login-box">
@@ -1855,25 +1883,101 @@ body.dark .topbar{
 
         <p>
             Your personal study command center.
-            Track your subjects, goals, study time,
-            exams and progress in one place.
+            Every user gets a completely separate profile
+            and their own study data.
         </p>
 
-        <input
-            id="loginName"
-            class="input"
-            placeholder="Enter your name"
-            maxlength="40"
-        >
+        <div class="login-switch">
+            <button id="loginTab" class="active" onclick="showLoginForm()">
+                Login
+            </button>
 
-        <br><br>
+            <button id="registerTab" onclick="showRegisterForm()">
+                New Profile
+            </button>
+        </div>
 
-        <button
-            class="primary full"
-            onclick="loginUser()"
-        >
-            Enter StudyFlow
-        </button>
+        <!-- LOGIN -->
+
+        <div id="loginForm">
+
+            <input
+                id="loginName"
+                class="input"
+                placeholder="Enter username"
+                maxlength="40"
+                autocomplete="username"
+            >
+
+            <br><br>
+
+            <input
+                id="loginPassword"
+                type="password"
+                class="input"
+                placeholder="Enter password"
+                autocomplete="current-password"
+            >
+
+            <div class="login-error" id="loginError"></div>
+
+            <button
+                class="primary full"
+                onclick="loginUser()"
+            >
+                Enter StudyFlow
+            </button>
+
+        </div>
+
+        <!-- REGISTER -->
+
+        <div id="registerForm" class="hidden">
+
+            <input
+                id="registerName"
+                class="input"
+                placeholder="Display name"
+                maxlength="40"
+            >
+
+            <br><br>
+
+            <input
+                id="registerUsername"
+                class="input"
+                placeholder="Username"
+                maxlength="30"
+            >
+
+            <br><br>
+
+            <input
+                id="registerPassword"
+                type="password"
+                class="input"
+                placeholder="Create password"
+            >
+
+            <br><br>
+
+            <input
+                id="registerPassword2"
+                type="password"
+                class="input"
+                placeholder="Confirm password"
+            >
+
+            <div class="login-error" id="registerError"></div>
+
+            <button
+                class="primary full"
+                onclick="registerUser()"
+            >
+                Create Study Profile
+            </button>
+
+        </div>
 
         <div
             class="login-admin"
@@ -1883,9 +1987,12 @@ body.dark .topbar{
         </div>
 
     </div>
-
 </div>
 
+
+<!-- =======================================================
+     USER APPLICATION
+     ======================================================= -->
 
 <div class="app" id="userApp">
 
@@ -1902,75 +2009,45 @@ body.dark .topbar{
 
         <div class="nav-title">Workspace</div>
 
-        <button
-            class="nav-btn active"
-            data-page="dashboard"
-        >
+        <button class="nav-btn active" data-page="dashboard">
             🏠 Dashboard
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="tasks"
-        >
+        <button class="nav-btn" data-page="tasks">
             ✓ Tasks
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="subjects"
-        >
+        <button class="nav-btn" data-page="subjects">
             📚 Subjects
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="goals"
-        >
+        <button class="nav-btn" data-page="goals">
             🎯 Goals
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="exams"
-        >
+        <button class="nav-btn" data-page="exams">
             📝 Exams
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="sessions"
-        >
+        <button class="nav-btn" data-page="sessions">
             ⏱ Study Sessions
         </button>
 
         <div class="nav-title">Tools</div>
 
-        <button
-            class="nav-btn"
-            data-page="calendar"
-        >
+        <button class="nav-btn" data-page="calendar">
             📅 Calendar
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="pomodoro"
-        >
+        <button class="nav-btn" data-page="pomodoro">
             🍅 Focus Timer
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="notes"
-        >
+        <button class="nav-btn" data-page="notes">
             🗒 Notes
         </button>
 
-        <button
-            class="nav-btn"
-            data-page="achievements"
-        >
+        <button class="nav-btn" data-page="achievements">
             🏆 Achievements
         </button>
 
@@ -1993,17 +2070,15 @@ body.dark .topbar{
 
         </div>
 
-        <button
-            class="nav-btn"
-            onclick="exportData()"
-        >
+        <button class="nav-btn" onclick="exportData()">
             📤 Export My Data
         </button>
 
-        <button
-            class="nav-btn"
-            onclick="logout()"
-        >
+        <button class="nav-btn" onclick="importUserData()">
+            📥 Import My Data
+        </button>
+
+        <button class="nav-btn" onclick="logout()">
             ↪ Logout
         </button>
 
@@ -2016,10 +2091,7 @@ body.dark .topbar{
 
 <header class="topbar">
 
-    <div
-        class="top-title"
-        id="topTitle"
-    >
+    <div class="top-title" id="topTitle">
         Dashboard
     </div>
 
@@ -2035,8 +2107,10 @@ body.dark .topbar{
         <button
             class="small-btn"
             onclick="toggleTheme()"
+            title="Toggle light / dark mode"
+            id="themeButton"
         >
-            ◐
+            🌙
         </button>
 
         <button
@@ -2051,10 +2125,11 @@ body.dark .topbar{
 </header>
 
 
-<section
-    class="page active"
-    id="page-dashboard"
->
+<!-- =====================================================
+     DASHBOARD
+     ===================================================== -->
+
+<section class="page active" id="page-dashboard">
 
     <div class="page-heading">
 
@@ -2087,61 +2162,36 @@ body.dark .topbar{
         <div class="stat">
             <div class="stat-icon">📈</div>
             <div class="stat-label">Today's Progress</div>
-            <div
-                class="stat-value"
-                id="statToday"
-            >0%</div>
-            <div class="stat-extra">
-                Tasks completed
-            </div>
+            <div class="stat-value" id="statToday">0%</div>
+            <div class="stat-extra">Tasks completed</div>
         </div>
 
         <div class="stat">
             <div class="stat-icon">⏱</div>
             <div class="stat-label">Study Time</div>
-            <div
-                class="stat-value"
-                id="statHours"
-            >0m</div>
-            <div class="stat-extra">
-                Today
-            </div>
+            <div class="stat-value" id="statHours">0m</div>
+            <div class="stat-extra">Total logged</div>
         </div>
 
         <div class="stat">
             <div class="stat-icon">🔥</div>
             <div class="stat-label">Study Streak</div>
-            <div
-                class="stat-value"
-                id="statStreak"
-            >0</div>
-            <div class="stat-extra">
-                Consecutive days
-            </div>
+            <div class="stat-value" id="statStreak">0</div>
+            <div class="stat-extra">Consecutive days</div>
         </div>
 
         <div class="stat">
             <div class="stat-icon">🎯</div>
             <div class="stat-label">Active Goals</div>
-            <div
-                class="stat-value"
-                id="statGoals"
-            >0</div>
-            <div class="stat-extra">
-                In progress
-            </div>
+            <div class="stat-value" id="statGoals">0</div>
+            <div class="stat-extra">In progress</div>
         </div>
 
         <div class="stat">
             <div class="stat-icon">📚</div>
             <div class="stat-label">Subjects</div>
-            <div
-                class="stat-value"
-                id="statSubjects"
-            >0</div>
-            <div class="stat-extra">
-                Enrolled
-            </div>
+            <div class="stat-value" id="statSubjects">0</div>
+            <div class="stat-extra">Enrolled</div>
         </div>
 
     </div>
@@ -2150,28 +2200,66 @@ body.dark .topbar{
     <div class="dashboard-grid">
 
         <div class="card">
+
             <div class="card-title">
                 <h2>Weekly Overview</h2>
-                <span>Study hours per day</span>
+                <span>Study minutes</span>
             </div>
+
             <div class="chart" id="dashboardChart"></div>
+
         </div>
 
+
         <div class="card">
+
             <div class="card-title">
                 <h2>Next Exam Countdown</h2>
                 <span id="dashExamName">No upcoming exam</span>
             </div>
+
             <div class="exam-highlight">
-                <div class="exam-name" id="dashExamTitle">Set an exam date</div>
-                <div class="exam-date" id="dashExamDate">--</div>
+
+                <div
+                    class="exam-name"
+                    id="dashExamTitle"
+                >
+                    Set an exam date
+                </div>
+
+                <div
+                    class="exam-date"
+                    id="dashExamDate"
+                >
+                    --
+                </div>
+
             </div>
+
             <div class="countdown" id="dashCountdown">
-                <div class="time-unit"><div class="time-number">00</div><div class="time-label">Days</div></div>
-                <div class="time-unit"><div class="time-number">00</div><div class="time-label">Hours</div></div>
-                <div class="time-unit"><div class="time-number">00</div><div class="time-label">Mins</div></div>
-                <div class="time-unit"><div class="time-number">00</div><div class="time-label">Secs</div></div>
+
+                <div class="time-unit">
+                    <div class="time-number">00</div>
+                    <div class="time-label">Days</div>
+                </div>
+
+                <div class="time-unit">
+                    <div class="time-number">00</div>
+                    <div class="time-label">Hours</div>
+                </div>
+
+                <div class="time-unit">
+                    <div class="time-number">00</div>
+                    <div class="time-label">Mins</div>
+                </div>
+
+                <div class="time-unit">
+                    <div class="time-number">00</div>
+                    <div class="time-label">Secs</div>
+                </div>
+
             </div>
+
         </div>
 
     </div>
@@ -2180,1138 +2268,5743 @@ body.dark .topbar{
     <div class="dashboard-grid2">
 
         <div class="card">
+
             <div class="card-title">
-                <h2>Today's Tasks</h2>
-                <span id="dashTaskCount">0 left</span>
+                <h2>Overall Task Progress</h2>
+                <span id="taskProgressText">0%</span>
             </div>
-            <div class="task-list" id="dashTaskList">
-                <div class="empty">No tasks scheduled for today</div>
+
+            <div class="progress">
+                <div
+                    class="progress-inner"
+                    id="dashboardProgress"
+                    style="width:0%"
+                ></div>
             </div>
+
         </div>
 
+
         <div class="card">
+
             <div class="card-title">
-                <h2>Subject Progress</h2>
-                <span>Overall averages</span>
+                <h2>Recent Tasks</h2>
+                <span>Latest activity</span>
             </div>
-            <div id="dashSubjectProgress">
-                <div class="empty">No subjects added yet</div>
-            </div>
+
+            <div
+                class="task-list"
+                id="recentTasks"
+            ></div>
+
         </div>
 
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     TASKS
+     ===================================================== -->
 
 <section class="page" id="page-tasks">
 
     <div class="page-heading">
+
         <div>
             <h1>Task Manager</h1>
-            <p>Organize, prioritize and track your daily assignments.</p>
+            <p>Create, complete and manage your study tasks.</p>
         </div>
-        <div class="heading-actions">
-            <button class="primary" onclick="openTaskModal()">+ Add Task</button>
-        </div>
+
+        <button
+            class="primary"
+            onclick="openTaskModal()"
+        >
+            + Add Task
+        </button>
+
     </div>
 
     <div class="card">
+
         <div class="card-title">
-            <h2>All Tasks</h2>
-            <span id="totalTaskCount">0 total</span>
+            <h2>Your Tasks</h2>
+            <span id="taskCountLabel">0 tasks</span>
         </div>
-        <div class="task-list" id="fullTaskList">
-            <div class="empty">No tasks found</div>
-        </div>
+
+        <div
+            class="task-list"
+            id="taskList"
+        ></div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     SUBJECTS
+     ===================================================== -->
 
 <section class="page" id="page-subjects">
 
     <div class="page-heading">
+
         <div>
             <h1>Subjects</h1>
-            <p>Manage your courses, topics and course loads.</p>
+            <p>Track progress across your courses.</p>
         </div>
-        <div class="heading-actions">
-            <button class="primary" onclick="openSubjectModal()">+ Add Subject</button>
-        </div>
+
+        <button
+            class="primary"
+            onclick="openSubjectModal()"
+        >
+            + Add Subject
+        </button>
+
     </div>
 
-    <div class="subject-grid" id="subjectGrid">
-        <div class="empty">No subjects added yet</div>
-    </div>
+    <div
+        class="subject-grid"
+        id="subjectGrid"
+    ></div>
 
 </section>
 
+
+<!-- =====================================================
+     GOALS
+     ===================================================== -->
 
 <section class="page" id="page-goals">
 
     <div class="page-heading">
+
         <div>
             <h1>Study Goals</h1>
-            <p>Set targets for hours studied or topics covered.</p>
+            <p>Set targets and keep yourself accountable.</p>
         </div>
-        <div class="heading-actions">
-            <button class="primary" onclick="openGoalModal()">+ Add Goal</button>
-        </div>
+
+        <button
+            class="primary"
+            onclick="openGoalModal()"
+        >
+            + New Goal
+        </button>
+
     </div>
 
-    <div class="goal-grid" id="goalGrid">
-        <div class="empty">No goals defined</div>
-    </div>
+    <div
+        class="goal-grid"
+        id="goalGrid"
+    ></div>
 
 </section>
 
+
+<!-- =====================================================
+     EXAMS
+     ===================================================== -->
 
 <section class="page" id="page-exams">
 
     <div class="page-heading">
+
         <div>
             <h1>Exams & Countdowns</h1>
-            <p>Never miss a test with automated reminders and live countdowns.</p>
+            <p>Keep every important exam date in one place.</p>
         </div>
-        <div class="heading-actions">
-            <button class="primary" onclick="openExamModal()">+ Schedule Exam</button>
-        </div>
+
+        <button
+            class="primary"
+            onclick="openExamModal()"
+        >
+            + Schedule Exam
+        </button>
+
     </div>
 
-    <div class="exam-grid" id="examGrid">
-        <div class="empty">No exams scheduled</div>
-    </div>
+    <div
+        class="exam-grid"
+        id="examGrid"
+    ></div>
 
 </section>
 
+
+<!-- =====================================================
+     STUDY SESSIONS
+     ===================================================== -->
 
 <section class="page" id="page-sessions">
 
     <div class="page-heading">
+
         <div>
             <h1>Study Sessions Log</h1>
-            <p>Review your historical study logs and time inputs.</p>
+            <p>Record the time you actually studied.</p>
         </div>
-        <div class="heading-actions">
-            <button class="primary" onclick="openSessionModal()">+ Log Session</button>
-        </div>
+
+        <button
+            class="primary"
+            onclick="openSessionModal()"
+        >
+            + Log Session
+        </button>
+
     </div>
 
     <div class="card">
+
         <div class="card-title">
             <h2>Session History</h2>
-            <span id="sessionCount">0 logged</span>
+            <span id="sessionTotal">0 minutes</span>
         </div>
-        <div class="task-list" id="sessionList">
-            <div class="empty">No study sessions logged yet</div>
-        </div>
+
+        <div id="sessionList"></div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     CALENDAR
+     ===================================================== -->
 
 <section class="page" id="page-calendar">
 
     <div class="page-heading">
+
         <div>
             <h1>Calendar</h1>
-            <p>View your upcoming events, tasks and exam schedules.</p>
+            <p>View your study schedule and important dates.</p>
         </div>
+
     </div>
 
     <div class="card">
+
         <div class="calendar-head">
-            <h2 id="calendarMonthTitle">Month Year</h2>
-            <div style="display:flex; gap:6px;">
-                <button class="small-btn" onclick="changeMonth(-1)">Prev</button>
-                <button class="small-btn" onclick="changeMonth(1)">Next</button>
-            </div>
+
+            <button
+                class="small-btn"
+                onclick="changeMonth(-1)"
+            >
+                ← Previous
+            </button>
+
+            <h2 id="calendarMonthTitle"></h2>
+
+            <button
+                class="small-btn"
+                onclick="changeMonth(1)"
+            >
+                Next →
+            </button>
+
         </div>
-        <div class="calendar-grid" id="calendarGrid"></div>
+
+        <div
+            class="calendar-grid"
+            id="calendarGrid"
+        ></div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     POMODORO
+     ===================================================== -->
 
 <section class="page" id="page-pomodoro">
 
     <div class="page-heading">
+
         <div>
-            <h1>Focus Timer (Pomodoro)</h1>
-            <p>Boost your productivity using timed intervals and short breaks.</p>
+            <h1>Focus Timer</h1>
+            <p>Use Pomodoro sessions to stay focused.</p>
         </div>
+
     </div>
 
     <div class="card timer-card">
-        <div class="timer-mode" id="timerMode">Study Session</div>
-        <div class="timer-display" id="timerDisplay">25:00</div>
-        
+
+        <div
+            class="timer-mode"
+            id="timerMode"
+        >
+            Study Session
+        </div>
+
+        <div
+            class="timer-display"
+            id="timerDisplay"
+        >
+            25:00
+        </div>
+
         <div class="timer-controls">
-            <button class="primary" id="timerStartBtn" onclick="toggleTimer()">Start Focus</button>
-            <button class="small-btn" onclick="resetTimer()">Reset</button>
-            <button class="small-btn" onclick="switchTimerMode()">Switch Mode</button>
+
+            <button
+                class="primary"
+                id="timerStartBtn"
+                onclick="toggleTimer()"
+            >
+                Start Focus
+            </button>
+
+            <button
+                class="small-btn"
+                onclick="resetTimer()"
+            >
+                Reset
+            </button>
+
+            <button
+                class="small-btn"
+                onclick="switchTimerMode()"
+            >
+                Switch Mode
+            </button>
+
         </div>
 
         <div class="timer-settings">
-            <div class="form-group">
-                <label>Focus Duration (mins)</label>
-                <input type="number" id="focusDuration" class="input" value="25" min="1" max="120">
+
+            <div>
+                <label>Focus minutes</label>
+                <input
+                    type="number"
+                    min="1"
+                    max="180"
+                    id="focusDuration"
+                    class="input"
+                    value="25"
+                    onchange="resetTimer()"
+                >
             </div>
-            <div class="form-group">
-                <label>Break Duration (mins)</label>
-                <input type="number" id="breakDuration" class="input" value="5" min="1" max="60">
+
+            <div>
+                <label>Break minutes</label>
+                <input
+                    type="number"
+                    min="1"
+                    max="60"
+                    id="breakDuration"
+                    class="input"
+                    value="5"
+                    onchange="resetTimer()"
+                >
             </div>
+
         </div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     NOTES
+     ===================================================== -->
 
 <section class="page" id="page-notes">
 
     <div class="page-heading">
+
         <div>
             <h1>Study Notes</h1>
-            <p>Keep quick notes, summaries, or formulas handy.</p>
+            <p>Keep your important study notes organized.</p>
         </div>
-        <div class="heading-actions">
-            <button class="primary" onclick="createNewNote()">+ New Note</button>
-        </div>
+
+        <button
+            class="primary"
+            onclick="createNewNote()"
+        >
+            + New Note
+        </button>
+
     </div>
 
     <div class="notes-grid">
-        <div class="card" style="padding:15px;">
-            <div class="note-list" id="noteList">
-                <div class="empty">No notes yet</div>
-            </div>
-        </div>
+
         <div class="card">
-            <div id="noteEditorContainer" class="hidden">
-                <div class="form-group">
-                    <input type="text" id="noteTitleInput" class="input" placeholder="Note Title..." oninput="saveCurrentNote()">
-                </div>
-                <div class="form-group full-width">
-                    <textarea id="noteContentInput" class="input" style="min-height:280px;" placeholder="Write your notes here..." oninput="saveCurrentNote()"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button class="small-btn" style="color:var(--danger); border-color:var(--danger);" onclick="deleteCurrentNote()">Delete Note</button>
-                </div>
+
+            <div class="card-title">
+                <h2>Notes</h2>
             </div>
-            <div id="noteEmptyState" class="empty" style="padding:80px 0;">Select a note or create a new one</div>
+
+            <div
+                class="note-list"
+                id="noteList"
+            ></div>
+
         </div>
+
+
+        <div class="card">
+
+            <div
+                id="noteEmptyState"
+                class="empty"
+            >
+                Select a note or create a new one.
+            </div>
+
+            <div
+                id="noteEditorContainer"
+                class="hidden"
+            >
+
+                <div class="form-group">
+
+                    <label>Title</label>
+
+                    <input
+                        id="noteTitleInput"
+                        class="input"
+                        placeholder="Note title"
+                        oninput="saveCurrentNote()"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Content</label>
+
+                    <textarea
+                        id="noteContentInput"
+                        class="input"
+                        placeholder="Write your study notes..."
+                        oninput="saveCurrentNote()"
+                    ></textarea>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        class="small-btn"
+                        onclick="deleteCurrentNote()"
+                    >
+                        Delete Note
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     ACHIEVEMENTS
+     ===================================================== -->
 
 <section class="page" id="page-achievements">
 
     <div class="page-heading">
+
         <div>
             <h1>Achievements</h1>
-            <p>Unlock badges and maintain milestones as you build up your academic success.</p>
+            <p>Milestones unlocked through your study activity.</p>
         </div>
+
     </div>
 
-    <div class="achievement-grid" id="achievementGrid">
-        </div>
+    <div
+        class="achievement-grid"
+        id="achievementGrid"
+    ></div>
 
 </section>
 
-</div> </div> </div> <div class="admin" id="adminApp">
-    <header class="topbar" style="padding:0 40px;">
-        <div class="top-title">StudyFlow Admin Command Center</div>
+
+</div>
+</div>
+</div>
+
+
+<!-- =======================================================
+     ADMIN APPLICATION
+     ======================================================= -->
+
+<div class="admin" id="adminApp">
+
+    <header class="admin-topbar">
+
+        <div class="top-title">
+            🛡 StudyFlow Admin
+        </div>
+
         <div class="top-actions">
-            <button class="small-btn" onclick="logoutAdmin()">Exit Admin</button>
+
+            <button
+                class="small-btn"
+                onclick="toggleTheme()"
+            >
+                🌙 / ☀️
+            </button>
+
+            <button
+                class="small-btn"
+                onclick="logoutAdmin()"
+            >
+                Logout
+            </button>
+
         </div>
+
     </header>
-    <div class="admin-main">
+
+
+    <main class="admin-main">
+
         <div class="page-heading">
+
             <div>
-                <h1>Registered Users Overview</h1>
-                <p>Monitor student progress metrics, activity and overall data.</p>
+
+                <h1>Admin Dashboard</h1>
+
+                <p>
+                    Import exported student profiles and inspect
+                    their study progress.
+                </p>
+
             </div>
+
         </div>
-        <div class="admin-users" id="adminUsersGrid">
-            <div class="empty">No student profiles found</div>
+
+
+        <div class="notice">
+
+            <strong>How this works:</strong>
+            A student exports their profile as a JSON file.
+            The administrator can import that file here and
+            inspect the student's stack without overwriting
+            the student's local profile.
+
         </div>
-    </div>
+
+
+        <div class="admin-section">
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <h2>Import Student Data</h2>
+
+                    <span>JSON backup</span>
+
+                </div>
+
+                <div class="admin-import">
+
+                    <input
+                        type="file"
+                        id="adminFileInput"
+                        accept=".json,application/json"
+                        class="input"
+                    >
+
+                    <button
+                        class="primary"
+                        onclick="adminImportData()"
+                    >
+                        Import Profile
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-section">
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <h2>Imported Student Profiles</h2>
+
+                    <span id="adminImportCount">
+                        0 profiles
+                    </span>
+
+                </div>
+
+                <div
+                    class="admin-users"
+                    id="adminUsersGrid"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-section">
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <h2>Local Profiles On This Browser</h2>
+
+                    <span id="localUserCount">
+                        0 users
+                    </span>
+
+                </div>
+
+                <div
+                    class="admin-users"
+                    id="localUsersGrid"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </main>
+
 </div>
 
 
-<div class="modal" id="modalOverlay">
-    <div class="modal-box" id="modalBox">
-        </div>
+<!-- =======================================================
+     MODAL
+     ======================================================= -->
+
+<div
+    class="modal"
+    id="modalOverlay"
+    onclick="modalBackgroundClick(event)"
+>
+
+    <div
+        class="modal-box"
+        id="modalBox"
+    ></div>
+
 </div>
+
+
+<!-- FILE INPUT FOR USER IMPORT -->
+
+<input
+    type="file"
+    id="userImportInput"
+    accept=".json,application/json"
+    class="hidden"
+    onchange="handleUserImportFile(event)"
+>
 
 
 <script>
-// LocalStorage Database State
+
+/* =========================================================
+   DATABASE
+   ========================================================= */
+
+const STORAGE_KEY = "studyflow_multi_user_v2";
+const OLD_STORAGE_KEY = "studyflow_db";
+
+const achievementTemplate = () => [
+    {
+        id:"first_task",
+        icon:"🎯",
+        title:"Getting Started",
+        desc:"Complete your first task",
+        unlocked:false
+    },
+    {
+        id:"streak_3",
+        icon:"🔥",
+        title:"Consistency is Key",
+        desc:"Maintain a 3-day study streak",
+        unlocked:false
+    },
+    {
+        id:"study_1h",
+        icon:"⏱",
+        title:"Time Investor",
+        desc:"Log a total of 60 minutes of studying",
+        unlocked:false
+    },
+    {
+        id:"exam_set",
+        icon:"📝",
+        title:"Planner Pro",
+        desc:"Schedule an upcoming exam countdown",
+        unlocked:false
+    },
+    {
+        id:"note_writer",
+        icon:"🗒",
+        title:"Scholar",
+        desc:"Create your first study note",
+        unlocked:false
+    },
+    {
+        id:"all_tasks",
+        icon:"👑",
+        title:"Task Master",
+        desc:"Complete all active tasks",
+        unlocked:false
+    }
+];
+
+function createEmptyProfile(username,displayName){
+
+    return {
+        id:"user_" + Date.now() + "_" + Math.random().toString(36).slice(2),
+        username:username,
+        displayName:displayName || username,
+        createdAt:new Date().toISOString(),
+        updatedAt:new Date().toISOString(),
+
+        tasks:[],
+        subjects:[],
+        goals:[],
+        exams:[],
+        sessions:[],
+        notes:[],
+        achievements:achievementTemplate(),
+
+        preferences:{
+            theme:null
+        }
+    };
+}
+
 let db = {
-    currentUser: null,
-    theme: 'light',
-    tasks: [],
-    subjects: [],
-    goals: [],
-    exams: [],
-    sessions: [],
-    notes: [],
-    achievements: [
-        { id: 'first_task', icon: '🎯', title: 'Getting Started', desc: 'Complete your first task', unlocked: false },
-        { id: 'streak_3', icon: '🔥', title: 'Consistency is Key', desc: 'Maintain a 3-day study streak', unlocked: false },
-        { id: 'study_1h', icon: '⏱', title: 'Time Investor', desc: 'Log a total of 60 minutes of studying', unlocked: false },
-        { id: 'exam_set', icon: '📝', title: 'Planner Pro', desc: 'Schedule an upcoming exam countdown', unlocked: false },
-        { id: 'note_writer', icon: '🗒', title: 'Scholar', desc: 'Create your first study note', unlocked: false },
-        { id: 'all_tasks', icon: '👑', title: 'Task Master', desc: 'Complete all active tasks', unlocked: false }
-    ]
+    version:2,
+
+    theme:"light",
+
+    currentUser:null,
+
+    users:{},
+
+    importedProfiles:{},
+
+    admin:{
+        password:"admin123"
+    }
 };
+
+
+/* =========================================================
+   DATA LOADING / MIGRATION
+   ========================================================= */
+
+function safeParse(value){
+
+    try{
+        return JSON.parse(value);
+    }catch(e){
+        return null;
+    }
+}
+
+
+function loadDatabase(){
+
+    let stored = localStorage.getItem(STORAGE_KEY);
+
+    if(stored){
+
+        const parsed = safeParse(stored);
+
+        if(parsed && typeof parsed === "object"){
+
+            db = {
+                ...db,
+                ...parsed
+            };
+
+            db.users = parsed.users || {};
+            db.importedProfiles = parsed.importedProfiles || {};
+
+            if(!db.admin){
+                db.admin = {password:"admin123"};
+            }
+
+            return;
+        }
+    }
+
+
+    /*
+       IMPORTANT:
+
+       If the old version exists, migrate it instead
+       of deleting it.
+    */
+
+    const oldStored = localStorage.getItem(OLD_STORAGE_KEY);
+
+    if(oldStored){
+
+        const old = safeParse(oldStored);
+
+        if(old && old.currentUser){
+
+            const username = normalizeUsername(old.currentUser);
+
+            const profile = createEmptyProfile(
+                username,
+                old.currentUser
+            );
+
+            profile.tasks = Array.isArray(old.tasks) ? old.tasks : [];
+            profile.subjects = Array.isArray(old.subjects) ? old.subjects : [];
+            profile.goals = Array.isArray(old.goals) ? old.goals : [];
+            profile.exams = Array.isArray(old.exams) ? old.exams : [];
+            profile.sessions = Array.isArray(old.sessions) ? old.sessions : [];
+            profile.notes = Array.isArray(old.notes) ? old.notes : [];
+
+            if(Array.isArray(old.achievements)){
+                profile.achievements = old.achievements;
+            }
+
+            profile.preferences.theme =
+                old.theme === "dark" ? "dark" : "light";
+
+            db.users[username] = profile;
+            db.currentUser = username;
+            db.theme = profile.preferences.theme;
+
+            saveDatabase();
+
+            return;
+        }
+    }
+
+    saveDatabase();
+}
+
+
+function saveDatabase(){
+
+    try{
+
+        const current = getCurrentProfile();
+
+        if(current){
+
+            current.updatedAt = new Date().toISOString();
+
+            /*
+              Keep the current profile's theme independent.
+            */
+
+            current.preferences.theme =
+                document.body.classList.contains("dark")
+                ? "dark"
+                : "light";
+        }
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(db)
+        );
+
+    }catch(error){
+
+        console.error("StudyFlow save error:",error);
+
+        alert(
+            "StudyFlow could not save the data. " +
+            "Your browser storage may be full."
+        );
+    }
+}
+
+
+function normalizeUsername(value){
+
+    return String(value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g,"_")
+        .replace(/[^a-z0-9_\-]/g,"");
+}
+
+
+function getCurrentProfile(){
+
+    if(!db.currentUser){
+        return null;
+    }
+
+    return db.users[db.currentUser] || null;
+}
+
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
 
 let activeNoteId = null;
 let currentCalendarDate = new Date();
 
-// Timer state
 let timerInterval = null;
 let timerSeconds = 25 * 60;
 let timerRunning = false;
 let isFocusMode = true;
 
-// Initialize app data on load
-window.addEventListener('DOMContentLoaded', () => {
-    const savedDb = localStorage.getItem('studyflow_db');
-    if (savedDb) {
-        try {
-            const parsed = JSON.parse(savedDb);
-            db = { ...db, ...parsed };
-        } catch(e) {
-            console.error('Data parsing error', e);
-        }
-    }
+let countdownInterval = null;
 
-    if (db.theme === 'dark') {
-        document.body.classList.add('dark');
-    }
 
-    if (db.currentUser) {
-        showApp();
-    }
+window.addEventListener("DOMContentLoaded",function(){
 
-    // Navigation setup
-    document.querySelectorAll('.nav-btn[data-page]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const pageId = btn.getAttribute('data-page');
-            switchPage(pageId);
-            if (window.innerWidth <= 850) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-        });
-    });
+    loadDatabase();
+
+    applyTheme();
+
+    setupNavigation();
 
     updateCalendar();
-    checkAchievements();
+
+    updateTimerDisplay();
+
+    if(db.currentUser && getCurrentProfile()){
+
+        showApp();
+
+    }else{
+
+        db.currentUser = null;
+
+        document.getElementById("loginScreen").style.display = "flex";
+    }
+
+    window.addEventListener(
+        "beforeunload",
+        saveDatabase
+    );
+
+    startExamCountdown();
+
 });
 
-function saveData() {
-    localStorage.setItem('studyflow_db', JSON.stringify(db));
+
+/* =========================================================
+   AUTH UI
+   ========================================================= */
+
+function showLoginForm(){
+
+    document.getElementById("loginForm")
+        .classList.remove("hidden");
+
+    document.getElementById("registerForm")
+        .classList.add("hidden");
+
+    document.getElementById("loginTab")
+        .classList.add("active");
+
+    document.getElementById("registerTab")
+        .classList.remove("active");
+
 }
 
-// Authentication handlers
-function loginUser() {
-    const nameInput = document.getElementById('loginName');
-    const name = nameInput.value.trim();
-    if (!name) {
-        alert('Please enter your name to continue.');
-        nameInput.focus();
+
+function showRegisterForm(){
+
+    document.getElementById("loginForm")
+        .classList.add("hidden");
+
+    document.getElementById("registerForm")
+        .classList.remove("hidden");
+
+    document.getElementById("loginTab")
+        .classList.remove("active");
+
+    document.getElementById("registerTab")
+        .classList.add("active");
+
+}
+
+
+function registerUser(){
+
+    const displayName =
+        document.getElementById("registerName")
+            .value.trim();
+
+    const username =
+        normalizeUsername(
+            document.getElementById("registerUsername")
+                .value
+        );
+
+    const password =
+        document.getElementById("registerPassword")
+            .value;
+
+    const password2 =
+        document.getElementById("registerPassword2")
+            .value;
+
+    const error =
+        document.getElementById("registerError");
+
+
+    error.textContent = "";
+
+
+    if(!displayName){
+
+        error.textContent = "Please enter your display name.";
         return;
     }
 
-    db.currentUser = name;
-    document.getElementById('sideUserName').textContent = name;
-    
-    // Add default subject if none exist
-    if (db.subjects.length === 0) {
-        db.subjects.push({ id: 'sub_1', name: 'Mathematics', code: 'MATH101', progress: 45 });
-        db.subjects.push({ id: 'sub_2', name: 'Computer Science', code: 'CS102', progress: 70 });
+    if(username.length < 2){
+
+        error.textContent =
+            "Username must contain at least 2 characters.";
+
+        return;
     }
 
-    saveData();
+    if(!password){
+
+        error.textContent =
+            "Please create a password.";
+
+        return;
+    }
+
+    if(password !== password2){
+
+        error.textContent =
+            "Passwords do not match.";
+
+        return;
+    }
+
+    if(db.users[username]){
+
+        error.textContent =
+            "That username already exists.";
+
+        return;
+    }
+
+
+    const profile =
+        createEmptyProfile(
+            username,
+            displayName
+        );
+
+
+    /*
+      Password is stored separately from study data.
+
+      This is still a local-only HTML application,
+      not a secure server authentication system.
+    */
+
+    profile.password = password;
+
+
+    db.users[username] = profile;
+
+    db.currentUser = username;
+
+    saveDatabase();
+
     showApp();
+
 }
 
-function showApp() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminApp').style.display = 'none';
-    document.getElementById('userApp').style.display = 'block';
-    
-    document.getElementById('sideUserName').textContent = db.currentUser || 'Student';
-    
+
+function loginUser(){
+
+    const username =
+        normalizeUsername(
+            document.getElementById("loginName")
+                .value
+        );
+
+    const password =
+        document.getElementById("loginPassword")
+            .value;
+
+    const error =
+        document.getElementById("loginError");
+
+
+    error.textContent = "";
+
+
+    if(!username){
+
+        error.textContent =
+            "Please enter your username.";
+
+        return;
+    }
+
+
+    const profile = db.users[username];
+
+
+    /*
+      Backward-compatible behavior:
+
+      If an old profile has no password,
+      allow login and give it the entered password.
+    */
+
+    if(!profile){
+
+        error.textContent =
+            "Profile not found. Create a new profile first.";
+
+        return;
+    }
+
+
+    if(
+        profile.password &&
+        profile.password !== password
+    ){
+
+        error.textContent =
+            "Incorrect password.";
+
+        return;
+    }
+
+
+    if(!profile.password){
+
+        profile.password = password;
+    }
+
+
+    db.currentUser = username;
+
+    profile.updatedAt =
+        new Date().toISOString();
+
+    saveDatabase();
+
+    showApp();
+
+}
+
+
+/* =========================================================
+   APP SHOW / LOGOUT
+   ========================================================= */
+
+function showApp(){
+
+    document.getElementById("loginScreen")
+        .style.display = "none";
+
+    document.getElementById("adminApp")
+        .style.display = "none";
+
+    document.getElementById("userApp")
+        .style.display = "block";
+
+
+    const profile = getCurrentProfile();
+
+
+    if(!profile){
+        logout();
+        return;
+    }
+
+
+    document.getElementById("sideUserName")
+        .textContent =
+        profile.displayName || profile.username;
+
+
     const hour = new Date().getHours();
-    let greeting = 'Good morning';
-    if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
-    else if (hour >= 17) greeting = 'Good evening';
-    
-    document.getElementById('welcome').textContent = `${greeting}, ${db.currentUser}!`;
-    
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('dashboardDate').textContent = new Date().toLocaleDateString('en-US', options);
+
+    let greeting = "Good morning";
+
+    if(hour >= 12 && hour < 17){
+        greeting = "Good afternoon";
+    }else if(hour >= 17){
+        greeting = "Good evening";
+    }
+
+
+    document.getElementById("welcome")
+        .textContent =
+        `${greeting}, ${profile.displayName || profile.username}!`;
+
+
+    const options = {
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+    };
+
+
+    document.getElementById("dashboardDate")
+        .textContent =
+        new Date().toLocaleDateString(
+            "en-US",
+            options
+        );
+
 
     renderAll();
+
 }
 
-function logout() {
+
+function logout(){
+
+    stopTimerWithoutAlert();
+
+    saveDatabase();
+
     db.currentUser = null;
-    saveData();
-    document.getElementById('userApp').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
+
+    saveDatabase();
+
+    document.getElementById("userApp")
+        .style.display = "none";
+
+    document.getElementById("adminApp")
+        .style.display = "none";
+
+    document.getElementById("loginScreen")
+        .style.display = "flex";
+
+    document.getElementById("loginName")
+        .value = "";
+
+    document.getElementById("loginPassword")
+        .value = "";
+
 }
 
-function openAdminLogin() {
-    const pass = prompt('Enter admin access password (admin123):');
-    if (pass === 'admin123') {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('userApp').style.display = 'none';
-        document.getElementById('adminApp').style.display = 'block';
-        renderAdminUsers();
-    } else if (pass !== null) {
-        alert('Incorrect password.');
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+function openAdminLogin(){
+
+    const pass =
+        prompt(
+            "Enter admin access password:"
+        );
+
+    if(pass === null){
+        return;
     }
+
+
+    if(
+        pass === db.admin.password ||
+        (!db.admin.password && pass === "admin123")
+    ){
+
+        document.getElementById("loginScreen")
+            .style.display = "none";
+
+        document.getElementById("userApp")
+            .style.display = "none";
+
+        document.getElementById("adminApp")
+            .style.display = "block";
+
+        renderAdmin();
+
+    }else{
+
+        alert("Incorrect admin password.");
+
+    }
+
 }
 
-function logoutAdmin() {
-    document.getElementById('adminApp').style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'flex';
+
+function logoutAdmin(){
+
+    document.getElementById("adminApp")
+        .style.display = "none";
+
+    document.getElementById("loginScreen")
+        .style.display = "flex";
+
 }
 
-// Sidebar / Theme / Navigation
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
+
+function renderAdmin(){
+
+    renderAdminUsers();
+    renderLocalUsers();
+
 }
 
-function toggleTheme() {
-    document.body.classList.toggle('dark');
-    db.theme = document.body.classList.contains('dark') ? 'dark' : 'light';
-    saveData();
+
+function renderAdminUsers(){
+
+    const grid =
+        document.getElementById(
+            "adminUsersGrid"
+        );
+
+    const entries =
+        Object.values(
+            db.importedProfiles || {}
+        );
+
+
+    document.getElementById(
+        "adminImportCount"
+    ).textContent =
+        `${entries.length} profile${entries.length === 1 ? "" : "s"}`;
+
+
+    if(entries.length === 0){
+
+        grid.innerHTML =
+            `<div class="empty">
+                No imported student profiles yet.
+            </div>`;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        entries.map(item => {
+
+            const p = item.profile;
+
+            const tasks =
+                Array.isArray(p.tasks)
+                ? p.tasks
+                : [];
+
+            const subjects =
+                Array.isArray(p.subjects)
+                ? p.subjects
+                : [];
+
+            const sessions =
+                Array.isArray(p.sessions)
+                ? p.sessions
+                : [];
+
+            const completed =
+                tasks.filter(t =>
+                    t.completed
+                ).length;
+
+            const progress =
+                tasks.length
+                ? Math.round(
+                    completed /
+                    tasks.length *
+                    100
+                )
+                : 0;
+
+            const minutes =
+                sessions.reduce(
+                    (a,s) =>
+                        a +
+                        Number(s.duration || 0),
+                    0
+                );
+
+
+            return `
+                <div class="admin-user">
+
+                    <div class="admin-user-name">
+                        ${escapeHTML(
+                            p.displayName ||
+                            p.username
+                        )}
+                    </div>
+
+                    <div class="admin-meta">
+                        @${escapeHTML(p.username || "")}
+                        • Imported
+                        ${formatDate(
+                            item.importedAt
+                        )}
+                    </div>
+
+                    <div class="progress">
+                        <div
+                            class="progress-inner"
+                            style="width:${progress}%"
+                        ></div>
+                    </div>
+
+                    <div class="mini-grid">
+
+                        <div class="mini">
+                            <strong>${tasks.length}</strong>
+                            <span>Tasks</span>
+                        </div>
+
+                        <div class="mini">
+                            <strong>${subjects.length}</strong>
+                            <span>Subjects</span>
+                        </div>
+
+                        <div class="mini">
+                            <strong>${minutes}m</strong>
+                            <span>Study</span>
+                        </div>
+
+                    </div>
+
+                    <div class="subject-actions">
+
+                        <button
+                            class="small-btn"
+                            onclick="inspectImported('${item.id}')"
+                        >
+                            Inspect
+                        </button>
+
+                        <button
+                            class="small-btn"
+                            onclick="deleteImported('${item.id}')"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
 }
 
-function switchPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-btn[data-page]').forEach(b => b.classList.remove('active'));
 
-    const targetPage = document.getElementById(`page-${pageId}`);
-    if (targetPage) targetPage.classList.add('active');
+function renderLocalUsers(){
 
-    const targetBtn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
-    if (targetBtn) targetBtn.classList.add('active');
+    const grid =
+        document.getElementById(
+            "localUsersGrid"
+        );
+
+    const users =
+        Object.values(db.users || {});
+
+
+    document.getElementById(
+        "localUserCount"
+    ).textContent =
+        `${users.length} user${users.length === 1 ? "" : "s"}`;
+
+
+    if(users.length === 0){
+
+        grid.innerHTML =
+            `<div class="empty">
+                No local profiles.
+            </div>`;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        users.map(p => {
+
+            const tasks =
+                Array.isArray(p.tasks)
+                ? p.tasks
+                : [];
+
+            const subjects =
+                Array.isArray(p.subjects)
+                ? p.subjects
+                : [];
+
+            const sessions =
+                Array.isArray(p.sessions)
+                ? p.sessions
+                : [];
+
+            const completed =
+                tasks.filter(t =>
+                    t.completed
+                ).length;
+
+            const progress =
+                tasks.length
+                ? Math.round(
+                    completed /
+                    tasks.length *
+                    100
+                )
+                : 0;
+
+            const minutes =
+                sessions.reduce(
+                    (a,s) =>
+                        a +
+                        Number(s.duration || 0),
+                    0
+                );
+
+
+            return `
+                <div class="admin-user">
+
+                    <div class="admin-user-name">
+                        ${escapeHTML(
+                            p.displayName ||
+                            p.username
+                        )}
+                    </div>
+
+                    <div class="admin-meta">
+                        @${escapeHTML(
+                            p.username || ""
+                        )}
+                        ${p.username === db.currentUser
+                            ? " • Active"
+                            : ""}
+                    </div>
+
+                    <div class="progress">
+                        <div
+                            class="progress-inner"
+                            style="width:${progress}%"
+                        ></div>
+                    </div>
+
+                    <div class="mini-grid">
+
+                        <div class="mini">
+                            <strong>${tasks.length}</strong>
+                            <span>Tasks</span>
+                        </div>
+
+                        <div class="mini">
+                            <strong>${subjects.length}</strong>
+                            <span>Subjects</span>
+                        </div>
+
+                        <div class="mini">
+                            <strong>${minutes}m</strong>
+                            <span>Study</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+}
+
+
+function adminImportData(){
+
+    const input =
+        document.getElementById(
+            "adminFileInput"
+        );
+
+    if(!input.files.length){
+
+        alert(
+            "Please select a StudyFlow JSON export first."
+        );
+
+        return;
+    }
+
+
+    const file = input.files[0];
+
+    const reader = new FileReader();
+
+
+    reader.onload = function(){
+
+        try{
+
+            const data =
+                JSON.parse(
+                    reader.result
+                );
+
+
+            const profile =
+                extractExportedProfile(data);
+
+
+            if(!profile){
+
+                alert(
+                    "Invalid StudyFlow profile file."
+                );
+
+                return;
+            }
+
+
+            const id =
+                "import_" +
+                Date.now() +
+                "_" +
+                Math.random()
+                    .toString(36)
+                    .slice(2);
+
+
+            /*
+              Never overwrite an existing local user.
+
+              The admin gets a separate imported snapshot.
+            */
+
+            db.importedProfiles[id] = {
+
+                id:id,
+
+                importedAt:
+                    new Date().toISOString(),
+
+                profile:
+                    sanitizeImportedProfile(
+                        profile
+                    )
+
+            };
+
+
+            saveDatabase();
+
+            input.value = "";
+
+            renderAdmin();
+
+            alert(
+                "Student profile imported successfully."
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+            alert(
+                "Could not read this JSON file."
+            );
+
+        }
+
+    };
+
+
+    reader.readAsText(file);
+
+}
+
+
+function inspectImported(id){
+
+    const item =
+        db.importedProfiles[id];
+
+    if(!item){
+        return;
+    }
+
+
+    const p = item.profile;
+
+    const tasks =
+        Array.isArray(p.tasks)
+        ? p.tasks
+        : [];
+
+    const subjects =
+        Array.isArray(p.subjects)
+        ? p.subjects
+        : [];
+
+    const goals =
+        Array.isArray(p.goals)
+        ? p.goals
+        : [];
+
+    const exams =
+        Array.isArray(p.exams)
+        ? p.exams
+        : [];
+
+    const sessions =
+        Array.isArray(p.sessions)
+        ? p.sessions
+        : [];
+
+    const notes =
+        Array.isArray(p.notes)
+        ? p.notes
+        : [];
+
+    const completed =
+        tasks.filter(t =>
+            t.completed
+        ).length;
+
+    const progress =
+        tasks.length
+        ? Math.round(
+            completed /
+            tasks.length *
+            100
+        )
+        : 0;
+
+    const minutes =
+        sessions.reduce(
+            (a,s) =>
+                a +
+                Number(s.duration || 0),
+            0
+        );
+
+
+    showModal(`
+
+        <h2>
+            Student Profile
+        </h2>
+
+        <div class="notice">
+
+            <strong>
+                ${escapeHTML(
+                    p.displayName ||
+                    p.username
+                )}
+            </strong>
+
+            <br>
+
+            Username:
+            @${escapeHTML(
+                p.username || ""
+            )}
+
+            <br>
+
+            Overall task progress:
+            ${progress}%
+
+        </div>
+
+
+        <div class="mini-grid">
+
+            <div class="mini">
+                <strong>${tasks.length}</strong>
+                <span>Tasks</span>
+            </div>
+
+            <div class="mini">
+                <strong>${subjects.length}</strong>
+                <span>Subjects</span>
+            </div>
+
+            <div class="mini">
+                <strong>${minutes}m</strong>
+                <span>Study</span>
+            </div>
+
+        </div>
+
+
+        <br>
+
+
+        <div class="notice">
+
+            <strong>Goals:</strong>
+            ${goals.length}
+
+            <br>
+
+            <strong>Exams:</strong>
+            ${exams.length}
+
+            <br>
+
+            <strong>Notes:</strong>
+            ${notes.length}
+
+            <br>
+
+            <strong>Completed Tasks:</strong>
+            ${completed}/${tasks.length}
+
+        </div>
+
+
+        <h3 style="margin-bottom:12px">
+            Task Stack
+        </h3>
+
+
+        ${
+            tasks.length
+            ? `
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        ${tasks.map(t => `
+                            <tr>
+
+                                <td>
+                                    ${escapeHTML(
+                                        t.name || ""
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${escapeHTML(
+                                        t.priority || ""
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${
+                                        t.completed
+                                        ? "Completed"
+                                        : "Pending"
+                                    }
+                                </td>
+
+                            </tr>
+                        `).join("")}
+
+                    </tbody>
+
+                </table>
+            `
+            : `<div class="empty">
+                No tasks.
+            </div>`
+        }
+
+
+        <div class="form-actions">
+
+            <button
+                class="small-btn"
+                onclick="closeModal()"
+            >
+                Close
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+
+function deleteImported(id){
+
+    if(!confirm(
+        "Delete this imported profile from the admin dashboard?"
+    )){
+        return;
+    }
+
+
+    delete db.importedProfiles[id];
+
+    saveDatabase();
+
+    renderAdmin();
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function setupNavigation(){
+
+    document
+        .querySelectorAll(
+            ".nav-btn[data-page]"
+        )
+        .forEach(btn => {
+
+            btn.addEventListener(
+                "click",
+                () => {
+
+                    switchPage(
+                        btn.getAttribute(
+                            "data-page"
+                        )
+                    );
+
+                    if(window.innerWidth <= 850){
+
+                        document
+                            .getElementById("sidebar")
+                            .classList
+                            .remove("open");
+
+                    }
+
+                }
+            );
+
+        });
+
+}
+
+
+function switchPage(pageId){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(p =>
+            p.classList.remove("active")
+        );
+
+
+    document
+        .querySelectorAll(
+            ".nav-btn[data-page]"
+        )
+        .forEach(b =>
+            b.classList.remove("active")
+        );
+
+
+    const target =
+        document.getElementById(
+            `page-${pageId}`
+        );
+
+
+    if(target){
+        target.classList.add("active");
+    }
+
+
+    const button =
+        document.querySelector(
+            `.nav-btn[data-page="${pageId}"]`
+        );
+
+
+    if(button){
+        button.classList.add("active");
+    }
+
 
     const titles = {
-        dashboard: 'Dashboard',
-        tasks: 'Task Manager',
-        subjects: 'Subjects',
-        goals: 'Study Goals',
-        exams: 'Exams & Countdowns',
-        sessions: 'Study Sessions Log',
-        calendar: 'Calendar',
-        pomodoro: 'Focus Timer',
-        notes: 'Study Notes',
-        achievements: 'Achievements'
+
+        dashboard:"Dashboard",
+
+        tasks:"Task Manager",
+
+        subjects:"Subjects",
+
+        goals:"Study Goals",
+
+        exams:"Exams & Countdowns",
+
+        sessions:"Study Sessions Log",
+
+        calendar:"Calendar",
+
+        pomodoro:"Focus Timer",
+
+        notes:"Study Notes",
+
+        achievements:"Achievements"
+
     };
 
-    document.getElementById('topTitle').textContent = titles[pageId] || 'Dashboard';
+
+    document.getElementById(
+        "topTitle"
+    ).textContent =
+        titles[pageId] || "Dashboard";
+
+
     renderAll();
+
 }
 
-// Core Render Routing
-function renderAll() {
-    renderDashboard();
-    renderTasks();
-    renderSubjects();
-    renderGoals();
-    renderExams();
-    renderSessions();
-    renderNotesList();
-    renderAchievements();
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList
+        .toggle("open");
+
 }
 
-// Dashboard metrics & widgets
-function renderDashboard() {
-    // Stats calculations
-    const totalTasks = db.tasks.length;
-    const completedTasks = db.tasks.filter(t => t.completed).length;
-    const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-    
-    document.getElementById('statToday').textContent = `${progressPercent}%`;
-    
-    const totalMins = db.sessions.reduce((acc, curr) => acc + parseInt(curr.duration || 0), 0);
-    if (totalMins >= 60) {
-        const hrs = (totalMins / 60).toFixed(1);
-        document.getElementById('statHours').textContent = `${hrs}h`;
-    } else {
-        document.getElementById('statHours').textContent = `${totalMins}m`;
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function applyTheme(){
+
+    let theme = db.theme || "light";
+
+    const profile =
+        getCurrentProfile();
+
+    if(
+        profile &&
+        profile.preferences &&
+        profile.preferences.theme
+    ){
+        theme =
+            profile.preferences.theme;
     }
 
-    // Streak calculation mock or tracked
-    document.getElementById('statStreak').textContent = db.sessions.length > 0 ? '3' : '0';
-    document.getElementById('statGoals').textContent = db.goals.filter(g => !g.completed).length;
-    document.getElementById('statSubjects').textContent = db.subjects.length;
 
-    // Weekly Chart bars rendering
-    const chartContainer = document.getElementById('dashboardChart');
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    chartContainer.innerHTML = days.map((day, index) => {
-        // Mock heights based on sessions or data
-        const heights = [40, 65, 30, 85, 95, 50, 70];
-        return `
-            <div class="chart-col">
-                <div class="chart-value">${heights[index]}m</div>
-                <div class="chart-bar" style="height: ${heights[index]}%;"></div>
-                <div class="chart-label">${day}</div>
-            </div>
-        `;
-    }).join('');
+    document.body.classList.toggle(
+        "dark",
+        theme === "dark"
+    );
 
-    // Nearest Exam Countdown
-    if (db.exams.length > 0) {
-        const nextExam = db.exams[0];
-        document.getElementById('dashExamName').textContent = nextExam.subject;
-        document.getElementById('dashExamTitle').textContent = nextExam.title;
-        document.getElementById('dashExamDate').textContent = nextExam.date;
-        
-        // Simple countdown display items update
-        const diff = new Date(nextExam.date) - new Date();
-        if (diff > 0) {
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / 1000 / 60) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
-            document.getElementById('dashCountdown').innerHTML = `
-                <div class="time-unit"><div class="time-number">${days}</div><div class="time-label">Days</div></div>
-                <div class="time-unit"><div class="time-number">${hours}</div><div class="time-label">Hours</div></div>
-                <div class="time-unit"><div class="time-number">${mins}</div><div class="time-label">Mins</div></div>
-                <div class="time-unit"><div class="time-number">${secs}</div><div class="time-label">Secs</div></div>
-            `;
+
+    updateThemeButton();
+
+}
+
+
+function updateThemeButton(){
+
+    const btn =
+        document.getElementById(
+            "themeButton"
+        );
+
+    if(btn){
+
+        btn.textContent =
+            document.body.classList.contains("dark")
+            ? "☀️"
+            : "🌙";
+
+    }
+
+}
+
+
+function toggleTheme(){
+
+    const dark =
+        document.body.classList.toggle(
+            "dark"
+        );
+
+
+    const theme =
+        dark
+        ? "dark"
+        : "light";
+
+
+    db.theme = theme;
+
+
+    const profile =
+        getCurrentProfile();
+
+
+    if(profile){
+
+        if(!profile.preferences){
+            profile.preferences = {};
         }
+
+        profile.preferences.theme =
+            theme;
     }
 
-    // Today's tasks preview
-    const dashTaskList = document.getElementById('dashTaskList');
-    const uncompletedTasks = db.tasks.filter(t => !t.completed).slice(0, 4);
-    document.getElementById('dashTaskCount').textContent = `${uncompletedTasks.length} left`;
-    
-    if (uncompletedTasks.length === 0) {
-        dashTaskList.innerHTML = `<div class="empty">All caught up! No active tasks.</div>`;
-    } else {
-        dashTaskList.innerHTML = uncompletedTasks.map(t => `
-            <div class="task-row ${t.completed ? 'done' : ''}">
-                <div class="checkbox ${t.completed ? 'done' : ''}" onclick="toggleTask('${t.id}')">✓</div>
-                <div class="task-name">${t.name}</div>
-                <div class="priority ${t.priority}">${t.priority}</div>
-            </div>
-        `).join('');
-    }
 
-    // Subject Progress Bars preview
-    const dashSub = document.getElementById('dashSubjectProgress');
-    if (db.subjects.length === 0) {
-        dashSub.innerHTML = `<div class="empty">No subjects added yet</div>`;
-    } else {
-        dashSub.innerHTML = db.subjects.map(s => `
-            <div class="progress-box">
-                <div class="progress-head">
-                    <span>${s.name} (${s.code})</span>
-                    <span>${s.progress}%</span>
-                </div>
-                <div class="progress">
-                    <div class="progress-inner" style="width: ${s.progress}%;"></div>
-                </div>
-            </div>
-        `).join('');
-    }
+    updateThemeButton();
+
+    saveDatabase();
+
 }
 
-// Tasks management
-function renderTasks() {
-    const list = document.getElementById('fullTaskList');
-    document.getElementById('totalTaskCount').textContent = `${db.tasks.length} total`;
-    
-    if (db.tasks.length === 0) {
-        list.innerHTML = `<div class="empty">No tasks created yet</div>`;
+
+/* =========================================================
+   RENDER ALL
+   ========================================================= */
+
+function renderAll(){
+
+    const profile =
+        getCurrentProfile();
+
+    if(!profile){
         return;
     }
 
-    list.innerHTML = db.tasks.map(t => `
-        <div class="task-row ${t.completed ? 'done' : ''}">
-            <div class="checkbox ${t.completed ? 'done' : ''}" onclick="toggleTask('${t.id}')">✓</div>
-            <div class="task-name">${t.name}</div>
-            <div class="priority ${t.priority}">${t.priority}</div>
-            <button class="delete" onclick="deleteTask('${t.id}')">&times;</button>
-        </div>
-    `).join('');
-}
 
-function toggleTask(id) {
-    const task = db.tasks.find(t => t.id === id);
-    if (task) {
-        task.completed = !task.completed;
-        saveData();
-        renderAll();
-        checkAchievements();
-    }
-}
+    normalizeProfile(profile);
 
-function deleteTask(id) {
-    db.tasks = db.tasks.filter(t => t.id !== id);
-    saveData();
-    renderAll();
-}
+    renderDashboard();
 
-function openTaskModal() {
-    showModal(`
-        <h2>Add New Task</h2>
-        <form onsubmit="handleAddTask(event)">
-            <div class="form-group full-width">
-                <label>Task Name</label>
-                <input type="text" id="modalTaskName" class="input" required placeholder="e.g., Complete calculus chapter 3">
-            </div>
-            <div class="form-group">
-                <label>Priority</label>
-                <select id="modalTaskPriority" class="input">
-                    <option value="low">Low</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="high">High</option>
-                </select>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="small-btn" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="primary">Save Task</button>
-            </div>
-        </form>
-    `);
-}
+    renderTasks();
 
-function handleAddTask(e) {
-    e.preventDefault();
-    const name = document.getElementById('modalTaskName').value;
-    const priority = document.getElementById('modalTaskPriority').value;
-    
-    db.tasks.push({
-        id: 'task_' + Date.now(),
-        name,
-        priority,
-        completed: false
-    });
+    renderSubjects();
 
-    saveData();
-    closeModal();
-    renderAll();
-    checkAchievements();
-}
+    renderGoals();
 
-// Subjects management
-function renderSubjects() {
-    const grid = document.getElementById('subjectGrid');
-    if (db.subjects.length === 0) {
-        grid.innerHTML = `<div class="empty">No subjects added yet</div>`;
-        return;
-    }
+    renderExams();
 
-    grid.innerHTML = db.subjects.map(s => `
-        <div class="subject-card">
-            <div class="subject-top">
-                <div>
-                    <div class="subject-name">${s.name}</div>
-                    <div class="subject-code">${s.code}</div>
-                </div>
-            </div>
-            <div class="subject-progress">${s.progress}%</div>
-            <div class="progress">
-                <div class="progress-inner" style="width: ${s.progress}%;"></div>
-            </div>
-            <div class="subject-actions">
-                <button class="small-btn" onclick="updateSubjectProgress('${s.id}', 10)">+10% Progress</button>
-                <button class="small-btn" style="color:var(--danger); border-color:var(--border);" onclick="deleteSubject('${s.id}')">Delete</button>
-            </div>
-        </div>
-    `).join('');
-}
+    renderSessions();
 
-function openSubjectModal() {
-    showModal(`
-        <h2>Add Subject</h2>
-        <form onsubmit="handleAddSubject(event)">
-            <div class="form-group full-width">
-                <label>Subject Name</label>
-                <input type="text" id="modalSubName" class="input" required placeholder="e.g., Physics">
-            </div>
-            <div class="form-group full-width">
-                <label>Course Code</label>
-                <input type="text" id="modalSubCode" class="input" required placeholder="e.g., PHYS201">
-            </div>
-            <div class="form-actions">
-                <button type="button" class="small-btn" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="primary">Add Subject</button>
-            </div>
-        </form>
-    `);
-}
+    renderNotesList();
 
-function handleAddSubject(e) {
-    e.preventDefault();
-    const name = document.getElementById('modalSubName').value;
-    const code = document.getElementById('modalSubCode').value;
+    renderAchievements();
 
-    db.subjects.push({
-        id: 'sub_' + Date.now(),
-        name,
-        code,
-        progress: 0
-    });
-
-    saveData();
-    closeModal();
-    renderAll();
-}
-
-function updateSubjectProgress(id, amount) {
-    const sub = db.subjects.find(s => s.id === id);
-    if (sub) {
-        sub.progress = Math.min(100, sub.progress + amount);
-        saveData();
-        renderAll();
-    }
-}
-
-function deleteSubject(id) {
-    db.subjects = db.subjects.filter(s => s.id !== id);
-    saveData();
-    renderAll();
-}
-
-// Goals management
-function renderGoals() {
-    const grid = document.getElementById('goalGrid');
-    if (db.goals.length === 0) {
-        grid.innerHTML = `<div class="empty">No goals defined</div>`;
-        return;
-    }
-
-    grid.innerHTML = db.goals.map(g => `
-        <div class="goal-card">
-            <div class="goal-type">${g.type}</div>
-            <div class="goal-title">${g.title}</div>
-            <div class="goal-numbers">
-                <span>Target: ${g.target}</span>
-                <span>${g.completed ? 'Completed 🎉' : 'In Progress'}</span>
-            </div>
-            <button class="small-btn full" onclick="toggleGoal('${g.id}')">${g.completed ? 'Mark Incomplete' : 'Complete Goal'}</button>
-        </div>
-    `).join('');
-}
-
-function openGoalModal() {
-    showModal(`
-        <h2>New Study Goal</h2>
-        <form onsubmit="handleAddGoal(event)">
-            <div class="form-group full-width">
-                <label>Goal Title</label>
-                <input type="text" id="modalGoalTitle" class="input" required placeholder="e.g., Study 15 hours this week">
-            </div>
-            <div class="form-group">
-                <label>Category</label>
-                <select id="modalGoalType" class="input">
-                    <option value="Weekly Target">Weekly Target</option>
-                    <option value="Exam Milestone">Exam Milestone</option>
-                    <option value="Habit">Habit</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Target Value</label>
-                <input type="text" id="modalGoalTarget" class="input" required placeholder="e.g., 15 Hours">
-            </div>
-            <div class="form-actions">
-                <button type="button" class="small-btn" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="primary">Save Goal</button>
-            </div>
-        </form>
-    `);
-}
-
-function handleAddGoal(e) {
-    e.preventDefault();
-    db.goals.push({
-        id: 'goal_' + Date.now(),
-        title: document.getElementById('modalGoalTitle').value,
-        type: document.getElementById('modalGoalType').value,
-        target: document.getElementById('modalGoalTarget').value,
-        completed: false
-    });
-    saveData();
-    closeModal();
-    renderAll();
-}
-
-function toggleGoal(id) {
-    const goal = db.goals.find(g => g.id === id);
-    if (goal) {
-        goal.completed = !goal.completed;
-        saveData();
-        renderAll();
-    }
-}
-
-// Exams management
-function renderExams() {
-    const grid = document.getElementById('examGrid');
-    if (db.exams.length === 0) {
-        grid.innerHTML = `<div class="empty">No exams scheduled</div>`;
-        return;
-    }
-
-    grid.innerHTML = db.exams.map(e => `
-        <div class="exam-card">
-            <div class="exam-top">
-                <div>
-                    <div class="exam-title">${e.title}</div>
-                    <div class="exam-subject">${e.subject} — ${e.date}</div>
-                </div>
-                <button class="delete" onclick="deleteExam('${e.id}')">&times;</button>
-            </div>
-            <div class="reminder-list">
-                <div class="reminder-chip">🔔 Reminder set for 1 day prior</div>
-            </div>
-        </div>
-    `).join('');
-}
-
-function openExamModal() {
-    showModal(`
-        <h2>Schedule Exam</h2>
-        <form onsubmit="handleAddExam(event)">
-            <div class="form-group full-width">
-                <label>Exam Title</label>
-                <input type="text" id="modalExamTitle" class="input" required placeholder="e.g., Midterm Exam">
-            </div>
-            <div class="form-group full-width">
-                <label>Subject Name</label>
-                <input type="text" id="modalExamSubject" class="input" required placeholder="e.g., Advanced Calculus">
-            </div>
-            <div class="form-group full-width">
-                <label>Exam Date & Time</label>
-                <input type="datetime-local" id="modalExamDate" class="input" required>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="small-btn" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="primary">Schedule</button>
-            </div>
-        </form>
-    `);
-}
-
-function handleAddExam(e) {
-    e.preventDefault();
-    db.exams.push({
-        id: 'exam_' + Date.now(),
-        title: document.getElementById('modalExamTitle').value,
-        subject: document.getElementById('modalExamSubject').value,
-        date: document.getElementById('modalExamDate').value
-    });
-    saveData();
-    closeModal();
-    renderAll();
-    checkAchievements();
-}
-
-function deleteExam(id) {
-    db.exams = db.exams.filter(e => e.id !== id);
-    saveData();
-    renderAll();
-}
-
-// Study Sessions Log
-function renderSessions() {
-    const list = document.getElementById('sessionList');
-    document.getElementById('sessionCount').textContent = `${db.sessions.length} logged`;
-    
-    if (db.sessions.length === 0) {
-        list.innerHTML = `<div class="empty">No study sessions logged yet</div>`;
-        return;
-    }
-
-    list.innerHTML = db.sessions.map(s => `
-        <div class="task-row">
-            <div class="task-name"><strong>${s.subject}</strong> — ${s.notes || 'Focused study session'}</div>
-            <div class="priority low">${s.duration} mins</div>
-            <button class="delete" onclick="deleteSession('${s.id}')">&times;</button>
-        </div>
-    `).join('');
-}
-
-function openSessionModal() {
-    showModal(`
-        <h2>Log Study Session</h2>
-        <form onsubmit="handleAddSession(event)">
-            <div class="form-group full-width">
-                <label>Subject</label>
-                <input type="text" id="modalSessionSub" class="input" required placeholder="e.g., Chemistry">
-            </div>
-            <div class="form-group full-width">
-                <label>Duration (Minutes)</label>
-                <input type="number" id="modalSessionDur" class="input" required min="1" value="30">
-            </div>
-            <div class="form-group full-width">
-                <label>Session Notes / Topics Covered</label>
-                <textarea id="modalSessionNotes" class="input" placeholder="What did you study?"></textarea>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="small-btn" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="primary">Log Session</button>
-            </div>
-        </form>
-    `);
-}
-
-function handleAddSession(e) {
-    e.preventDefault();
-    db.sessions.push({
-        id: 'ses_' + Date.now(),
-        subject: document.getElementById('modalSessionSub').value,
-        duration: document.getElementById('modalSessionDur').value,
-        notes: document.getElementById('modalSessionNotes').value
-    });
-    saveData();
-    closeModal();
-    renderAll();
-    checkAchievements();
-}
-
-function deleteSession(id) {
-    db.sessions = db.sessions.filter(s => s.id !== id);
-    saveData();
-    renderAll();
-}
-
-// Calendar Generator
-function updateCalendar() {
-    const grid = document.getElementById('calendarGrid');
-    const title = document.getElementById('calendarMonthTitle');
-    
-    const year = currentCalendarDate.getFullYear();
-    const month = currentCalendarDate.getMonth();
-    
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    title.textContent = `${monthNames[month]} ${year}`;
-    
-    const firstDayIndex = new Date(year, month, 1).getDay();
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    let html = dayNames.map(d => `<div class="cal-name">${d}</div>`).join('');
-    
-    for (let i = 0; i < firstDayIndex; i++) {
-        html += `<div class="cal-day" style="opacity:0.2;"></div>`;
-    }
-    
-    const todayStr = new Date().toDateString();
-    for (let d = 1; d <= totalDays; d++) {
-        const currDate = new Date(year, month, d);
-        const isToday = currDate.toDateString() === todayStr;
-        
-        html += `
-            <div class="cal-day ${isToday ? 'today' : ''}">
-                <div class="cal-num">${d}</div>
-                ${d === 15 ? '<div class="cal-event">Midterms</div>' : ''}
-            </div>
-        `;
-    }
-    
-    grid.innerHTML = html;
-}
-
-function changeMonth(dir) {
-    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + dir);
     updateCalendar();
-}
 
-// Pomodoro Timer Logic
-function toggleTimer() {
-    if (timerRunning) {
-        clearInterval(timerInterval);
-        timerRunning = false;
-        document.getElementById('timerStartBtn').textContent = 'Resume Focus';
-    } else {
-        timerRunning = true;
-        document.getElementById('timerStartBtn').textContent = 'Pause';
-        timerInterval = setInterval(() => {
-            if (timerSeconds > 0) {
-                timerSeconds--;
-                updateTimerDisplay();
-            } else {
-                clearInterval(timerInterval);
-                timerRunning = false;
-                alert(isFocusMode ? 'Focus session complete! Take a break.' : 'Break finished! Back to work.');
-                resetTimer();
-            }
-        }, 1000);
-    }
-}
-
-function resetTimer() {
-    clearInterval(timerInterval);
-    timerRunning = false;
-    document.getElementById('timerStartBtn').textContent = 'Start Focus';
-    const focusMins = parseInt(document.getElementById('focusDuration').value) || 25;
-    const breakMins = parseInt(document.getElementById('breakDuration').value) || 5;
-    timerSeconds = (isFocusMode ? focusMins : breakMins) * 60;
     updateTimerDisplay();
-}
 
-function switchTimerMode() {
-    isFocusMode = !isFocusMode;
-    document.getElementById('timerMode').textContent = isFocusMode ? 'Study Session' : 'Break Time';
-    resetTimer();
-}
-
-function updateTimerDisplay() {
-    const mins = Math.floor(timerSeconds / 60);
-    const secs = timerSeconds % 60;
-    document.getElementById('timerDisplay').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-}
-
-// Notes Logic
-function renderNotesList() {
-    const list = document.getElementById('noteList');
-    if (db.notes.length === 0) {
-        list.innerHTML = `<div class="empty">No notes yet</div>`;
-        return;
-    }
-
-    list.innerHTML = db.notes.map(n => `
-        <div class="note-item ${activeNoteId === n.id ? 'selected' : ''}" onclick="selectNote('${n.id}')">
-            <strong>${n.title || 'Untitled Note'}</strong>
-            <span>${n.content ? n.content.substring(0, 30) + '...' : 'Empty note'}</span>
-        </div>
-    `).join('');
-}
-
-function createNewNote() {
-    const newNote = {
-        id: 'note_' + Date.now(),
-        title: 'New Study Note',
-        content: ''
-    };
-    db.notes.push(newNote);
-    activeNoteId = newNote.id;
-    saveData();
-    renderNotesList();
-    loadActiveNote();
     checkAchievements();
+
 }
 
-function selectNote(id) {
-    activeNoteId = id;
-    renderNotesList();
-    loadActiveNote();
+
+/* =========================================================
+   PROFILE NORMALIZATION
+   ========================================================= */
+
+function normalizeProfile(p){
+
+    if(!Array.isArray(p.tasks))
+        p.tasks = [];
+
+    if(!Array.isArray(p.subjects))
+        p.subjects = [];
+
+    if(!Array.isArray(p.goals))
+        p.goals = [];
+
+    if(!Array.isArray(p.exams))
+        p.exams = [];
+
+    if(!Array.isArray(p.sessions))
+        p.sessions = [];
+
+    if(!Array.isArray(p.notes))
+        p.notes = [];
+
+    if(!Array.isArray(p.achievements))
+        p.achievements =
+            achievementTemplate();
+
+    if(!p.preferences)
+        p.preferences = {};
+
 }
 
-function loadActiveNote() {
-    const note = db.notes.find(n => n.id === activeNoteId);
-    if (note) {
-        document.getElementById('noteEmptyState').classList.add('hidden');
-        document.getElementById('noteEditorContainer').classList.remove('hidden');
-        document.getElementById('noteTitleInput').value = note.title;
-        document.getElementById('noteContentInput').value = note.content;
-    }
-}
 
-function saveCurrentNote() {
-    if (!activeNoteId) return;
-    const note = db.notes.find(n => n.id === activeNoteId);
-    if (note) {
-        note.title = document.getElementById('noteTitleInput').value;
-        note.content = document.getElementById('noteContentInput').value;
-        saveData();
-        renderNotesList();
-    }
-}
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
 
-function deleteCurrentNote() {
-    if (!activeNoteId) return;
-    db.notes = db.notes.filter(n => n.id !== activeNoteId);
-    activeNoteId = null;
-    document.getElementById('noteEditorContainer').classList.add('hidden');
-    document.getElementById('noteEmptyState').classList.remove('hidden');
-    saveData();
-    renderNotesList();
-}
+function renderDashboard(){
 
-// Achievements Logic
-function checkAchievements() {
-    db.achievements.forEach(ach => {
-        if (ach.id === 'first_task' && db.tasks.length > 0) ach.unlocked = true;
-        if (ach.id === 'streak_3' && db.sessions.length >= 3) ach.unlocked = true;
-        if (ach.id === 'study_1h' && db.sessions.reduce((a,c)=>a+parseInt(c.duration||0),0) >= 60) ach.unlocked = true;
-        if (ach.id === 'exam_set' && db.exams.length > 0) ach.unlocked = true;
-        if (ach.id === 'note_writer' && db.notes.length > 0) ach.unlocked = true;
-        if (ach.id === 'all_tasks' && db.tasks.length > 0 && db.tasks.every(t => t.completed)) ach.unlocked = true;
-    });
-    saveData();
-}
+    const p =
+        getCurrentProfile();
 
-function renderAchievements() {
-    const grid = document.getElementById('achievementGrid');
-    grid.innerHTML = db.achievements.map(a => `
-        <div class="achievement ${a.unlocked ? 'unlocked' : ''}">
-            <div class="achievement-icon">${a.icon}</div>
-            <strong>${a.title}</strong>
-            <span>${a.desc}</span>
-        </div>
-    `).join('');
-}
-
-// Admin Users View
-function renderAdminUsers() {
-    const grid = document.getElementById('adminUsersGrid');
-    if (!db.currentUser) {
-        grid.innerHTML = `<div class="empty">No active local student profile detected. Please log in first.</div>`;
+    if(!p){
         return;
     }
 
-    const totalMins = db.sessions.reduce((a,c)=>a+parseInt(c.duration||0),0);
-    grid.innerHTML = `
-        <div class="admin-user">
-            <div class="admin-user-name">${db.currentUser}</div>
-            <div class="admin-meta">Active Student Profile • LocalStorage Connected</div>
-            <div class="mini-grid">
-                <div class="mini"><strong>${db.tasks.length}</strong><span>Tasks</span></div>
-                <div class="mini"><strong>${db.subjects.length}</strong><span>Subjects</span></div>
-                <div class="mini"><strong>${totalMins}m</strong><span>Study Time</span></div>
+
+    const totalTasks =
+        p.tasks.length;
+
+    const completedTasks =
+        p.tasks.filter(
+            t => t.completed
+        ).length;
+
+    const progress =
+        totalTasks
+        ? Math.round(
+            completedTasks /
+            totalTasks *
+            100
+        )
+        : 0;
+
+
+    document.getElementById(
+        "statToday"
+    ).textContent =
+        `${progress}%`;
+
+
+    const totalMins =
+        p.sessions.reduce(
+            (acc,s) =>
+                acc +
+                Number(s.duration || 0),
+            0
+        );
+
+
+    if(totalMins >= 60){
+
+        document.getElementById(
+            "statHours"
+        ).textContent =
+            `${(totalMins / 60).toFixed(1)}h`;
+
+    }else{
+
+        document.getElementById(
+            "statHours"
+        ).textContent =
+            `${totalMins}m`;
+
+    }
+
+
+    document.getElementById(
+        "statStreak"
+    ).textContent =
+        calculateStreak(p);
+
+
+    document.getElementById(
+        "statGoals"
+    ).textContent =
+        p.goals.filter(
+            g => !g.completed
+        ).length;
+
+
+    document.getElementById(
+        "statSubjects"
+    ).textContent =
+        p.subjects.length;
+
+
+    document.getElementById(
+        "dashboardProgress"
+    ).style.width =
+        progress + "%";
+
+
+    document.getElementById(
+        "taskProgressText"
+    ).textContent =
+        progress + "%";
+
+
+    /*
+       Real weekly study data
+    */
+
+    const chart =
+        document.getElementById(
+            "dashboardChart"
+        );
+
+    const week =
+        getLastSevenDays();
+
+    chart.innerHTML =
+        week.map(day => {
+
+            const minutes =
+                p.sessions
+                    .filter(s =>
+                        sessionDateKey(s) === day.key
+                    )
+                    .reduce(
+                        (a,s) =>
+                            a +
+                            Number(s.duration || 0),
+                        0
+                    );
+
+            const max =
+                Math.max(
+                    60,
+                    ...week.map(d =>
+                        p.sessions
+                            .filter(s =>
+                                sessionDateKey(s)
+                                === d.key
+                            )
+                            .reduce(
+                                (a,s) =>
+                                    a +
+                                    Number(s.duration || 0),
+                                0
+                            )
+                    )
+                );
+
+            const height =
+                Math.max(
+                    4,
+                    Math.min(
+                        100,
+                        minutes / max * 100
+                    )
+                );
+
+
+            return `
+
+                <div class="chart-col">
+
+                    <div class="chart-value">
+                        ${minutes}m
+                    </div>
+
+                    <div
+                        class="chart-bar"
+                        style="height:${height}%"
+                    ></div>
+
+                    <div class="chart-label">
+                        ${day.label}
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+    /*
+       Recent tasks
+    */
+
+    const recent =
+        document.getElementById(
+            "recentTasks"
+        );
+
+
+    if(!p.tasks.length){
+
+        recent.innerHTML =
+            `<div class="empty">
+                No tasks yet.
+            </div>`;
+
+    }else{
+
+        recent.innerHTML =
+            p.tasks
+                .slice(-5)
+                .reverse()
+                .map(t => `
+
+                    <div
+                        class="task-row
+                        ${t.completed ? "done" : ""}"
+                    >
+
+                        <div
+                            class="checkbox
+                            ${t.completed ? "done" : ""}"
+                            onclick="toggleTask('${t.id}')"
+                        >
+                            ${t.completed ? "✓" : ""}
+                        </div>
+
+                        <div class="task-name">
+                            ${escapeHTML(
+                                t.name || ""
+                            )}
+                        </div>
+
+                        <div
+                            class="priority
+                            ${t.priority || "medium"}"
+                        >
+                            ${escapeHTML(
+                                t.priority || "medium"
+                            )}
+                        </div>
+
+                    </div>
+
+                `)
+                .join("");
+
+    }
+
+
+    renderNextExam();
+
+}
+
+
+/* =========================================================
+   TASKS
+   ========================================================= */
+
+function renderTasks(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    const list =
+        document.getElementById(
+            "taskList"
+        );
+
+
+    document.getElementById(
+        "taskCountLabel"
+    ).textContent =
+        `${p.tasks.length} task${p.tasks.length === 1 ? "" : "s"}`;
+
+
+    if(!p.tasks.length){
+
+        list.innerHTML =
+            `<div class="empty">
+                No tasks added yet.
+                Click "+ Add Task" to begin.
+            </div>`;
+
+        return;
+    }
+
+
+    list.innerHTML =
+        p.tasks.map(t => `
+
+            <div
+                class="task-row
+                ${t.completed ? "done" : ""}"
+            >
+
+                <div
+                    class="checkbox
+                    ${t.completed ? "done" : ""}"
+                    onclick="toggleTask('${t.id}')"
+                >
+                    ${t.completed ? "✓" : ""}
+                </div>
+
+                <div class="task-name">
+                    ${escapeHTML(
+                        t.name || ""
+                    )}
+                </div>
+
+                <div
+                    class="priority
+                    ${t.priority || "medium"}"
+                >
+                    ${escapeHTML(
+                        t.priority || "medium"
+                    )}
+                </div>
+
+                <button
+                    class="delete"
+                    onclick="deleteTask('${t.id}')"
+                    title="Delete"
+                >
+                    ×
+                </button>
+
             </div>
+
+        `).join("");
+
+}
+
+
+function openTaskModal(){
+
+    showModal(`
+
+        <h2>Add New Task</h2>
+
+        <form onsubmit="handleAddTask(event)">
+
+            <div class="form-group full-width">
+
+                <label>
+                    Task Name
+                </label>
+
+                <input
+                    type="text"
+                    id="modalTaskName"
+                    class="input"
+                    required
+                    placeholder="e.g., Complete calculus chapter 3"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Priority
+                </label>
+
+                <select
+                    id="modalTaskPriority"
+                    class="input"
+                >
+
+                    <option value="low">
+                        Low
+                    </option>
+
+                    <option
+                        value="medium"
+                        selected
+                    >
+                        Medium
+                    </option>
+
+                    <option value="high">
+                        High
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Due Date
+                </label>
+
+                <input
+                    type="date"
+                    id="modalTaskDate"
+                    class="input"
+                >
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Notes
+                </label>
+
+                <textarea
+                    id="modalTaskNotes"
+                    class="input"
+                    placeholder="Optional task notes..."
+                ></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary"
+                >
+                    Save Task
+                </button>
+
+            </div>
+
+        </form>
+
+    `);
+
+}
+
+
+function handleAddTask(e){
+
+    e.preventDefault();
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    p.tasks.push({
+
+        id:
+            "task_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        name:
+            document.getElementById(
+                "modalTaskName"
+            ).value.trim(),
+
+        priority:
+            document.getElementById(
+                "modalTaskPriority"
+            ).value,
+
+        dueDate:
+            document.getElementById(
+                "modalTaskDate"
+            ).value,
+
+        notes:
+            document.getElementById(
+                "modalTaskNotes"
+            ).value,
+
+        completed:false,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    saveDatabase();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function toggleTask(id){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    const task =
+        p.tasks.find(
+            t => t.id === id
+        );
+
+
+    if(task){
+
+        task.completed =
+            !task.completed;
+
+        task.updatedAt =
+            new Date().toISOString();
+
+        saveDatabase();
+
+        renderAll();
+
+    }
+
+}
+
+
+function deleteTask(id){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    if(!confirm(
+        "Delete this task?"
+    )){
+        return;
+    }
+
+
+    p.tasks =
+        p.tasks.filter(
+            t => t.id !== id
+        );
+
+
+    saveDatabase();
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   SUBJECTS
+   ========================================================= */
+
+function renderSubjects(){
+
+    const p =
+        getCurrentProfile();
+
+    const grid =
+        document.getElementById(
+            "subjectGrid"
+        );
+
+
+    if(!p || !p.subjects.length){
+
+        grid.innerHTML =
+            `<div class="empty">
+                No subjects added yet.
+            </div>`;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        p.subjects.map(s => `
+
+            <div class="subject-card">
+
+                <div class="subject-top">
+
+                    <div>
+
+                        <div class="subject-name">
+                            ${escapeHTML(
+                                s.name || ""
+                            )}
+                        </div>
+
+                        <div class="subject-code">
+                            ${escapeHTML(
+                                s.code || ""
+                            )}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="subject-progress">
+                    ${Number(s.progress || 0)}%
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        class="progress-inner"
+                        style="width:${Number(s.progress || 0)}%"
+                    ></div>
+
+                </div>
+
+                <div class="subject-actions">
+
+                    <button
+                        class="small-btn"
+                        onclick="updateSubjectProgress('${s.id}',10)"
+                    >
+                        +10%
+                    </button>
+
+                    <button
+                        class="small-btn"
+                        onclick="setSubjectProgress('${s.id}')"
+                    >
+                        Set %
+                    </button>
+
+                    <button
+                        class="small-btn"
+                        onclick="deleteSubject('${s.id}')"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openSubjectModal(){
+
+    showModal(`
+
+        <h2>Add Subject</h2>
+
+        <form onsubmit="handleAddSubject(event)">
+
+            <div class="form-group full-width">
+
+                <label>
+                    Subject Name
+                </label>
+
+                <input
+                    type="text"
+                    id="modalSubName"
+                    class="input"
+                    required
+                    placeholder="e.g., Physics"
+                >
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Course Code
+                </label>
+
+                <input
+                    type="text"
+                    id="modalSubCode"
+                    class="input"
+                    required
+                    placeholder="e.g., PHYS201"
+                >
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Starting Progress %
+                </label>
+
+                <input
+                    type="number"
+                    id="modalSubProgress"
+                    class="input"
+                    min="0"
+                    max="100"
+                    value="0"
+                >
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary"
+                >
+                    Add Subject
+                </button>
+
+            </div>
+
+        </form>
+
+    `);
+
+}
+
+
+function handleAddSubject(e){
+
+    e.preventDefault();
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    p.subjects.push({
+
+        id:
+            "sub_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        name:
+            document.getElementById(
+                "modalSubName"
+            ).value.trim(),
+
+        code:
+            document.getElementById(
+                "modalSubCode"
+            ).value.trim(),
+
+        progress:
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    Number(
+                        document.getElementById(
+                            "modalSubProgress"
+                        ).value
+                    ) || 0
+                )
+            )
+
+    });
+
+
+    saveDatabase();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function updateSubjectProgress(id,amount){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    const sub =
+        p.subjects.find(
+            s => s.id === id
+        );
+
+
+    if(sub){
+
+        sub.progress =
+            Math.min(
+                100,
+                Number(sub.progress || 0) +
+                amount
+            );
+
+        saveDatabase();
+
+        renderAll();
+
+    }
+
+}
+
+
+function setSubjectProgress(id){
+
+    const value =
+        prompt(
+            "Enter progress from 0 to 100:"
+        );
+
+
+    if(value === null){
+        return;
+    }
+
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                Number(value) || 0
+            )
+        );
+
+
+    const p =
+        getCurrentProfile();
+
+
+    const sub =
+        p.subjects.find(
+            s => s.id === id
+        );
+
+
+    if(sub){
+
+        sub.progress = progress;
+
+        saveDatabase();
+
+        renderAll();
+
+    }
+
+}
+
+
+function deleteSubject(id){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    if(!confirm(
+        "Delete this subject?"
+    )){
+        return;
+    }
+
+
+    p.subjects =
+        p.subjects.filter(
+            s => s.id !== id
+        );
+
+
+    saveDatabase();
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   GOALS
+   ========================================================= */
+
+function renderGoals(){
+
+    const p =
+        getCurrentProfile();
+
+    const grid =
+        document.getElementById(
+            "goalGrid"
+        );
+
+
+    if(!p || !p.goals.length){
+
+        grid.innerHTML =
+            `<div class="empty">
+                No goals defined.
+            </div>`;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        p.goals.map(g => `
+
+            <div class="goal-card">
+
+                <div class="goal-type">
+                    ${escapeHTML(
+                        g.type || ""
+                    )}
+                </div>
+
+                <div class="goal-title">
+                    ${escapeHTML(
+                        g.title || ""
+                    )}
+                </div>
+
+                <div class="goal-numbers">
+
+                    <span>
+                        Target:
+                        ${escapeHTML(
+                            g.target || ""
+                        )}
+                    </span>
+
+                    <span>
+                        ${
+                            g.completed
+                            ? "Completed 🎉"
+                            : "In Progress"
+                        }
+                    </span>
+
+                </div>
+
+                <button
+                    class="small-btn full"
+                    onclick="toggleGoal('${g.id}')"
+                >
+                    ${
+                        g.completed
+                        ? "Mark Incomplete"
+                        : "Complete Goal"
+                    }
+                </button>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+function openGoalModal(){
+
+    showModal(`
+
+        <h2>
+            New Study Goal
+        </h2>
+
+        <form onsubmit="handleAddGoal(event)">
+
+            <div class="form-group full-width">
+
+                <label>
+                    Goal Title
+                </label>
+
+                <input
+                    type="text"
+                    id="modalGoalTitle"
+                    class="input"
+                    required
+                    placeholder="e.g., Study 15 hours this week"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Category
+                </label>
+
+                <select
+                    id="modalGoalType"
+                    class="input"
+                >
+
+                    <option>
+                        Weekly Target
+                    </option>
+
+                    <option>
+                        Exam Milestone
+                    </option>
+
+                    <option>
+                        Habit
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Target Value
+                </label>
+
+                <input
+                    type="text"
+                    id="modalGoalTarget"
+                    class="input"
+                    required
+                    placeholder="e.g., 15 Hours"
+                >
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary"
+                >
+                    Save Goal
+                </button>
+
+            </div>
+
+        </form>
+
+    `);
+
+}
+
+
+function handleAddGoal(e){
+
+    e.preventDefault();
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    p.goals.push({
+
+        id:
+            "goal_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        title:
+            document.getElementById(
+                "modalGoalTitle"
+            ).value.trim(),
+
+        type:
+            document.getElementById(
+                "modalGoalType"
+            ).value,
+
+        target:
+            document.getElementById(
+                "modalGoalTarget"
+            ).value.trim(),
+
+        completed:false,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    saveDatabase();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function toggleGoal(id){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    const goal =
+        p.goals.find(
+            g => g.id === id
+        );
+
+
+    if(goal){
+
+        goal.completed =
+            !goal.completed;
+
+        saveDatabase();
+
+        renderAll();
+
+    }
+
+}
+
+
+/* =========================================================
+   EXAMS
+   ========================================================= */
+
+function renderExams(){
+
+    const p =
+        getCurrentProfile();
+
+    const grid =
+        document.getElementById(
+            "examGrid"
+        );
+
+
+    if(!p || !p.exams.length){
+
+        grid.innerHTML =
+            `<div class="empty">
+                No exams scheduled.
+            </div>`;
+
+        return;
+    }
+
+
+    const exams =
+        [...p.exams]
+            .sort(
+                (a,b) =>
+                    new Date(a.date) -
+                    new Date(b.date)
+            );
+
+
+    grid.innerHTML =
+        exams.map(e => {
+
+            const diff =
+                new Date(e.date) -
+                new Date();
+
+            const parts =
+                countdownParts(diff);
+
+
+            return `
+
+                <div class="exam-card">
+
+                    <div class="exam-top">
+
+                        <div>
+
+                            <div class="exam-title">
+                                ${escapeHTML(
+                                    e.title || ""
+                                )}
+                            </div>
+
+                            <div class="exam-subject">
+                                ${escapeHTML(
+                                    e.subject || ""
+                                )}
+                                —
+                                ${formatDateTime(
+                                    e.date
+                                )}
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="delete"
+                            onclick="deleteExam('${e.id}')"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    <div class="exam-countdown">
+
+                        <div class="exam-count-item">
+                            <strong>${parts.days}</strong>
+                            <span>Days</span>
+                        </div>
+
+                        <div class="exam-count-item">
+                            <strong>${parts.hours}</strong>
+                            <span>Hours</span>
+                        </div>
+
+                        <div class="exam-count-item">
+                            <strong>${parts.minutes}</strong>
+                            <span>Mins</span>
+                        </div>
+
+                        <div class="exam-count-item">
+                            <strong>${parts.seconds}</strong>
+                            <span>Secs</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="reminder-list">
+
+                        <div class="reminder-chip">
+                            🔔 Reminder set
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function openExamModal(){
+
+    showModal(`
+
+        <h2>
+            Schedule Exam
+        </h2>
+
+        <form onsubmit="handleAddExam(event)">
+
+            <div class="form-group full-width">
+
+                <label>
+                    Exam Title
+                </label>
+
+                <input
+                    type="text"
+                    id="modalExamTitle"
+                    class="input"
+                    required
+                    placeholder="e.g., Midterm Exam"
+                >
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Subject Name
+                </label>
+
+                <input
+                    type="text"
+                    id="modalExamSubject"
+                    class="input"
+                    required
+                    placeholder="e.g., Advanced Calculus"
+                >
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Exam Date & Time
+                </label>
+
+                <input
+                    type="datetime-local"
+                    id="modalExamDate"
+                    class="input"
+                    required
+                >
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary"
+                >
+                    Schedule
+                </button>
+
+            </div>
+
+        </form>
+
+    `);
+
+}
+
+
+function handleAddExam(e){
+
+    e.preventDefault();
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    p.exams.push({
+
+        id:
+            "exam_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        title:
+            document.getElementById(
+                "modalExamTitle"
+            ).value.trim(),
+
+        subject:
+            document.getElementById(
+                "modalExamSubject"
+            ).value.trim(),
+
+        date:
+            document.getElementById(
+                "modalExamDate"
+            ).value,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    saveDatabase();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function deleteExam(id){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    if(!confirm(
+        "Delete this exam?"
+    )){
+        return;
+    }
+
+
+    p.exams =
+        p.exams.filter(
+            e => e.id !== id
+        );
+
+
+    saveDatabase();
+
+    renderAll();
+
+}
+
+
+/* =========================================================
+   NEXT EXAM
+   ========================================================= */
+
+function getNextExam(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return null;
+    }
+
+
+    const future =
+        p.exams
+            .filter(
+                e =>
+                    new Date(e.date) >
+                    new Date()
+            )
+            .sort(
+                (a,b) =>
+                    new Date(a.date) -
+                    new Date(b.date)
+            );
+
+
+    return future[0] || null;
+
+}
+
+
+function renderNextExam(){
+
+    const exam =
+        getNextExam();
+
+
+    if(!exam){
+
+        document.getElementById(
+            "dashExamName"
+        ).textContent =
+            "No upcoming exam";
+
+        document.getElementById(
+            "dashExamTitle"
+        ).textContent =
+            "Set an exam date";
+
+        document.getElementById(
+            "dashExamDate"
+        ).textContent =
+            "--";
+
+        setCountdownDOM(
+            "dashCountdown",
+            0
+        );
+
+        return;
+    }
+
+
+    document.getElementById(
+        "dashExamName"
+    ).textContent =
+        exam.subject;
+
+
+    document.getElementById(
+        "dashExamTitle"
+    ).textContent =
+        exam.title;
+
+
+    document.getElementById(
+        "dashExamDate"
+    ).textContent =
+        formatDateTime(
+            exam.date
+        );
+
+
+    setCountdownDOM(
+        "dashCountdown",
+        new Date(exam.date) -
+        new Date()
+    );
+
+}
+
+
+function startExamCountdown(){
+
+    if(countdownInterval){
+        clearInterval(
+            countdownInterval
+        );
+    }
+
+
+    countdownInterval =
+        setInterval(
+            () => {
+
+                if(getCurrentProfile()){
+
+                    renderNextExam();
+
+                    const page =
+                        document.getElementById(
+                            "page-exams"
+                        );
+
+                    if(
+                        page &&
+                        page.classList.contains(
+                            "active"
+                        )
+                    ){
+                        renderExams();
+                    }
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+/* =========================================================
+   STUDY SESSIONS
+   ========================================================= */
+
+function renderSessions(){
+
+    const p =
+        getCurrentProfile();
+
+    const list =
+        document.getElementById(
+            "sessionList"
+        );
+
+
+    if(!p || !p.sessions.length){
+
+        list.innerHTML =
+            `<div class="empty">
+                No study sessions logged yet.
+            </div>`;
+
+        document.getElementById(
+            "sessionTotal"
+        ).textContent =
+            "0 minutes";
+
+        return;
+    }
+
+
+    const total =
+        p.sessions.reduce(
+            (a,s) =>
+                a +
+                Number(s.duration || 0),
+            0
+        );
+
+
+    document.getElementById(
+        "sessionTotal"
+    ).textContent =
+        `${total} minutes`;
+
+
+    list.innerHTML = `
+
+        <div style="overflow:auto">
+
+            <table class="data-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Duration</th>
+                        <th>Notes</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${[...p.sessions]
+                        .reverse()
+                        .map(s => `
+
+                        <tr>
+
+                            <td>
+                                ${formatDate(
+                                    s.createdAt ||
+                                    s.date
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    s.subject || ""
+                                )}
+                            </td>
+
+                            <td>
+                                ${Number(
+                                    s.duration || 0
+                                )}m
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    s.notes || ""
+                                )}
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="small-btn"
+                                    onclick="deleteSession('${s.id}')"
+                                >
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `).join("")}
+
+                </tbody>
+
+            </table>
+
         </div>
+
     `;
+
 }
 
-// Data Export
-function exportData() {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `studyflow_backup_${Date.now()}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
+
+function openSessionModal(){
+
+    const p =
+        getCurrentProfile();
+
+    const subjectOptions =
+        p &&
+        p.subjects.length
+        ? p.subjects
+            .map(
+                s =>
+                    `<option>
+                        ${escapeHTML(s.name)}
+                    </option>`
+            )
+            .join("")
+        : `
+            <option>
+                General Study
+            </option>
+        `;
+
+
+    showModal(`
+
+        <h2>
+            Log Study Session
+        </h2>
+
+        <form onsubmit="handleAddSession(event)">
+
+            <div class="form-group full-width">
+
+                <label>
+                    Subject
+                </label>
+
+                <select
+                    id="modalSessionSub"
+                    class="input"
+                >
+                    ${subjectOptions}
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Duration (minutes)
+                </label>
+
+                <input
+                    type="number"
+                    id="modalSessionDur"
+                    class="input"
+                    required
+                    min="1"
+                    value="30"
+                >
+
+            </div>
+
+            <div class="form-group full-width">
+
+                <label>
+                    Session Notes / Topics Covered
+                </label>
+
+                <textarea
+                    id="modalSessionNotes"
+                    class="input"
+                    placeholder="What did you study?"
+                ></textarea>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="closeModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary"
+                >
+                    Log Session
+                </button>
+
+            </div>
+
+        </form>
+
+    `);
+
 }
 
-// Modal System
-function showModal(html) {
-    const overlay = document.getElementById('modalOverlay');
-    const box = document.getElementById('modalBox');
-    box.innerHTML = html;
-    overlay.classList.add('show');
+
+function handleAddSession(e){
+
+    e.preventDefault();
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    p.sessions.push({
+
+        id:
+            "ses_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        subject:
+            document.getElementById(
+                "modalSessionSub"
+            ).value,
+
+        duration:
+            Number(
+                document.getElementById(
+                    "modalSessionDur"
+                ).value
+            ),
+
+        notes:
+            document.getElementById(
+                "modalSessionNotes"
+            ).value,
+
+        createdAt:
+            new Date().toISOString(),
+
+        date:
+            new Date().toISOString()
+
+    });
+
+
+    saveDatabase();
+
+    closeModal();
+
+    renderAll();
+
 }
 
-function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('show');
+
+function deleteSession(id){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    p.sessions =
+        p.sessions.filter(
+            s => s.id !== id
+        );
+
+
+    saveDatabase();
+
+    renderAll();
+
 }
+
+
+/* =========================================================
+   CALENDAR
+   ========================================================= */
+
+function updateCalendar(){
+
+    const p =
+        getCurrentProfile();
+
+    const grid =
+        document.getElementById(
+            "calendarGrid"
+        );
+
+    const title =
+        document.getElementById(
+            "calendarMonthTitle"
+        );
+
+
+    if(!grid || !title){
+        return;
+    }
+
+
+    const year =
+        currentCalendarDate
+            .getFullYear();
+
+    const month =
+        currentCalendarDate
+            .getMonth();
+
+
+    const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    ];
+
+
+    title.textContent =
+        `${monthNames[month]} ${year}`;
+
+
+    const firstDayIndex =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    const totalDays =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    const dayNames = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ];
+
+
+    let html =
+        dayNames
+            .map(
+                d =>
+                    `<div class="cal-name">
+                        ${d}
+                    </div>`
+            )
+            .join("");
+
+
+    for(
+        let i=0;
+        i<firstDayIndex;
+        i++
+    ){
+
+        html +=
+            `<div
+                class="cal-day"
+                style="opacity:.2"
+            ></div>`;
+
+    }
+
+
+    const todayKey =
+        dateKey(
+            new Date()
+        );
+
+
+    for(
+        let d=1;
+        d<=totalDays;
+        d++
+    ){
+
+        const currDate =
+            new Date(
+                year,
+                month,
+                d
+            );
+
+        const key =
+            dateKey(
+                currDate
+            );
+
+
+        const isToday =
+            key === todayKey;
+
+
+        const exams =
+            p
+            ? p.exams.filter(
+                e =>
+                    dateKey(
+                        new Date(e.date)
+                    ) === key
+            )
+            : [];
+
+
+        const sessions =
+            p
+            ? p.sessions.filter(
+                s =>
+                    sessionDateKey(s) === key
+            )
+            : [];
+
+
+        html += `
+
+            <div
+                class="cal-day
+                ${isToday ? "today" : ""}"
+            >
+
+                <div class="cal-num">
+                    ${d}
+                </div>
+
+                ${
+                    exams.length
+                    ? exams.map(
+                        e =>
+                            `<div class="cal-event">
+                                📝
+                                ${escapeHTML(
+                                    e.title
+                                )}
+                            </div>`
+                    ).join("")
+                    : ""
+                }
+
+                ${
+                    sessions.length
+                    ? `
+                        <div
+                            class="cal-event"
+                            title="Study sessions"
+                        >
+                            ⏱
+                            ${sessions.reduce(
+                                (a,s) =>
+                                    a +
+                                    Number(
+                                        s.duration || 0
+                                    ),
+                                0
+                            )}m
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+        `;
+
+    }
+
+
+    grid.innerHTML =
+        html;
+
+}
+
+
+function changeMonth(dir){
+
+    currentCalendarDate
+        .setMonth(
+            currentCalendarDate
+                .getMonth() + dir
+        );
+
+    updateCalendar();
+
+}
+
+
+/* =========================================================
+   POMODORO
+   ========================================================= */
+
+function toggleTimer(){
+
+    if(timerRunning){
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerRunning = false;
+
+        document.getElementById(
+            "timerStartBtn"
+        ).textContent =
+            "Resume Focus";
+
+        return;
+    }
+
+
+    timerRunning = true;
+
+    document.getElementById(
+        "timerStartBtn"
+    ).textContent =
+        "Pause";
+
+
+    timerInterval =
+        setInterval(
+            () => {
+
+                if(timerSeconds > 0){
+
+                    timerSeconds--;
+
+                    updateTimerDisplay();
+
+                }else{
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerRunning = false;
+
+                    document.getElementById(
+                        "timerStartBtn"
+                    ).textContent =
+                        "Start Focus";
+
+
+                    if(isFocusMode){
+
+                        const p =
+                            getCurrentProfile();
+
+                        if(p){
+
+                            p.sessions.push({
+
+                                id:
+                                    "pom_" +
+                                    Date.now(),
+
+                                subject:
+                                    "Pomodoro Focus",
+
+                                duration:
+                                    Number(
+                                        document.getElementById(
+                                            "focusDuration"
+                                        ).value
+                                    ) || 25,
+
+                                notes:
+                                    "Completed Pomodoro focus session.",
+
+                                createdAt:
+                                    new Date()
+                                        .toISOString(),
+
+                                date:
+                                    new Date()
+                                        .toISOString()
+
+                            });
+
+
+                            saveDatabase();
+
+                            renderAll();
+
+                        }
+
+                    }
+
+
+                    alert(
+                        isFocusMode
+                        ? "Focus session complete! Take a break."
+                        : "Break finished! Back to work."
+                    );
+
+
+                    resetTimer();
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+function stopTimerWithoutAlert(){
+
+    if(timerInterval){
+
+        clearInterval(
+            timerInterval
+        );
+
+    }
+
+    timerRunning = false;
+
+}
+
+
+function resetTimer(){
+
+    stopTimerWithoutAlert();
+
+    document.getElementById(
+        "timerStartBtn"
+    ).textContent =
+        "Start Focus";
+
+
+    const focusMins =
+        Number(
+            document.getElementById(
+                "focusDuration"
+            )?.value
+        ) || 25;
+
+
+    const breakMins =
+        Number(
+            document.getElementById(
+                "breakDuration"
+            )?.value
+        ) || 5;
+
+
+    timerSeconds =
+        (
+            isFocusMode
+            ? focusMins
+            : breakMins
+        ) * 60;
+
+
+    updateTimerDisplay();
+
+}
+
+
+function switchTimerMode(){
+
+    isFocusMode =
+        !isFocusMode;
+
+
+    document.getElementById(
+        "timerMode"
+    ).textContent =
+        isFocusMode
+        ? "Study Session"
+        : "Break Time";
+
+
+    resetTimer();
+
+}
+
+
+function updateTimerDisplay(){
+
+    const display =
+        document.getElementById(
+            "timerDisplay"
+        );
+
+    if(!display){
+        return;
+    }
+
+
+    const mins =
+        Math.floor(
+            timerSeconds / 60
+        );
+
+    const secs =
+        timerSeconds % 60;
+
+
+    display.textContent =
+        `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+
+}
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+function renderNotesList(){
+
+    const p =
+        getCurrentProfile();
+
+    const list =
+        document.getElementById(
+            "noteList"
+        );
+
+
+    if(!p || !p.notes.length){
+
+        list.innerHTML =
+            `<div class="empty">
+                No notes yet.
+            </div>`;
+
+        document
+            .getElementById(
+                "noteEditorContainer"
+            )
+            .classList
+            .add("hidden");
+
+        document
+            .getElementById(
+                "noteEmptyState"
+            )
+            .classList
+            .remove("hidden");
+
+        return;
+    }
+
+
+    list.innerHTML =
+        p.notes.map(n => `
+
+            <div
+                class="note-item
+                ${activeNoteId === n.id
+                    ? "selected"
+                    : ""}"
+                onclick="selectNote('${n.id}')"
+            >
+
+                <strong>
+                    ${escapeHTML(
+                        n.title ||
+                        "Untitled Note"
+                    )}
+                </strong>
+
+                <span>
+                    ${escapeHTML(
+                        n.content
+                        ? n.content.substring(
+                            0,
+                            40
+                        ) + "..."
+                        : "Empty note"
+                    )}
+                </span>
+
+            </div>
+
+        `).join("");
+
+
+    if(activeNoteId){
+        loadActiveNote();
+    }
+
+}
+
+
+function createNewNote(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    const newNote = {
+
+        id:
+            "note_" +
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2),
+
+        title:
+            "New Study Note",
+
+        content:"",
+
+        createdAt:
+            new Date().toISOString(),
+
+        updatedAt:
+            new Date().toISOString()
+
+    };
+
+
+    p.notes.push(
+        newNote
+    );
+
+    activeNoteId =
+        newNote.id;
+
+
+    saveDatabase();
+
+    renderNotesList();
+
+    loadActiveNote();
+
+}
+
+
+function selectNote(id){
+
+    activeNoteId =
+        id;
+
+    renderNotesList();
+
+    loadActiveNote();
+
+}
+
+
+function loadActiveNote(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    const note =
+        p.notes.find(
+            n => n.id === activeNoteId
+        );
+
+
+    if(!note){
+        return;
+    }
+
+
+    document
+        .getElementById(
+            "noteEmptyState"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "noteEditorContainer"
+        )
+        .classList
+        .remove("hidden");
+
+
+    document.getElementById(
+        "noteTitleInput"
+    ).value =
+        note.title || "";
+
+
+    document.getElementById(
+        "noteContentInput"
+    ).value =
+        note.content || "";
+
+}
+
+
+function saveCurrentNote(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p || !activeNoteId){
+        return;
+    }
+
+
+    const note =
+        p.notes.find(
+            n => n.id === activeNoteId
+        );
+
+
+    if(note){
+
+        note.title =
+            document.getElementById(
+                "noteTitleInput"
+            ).value;
+
+        note.content =
+            document.getElementById(
+                "noteContentInput"
+            ).value;
+
+        note.updatedAt =
+            new Date().toISOString();
+
+
+        saveDatabase();
+
+        renderNotesList();
+
+    }
+
+}
+
+
+function deleteCurrentNote(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p || !activeNoteId){
+        return;
+    }
+
+
+    if(!confirm(
+        "Delete this note?"
+    )){
+        return;
+    }
+
+
+    p.notes =
+        p.notes.filter(
+            n => n.id !== activeNoteId
+        );
+
+
+    activeNoteId = null;
+
+
+    document
+        .getElementById(
+            "noteEditorContainer"
+        )
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById(
+            "noteEmptyState"
+        )
+        .classList
+        .remove("hidden");
+
+
+    saveDatabase();
+
+    renderNotesList();
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS
+   ========================================================= */
+
+function checkAchievements(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+        return;
+    }
+
+
+    normalizeProfile(p);
+
+
+    const totalMinutes =
+        p.sessions.reduce(
+            (a,s) =>
+                a +
+                Number(s.duration || 0),
+            0
+        );
+
+
+    p.achievements.forEach(ach => {
+
+        if(
+            ach.id === "first_task" &&
+            p.tasks.length > 0
+        ){
+            ach.unlocked = true;
+        }
+
+        if(
+            ach.id === "streak_3" &&
+            calculateStreak(p) >= 3
+        ){
+            ach.unlocked = true;
+        }
+
+        if(
+            ach.id === "study_1h" &&
+            totalMinutes >= 60
+        ){
+            ach.unlocked = true;
+        }
+
+        if(
+            ach.id === "exam_set" &&
+            p.exams.length > 0
+        ){
+            ach.unlocked = true;
+        }
+
+        if(
+            ach.id === "note_writer" &&
+            p.notes.length > 0
+        ){
+            ach.unlocked = true;
+        }
+
+        if(
+            ach.id === "all_tasks" &&
+            p.tasks.length > 0 &&
+            p.tasks.every(
+                t => t.completed
+            )
+        ){
+            ach.unlocked = true;
+        }
+
+    });
+
+
+    saveDatabase();
+
+}
+
+
+function renderAchievements(){
+
+    const p =
+        getCurrentProfile();
+
+    const grid =
+        document.getElementById(
+            "achievementGrid"
+        );
+
+
+    if(!p){
+        return;
+    }
+
+
+    grid.innerHTML =
+        p.achievements
+            .map(a => `
+
+                <div
+                    class="achievement
+                    ${a.unlocked
+                        ? "unlocked"
+                        : ""}"
+                >
+
+                    <div class="achievement-icon">
+                        ${a.icon}
+                    </div>
+
+                    <strong>
+                        ${escapeHTML(
+                            a.title
+                        )}
+                    </strong>
+
+                    <span>
+                        ${escapeHTML(
+                            a.desc
+                        )}
+                    </span>
+
+                </div>
+
+            `)
+            .join("");
+
+}
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+function exportData(){
+
+    const p =
+        getCurrentProfile();
+
+    if(!p){
+
+        alert(
+            "No active profile."
+        );
+
+        return;
+    }
+
+
+    const exportProfile =
+        JSON.parse(
+            JSON.stringify(p)
+        );
+
+
+    /*
+       Password is intentionally NOT exported.
+       This allows a student to transfer study data
+       without transferring their local login password.
+    */
+
+    delete exportProfile.password;
+
+
+    const payload = {
+
+        type:
+            "studyflow-user-export",
+
+        version:2,
+
+        exportedAt:
+            new Date().toISOString(),
+
+        profile:
+            exportProfile
+
+    };
+
+
+    downloadJSON(
+        payload,
+        `studyflow_${p.username}_${Date.now()}.json`
+    );
+
+}
+
+
+function importUserData(){
+
+    const input =
+        document.getElementById(
+            "userImportInput"
+        );
+
+    input.value = "";
+
+    input.click();
+
+}
+
+
+function handleUserImportFile(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file){
+        return;
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(){
+
+            try{
+
+                const data =
+                    JSON.parse(
+                        reader.result
+                    );
+
+
+                const imported =
+                    extractExportedProfile(
+                        data
+                    );
+
+
+                if(!imported){
+
+                    alert(
+                        "Invalid StudyFlow profile file."
+                    );
+
+                    return;
+                }
+
+
+                if(!confirm(
+                    "Import this profile into your current account?\n\n" +
+                    "Your current tasks, subjects, goals, exams, sessions and notes will be replaced by the imported data."
+                )){
+
+                    return;
+
+                }
+
+
+                const p =
+                    getCurrentProfile();
+
+
+                const clean =
+                    sanitizeImportedProfile(
+                        imported
+                    );
+
+
+                p.displayName =
+                    clean.displayName ||
+                    p.displayName;
+
+
+                p.tasks =
+                    clean.tasks;
+
+                p.subjects =
+                    clean.subjects;
+
+                p.goals =
+                    clean.goals;
+
+                p.exams =
+                    clean.exams;
+
+                p.sessions =
+                    clean.sessions;
+
+                p.notes =
+                    clean.notes;
+
+                p.achievements =
+                    clean.achievements;
+
+
+                saveDatabase();
+
+                renderAll();
+
+
+                alert(
+                    "Your study data was imported successfully."
+                );
+
+
+            }catch(error){
+
+                console.error(error);
+
+                alert(
+                    "Could not import this file."
+                );
+
+            }
+
+        };
+
+
+    reader.readAsText(file);
+
+}
+
+
+/* =========================================================
+   IMPORT HELPERS
+   ========================================================= */
+
+function extractExportedProfile(data){
+
+    if(
+        data &&
+        data.type ===
+        "studyflow-user-export" &&
+        data.profile
+    ){
+        return data.profile;
+    }
+
+
+    /*
+       Also support exporting the profile object itself.
+    */
+
+    if(
+        data &&
+        Array.isArray(data.tasks) &&
+        Array.isArray(data.subjects)
+    ){
+        return data;
+    }
+
+
+    /*
+       Also support the previous db format.
+    */
+
+    if(
+        data &&
+        Array.isArray(data.tasks) &&
+        Array.isArray(data.subjects) &&
+        Array.isArray(data.goals)
+    ){
+
+        return {
+
+            username:
+                data.currentUser ||
+                "imported_user",
+
+            displayName:
+                data.currentUser ||
+                "Imported User",
+
+            tasks:data.tasks,
+
+            subjects:data.subjects,
+
+            goals:data.goals,
+
+            exams:
+                data.exams || [],
+
+            sessions:
+                data.sessions || [],
+
+            notes:
+                data.notes || [],
+
+            achievements:
+                data.achievements ||
+                achievementTemplate()
+
+        };
+
+    }
+
+
+    return null;
+
+}
+
+
+function sanitizeImportedProfile(profile){
+
+    const clean =
+        JSON.parse(
+            JSON.stringify(
+                profile || {}
+            )
+        );
+
+
+    delete clean.password;
+
+
+    clean.tasks =
+        Array.isArray(clean.tasks)
+        ? clean.tasks
+        : [];
+
+
+    clean.subjects =
+        Array.isArray(clean.subjects)
+        ? clean.subjects
+        : [];
+
+
+    clean.goals =
+        Array.isArray(clean.goals)
+        ? clean.goals
+        : [];
+
+
+    clean.exams =
+        Array.isArray(clean.exams)
+        ? clean.exams
+        : [];
+
+
+    clean.sessions =
+        Array.isArray(clean.sessions)
+        ? clean.sessions
+        : [];
+
+
+    clean.notes =
+        Array.isArray(clean.notes)
+        ? clean.notes
+        : [];
+
+
+    clean.achievements =
+        Array.isArray(clean.achievements)
+        ? clean.achievements
+        : achievementTemplate();
+
+
+    return clean;
+
+}
+
+
+function downloadJSON(data,filename){
+
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+    a.href = url;
+
+    a.download =
+        filename;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    setTimeout(
+        () =>
+            URL.revokeObjectURL(url),
+        1000
+    );
+
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+function showModal(html){
+
+    const overlay =
+        document.getElementById(
+            "modalOverlay"
+        );
+
+    const box =
+        document.getElementById(
+            "modalBox"
+        );
+
+
+    box.innerHTML =
+        html;
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+}
+
+
+function closeModal(){
+
+    document
+        .getElementById(
+            "modalOverlay"
+        )
+        .classList
+        .remove("show");
+
+}
+
+
+function modalBackgroundClick(e){
+
+    if(
+        e.target.id ===
+        "modalOverlay"
+    ){
+        closeModal();
+    }
+
+}
+
+
+/* =========================================================
+   UTILITY FUNCTIONS
+   ========================================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function formatDate(value){
+
+    if(!value){
+        return "--";
+    }
+
+
+    const d =
+        new Date(value);
+
+
+    if(isNaN(d.getTime())){
+        return String(value);
+    }
+
+
+    return d.toLocaleDateString(
+        "en-US",
+        {
+            year:"numeric",
+            month:"short",
+            day:"numeric"
+        }
+    );
+
+}
+
+
+function formatDateTime(value){
+
+    if(!value){
+        return "--";
+    }
+
+
+    const d =
+        new Date(value);
+
+
+    if(isNaN(d.getTime())){
+        return String(value);
+    }
+
+
+    return d.toLocaleString(
+        "en-US",
+        {
+            year:"numeric",
+            month:"short",
+            day:"numeric",
+            hour:"numeric",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+function dateKey(date){
+
+    const d =
+        new Date(date);
+
+
+    if(isNaN(d.getTime())){
+        return "";
+    }
+
+
+    const y =
+        d.getFullYear();
+
+
+    const m =
+        String(
+            d.getMonth() + 1
+        ).padStart(2,"0");
+
+
+    const day =
+        String(
+            d.getDate()
+        ).padStart(2,"0");
+
+
+    return `${y}-${m}-${day}`;
+
+}
+
+
+function sessionDateKey(session){
+
+    return dateKey(
+        session.createdAt ||
+        session.date
+    );
+
+}
+
+
+function getLastSevenDays(){
+
+    const result = [];
+
+    const names = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ];
+
+
+    for(
+        let i=6;
+        i>=0;
+        i--
+    ){
+
+        const d =
+            new Date();
+
+
+        d.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        d.setDate(
+            d.getDate() - i
+        );
+
+
+        result.push({
+
+            key:
+                dateKey(d),
+
+            label:
+                names[
+                    d.getDay()
+                ]
+
+        });
+
+    }
+
+
+    return result;
+
+}
+
+
+function calculateStreak(profile){
+
+    if(
+        !profile ||
+        !profile.sessions.length
+    ){
+        return 0;
+    }
+
+
+    const dates =
+        new Set(
+            profile.sessions
+                .map(
+                    s =>
+                        sessionDateKey(s)
+                )
+                .filter(Boolean)
+        );
+
+
+    let streak = 0;
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    /*
+       If today has no session,
+       allow the streak to start from yesterday.
+    */
+
+    let cursor =
+        new Date(today);
+
+
+    if(
+        !dates.has(
+            dateKey(cursor)
+        )
+    ){
+
+        cursor.setDate(
+            cursor.getDate() - 1
+        );
+
+    }
+
+
+    while(
+        dates.has(
+            dateKey(cursor)
+        )
+    ){
+
+        streak++;
+
+        cursor.setDate(
+            cursor.getDate() - 1
+        );
+
+    }
+
+
+    return streak;
+
+}
+
+
+function countdownParts(diff){
+
+    if(!isFinite(diff) || diff <= 0){
+
+        return {
+            days:"00",
+            hours:"00",
+            minutes:"00",
+            seconds:"00"
+        };
+
+    }
+
+
+    const totalSeconds =
+        Math.floor(
+            diff / 1000
+        );
+
+
+    const days =
+        Math.floor(
+            totalSeconds /
+            86400
+        );
+
+
+    const hours =
+        Math.floor(
+            totalSeconds % 86400 /
+            3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds % 3600 /
+            60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    return {
+
+        days:
+            String(days).padStart(
+                2,
+                "0"
+            ),
+
+        hours:
+            String(hours).padStart(
+                2,
+                "0"
+            ),
+
+        minutes:
+            String(minutes).padStart(
+                2,
+                "0"
+            ),
+
+        seconds:
+            String(seconds).padStart(
+                2,
+                "0"
+            )
+
+    };
+
+}
+
+
+function setCountdownDOM(id,diff){
+
+    const container =
+        document.getElementById(id);
+
+    if(!container){
+        return;
+    }
+
+
+    const p =
+        countdownParts(diff);
+
+
+    const nums =
+        container.querySelectorAll(
+            ".time-number"
+        );
+
+
+    if(nums.length >= 4){
+
+        nums[0].textContent =
+            p.days;
+
+        nums[1].textContent =
+            p.hours;
+
+        nums[2].textContent =
+            p.minutes;
+
+        nums[3].textContent =
+            p.seconds;
+
+    }
+
+}
+
 </script>
 
 </body>
 </html>
+
