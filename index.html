@@ -348,6 +348,163 @@ textarea{
     min-height:18px;
 }
 
+
+/* =========================================================
+   CHROME-STYLE LOCAL PROFILE MANAGER
+   ========================================================= */
+
+.profile-manager{
+    margin:0 0 22px;
+}
+
+.profile-manager-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:11px;
+}
+
+.profile-manager-title{
+    font-size:13px;
+    font-weight:800;
+}
+
+.profile-manager-count{
+    color:var(--muted);
+    font-size:10.5px;
+    font-weight:700;
+}
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:9px;
+}
+
+.profile-card{
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--card2);
+    transition:.22s;
+}
+
+.profile-card:hover{
+    border-color:rgba(99,91,255,.45);
+    background:var(--card);
+    transform:translateY(-2px);
+    box-shadow:0 9px 22px rgba(99,91,255,.11);
+}
+
+.profile-avatar{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--primary),#8b83ff);
+    color:#fff;
+    font-size:16px;
+    font-weight:900;
+    box-shadow:0 6px 16px rgba(99,91,255,.22);
+}
+
+.profile-info{
+    min-width:0;
+    flex:1 1 auto;
+    overflow:visible;
+}
+
+.profile-display-name{
+    font-size:12.5px;
+    font-weight:850;
+    overflow:visible;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    line-height:1.25;
+}
+
+.profile-username{
+    margin-top:3px;
+    color:var(--muted);
+    font-size:10px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.profile-actions{
+    display:flex;
+    align-items:center;
+    gap:1px;
+    flex:0 0 auto;
+}
+
+.profile-action{
+    width:28px;
+    height:28px;
+    padding:0;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s;
+}
+
+.profile-action:hover{
+    color:var(--primary);
+    background:rgba(99,91,255,.1);
+}
+
+.profile-action.delete-profile:hover{
+    color:var(--danger);
+    background:rgba(224,82,82,.1);
+}
+
+.profile-empty{
+    grid-column:1/-1;
+    border:1px dashed var(--border);
+    border-radius:13px;
+    padding:15px 10px;
+    text-align:center;
+    color:var(--muted);
+    font-size:11.5px;
+    line-height:1.5;
+}
+
+.profile-selected{
+    display:none;
+    margin:0 0 12px;
+    padding:9px 11px;
+    border:1px solid rgba(99,91,255,.18);
+    border-radius:10px;
+    background:rgba(99,91,255,.07);
+    color:var(--primary);
+    font-size:11px;
+    font-weight:700;
+}
+
+.profile-selected.show{
+    display:block;
+}
+
+@media(max-width:600px){
+    .profile-grid{
+        grid-template-columns:1fr;
+    }
+}
+
 /* =========================================================
    APP
    ========================================================= */
@@ -1887,6 +2044,18 @@ body.dark .topbar{
             and their own study data.
         </p>
 
+
+        <div class="profile-manager" id="profileManager">
+            <div class="profile-manager-head">
+                <div class="profile-manager-title">Profiles on this device</div>
+                <div class="profile-manager-count" id="profileManagerCount">0 profiles</div>
+            </div>
+
+            <div class="profile-grid" id="profileGrid"></div>
+        </div>
+
+        <div class="profile-selected" id="profileSelected"></div>
+
         <div class="login-switch">
             <button id="loginTab" class="active" onclick="showLoginForm()">
                 Login
@@ -3171,6 +3340,8 @@ let countdownInterval = null;
 
 window.addEventListener("DOMContentLoaded",function(){
 
+    setupProfileManagerEvents();
+
     loadDatabase();
 
     applyTheme();
@@ -3181,7 +3352,11 @@ window.addEventListener("DOMContentLoaded",function(){
 
     updateTimerDisplay();
 
-    if(db.currentUser && getCurrentProfile()){
+    if(
+        db.currentUser &&
+        getCurrentProfile() &&
+        Object.keys(db.users || {}).length <= 1
+    ){
 
         showApp();
 
@@ -3190,6 +3365,8 @@ window.addEventListener("DOMContentLoaded",function(){
         db.currentUser = null;
 
         document.getElementById("loginScreen").style.display = "flex";
+
+        refreshProfileManager();
     }
 
     window.addEventListener(
@@ -3208,6 +3385,10 @@ window.addEventListener("DOMContentLoaded",function(){
 
 function showLoginForm(){
 
+    setupProfileManagerEvents();
+
+    refreshProfileManager();
+
     document.getElementById("loginForm")
         .classList.remove("hidden");
 
@@ -3225,6 +3406,14 @@ function showLoginForm(){
 
 function showRegisterForm(){
 
+    refreshProfileManager();
+
+    const selected = document.getElementById("profileSelected");
+    if(selected){
+        selected.textContent = "";
+        selected.classList.remove("show");
+    }
+
     document.getElementById("loginForm")
         .classList.add("hidden");
 
@@ -3237,6 +3426,525 @@ function showRegisterForm(){
     document.getElementById("registerTab")
         .classList.add("active");
 
+}
+
+
+
+/* =========================================================
+   LOCAL PROFILE MANAGEMENT
+   ========================================================= */
+
+function refreshProfileManager(){
+
+    const grid =
+        document.getElementById("profileGrid");
+
+    const count =
+        document.getElementById("profileManagerCount");
+
+    if(!grid || !count){
+        return;
+    }
+
+    if(!db || !db.users){
+        db.users = {};
+    }
+
+    const profiles =
+        Object.keys(db.users)
+            .map(key => db.users[key])
+            .filter(profile =>
+                profile &&
+                typeof profile === "object" &&
+                profile.username
+            )
+            .sort((a,b) => {
+
+                const aTime =
+                    Date.parse(
+                        a.updatedAt ||
+                        a.createdAt ||
+                        ""
+                    ) || 0;
+
+                const bTime =
+                    Date.parse(
+                        b.updatedAt ||
+                        b.createdAt ||
+                        ""
+                    ) || 0;
+
+                return bTime - aTime;
+            });
+
+    count.textContent =
+        profiles.length +
+        " profile" +
+        (profiles.length === 1 ? "" : "s");
+
+
+    if(!profiles.length){
+
+        grid.innerHTML = `
+            <div class="profile-empty">
+                No profiles saved on this device yet.<br>
+                Use <strong>New Profile</strong> to create one.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        profiles.map(profile => {
+
+            const username =
+                String(profile.username);
+
+            const name =
+                String(
+                    profile.displayName ||
+                    profile.name ||
+                    profile.username
+                );
+
+            const initial =
+                (
+                    name.trim().charAt(0) ||
+                    "S"
+                ).toUpperCase();
+
+
+            /*
+              IMPORTANT:
+              The action buttons use data attributes instead
+              of inline onclick handlers.
+
+              This makes Rename/Delete reliable even if the
+              browser blocks inline event handlers.
+            */
+
+            return `
+                <div class="profile-card">
+
+                    <div
+                        class="profile-avatar profile-select"
+                        data-username="${escapeHTML(username)}"
+                        title="Select profile"
+                        role="button"
+                        tabindex="0"
+                    >
+                        ${escapeHTML(initial)}
+                    </div>
+
+
+                    <div
+                        class="profile-info profile-select"
+                        data-username="${escapeHTML(username)}"
+                        title="Select profile"
+                        role="button"
+                        tabindex="0"
+                    >
+
+                        <div class="profile-display-name">
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div class="profile-username">
+                            @${escapeHTML(username)}
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-actions">
+
+                        <button
+                            type="button"
+                            class="profile-action rename-profile"
+                            data-username="${escapeHTML(username)}"
+                            title="Rename profile"
+                            aria-label="Rename ${escapeHTML(name)}"
+                        >
+                            ✎
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="profile-action delete-profile"
+                            data-username="${escapeHTML(username)}"
+                            title="Delete profile"
+                            aria-label="Delete ${escapeHTML(name)}"
+                        >
+                            🗑
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+/*
+  One delegated listener handles every profile action.
+
+  Because the profile cards are regenerated with innerHTML,
+  attaching listeners directly to individual buttons would
+  require re-attaching them every time. Delegation avoids that
+  problem completely.
+*/
+function setupProfileManagerEvents(){
+
+    const grid =
+        document.getElementById("profileGrid");
+
+    if(!grid || grid.dataset.eventsReady === "true"){
+        return;
+    }
+
+    grid.dataset.eventsReady = "true";
+
+
+    grid.addEventListener("click", function(event){
+
+        const renameButton =
+            event.target.closest(
+                ".rename-profile"
+            );
+
+        if(renameButton){
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const username =
+                renameButton.dataset.username;
+
+            renameLocalProfile(username);
+
+            return;
+        }
+
+
+        const deleteButton =
+            event.target.closest(
+                ".delete-profile"
+            );
+
+        if(deleteButton){
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const username =
+                deleteButton.dataset.username;
+
+            deleteLocalProfile(username);
+
+            return;
+        }
+
+
+        const profileSelect =
+            event.target.closest(
+                ".profile-select"
+            );
+
+        if(profileSelect){
+
+            event.preventDefault();
+
+            selectLocalProfile(
+                profileSelect.dataset.username
+            );
+
+        }
+
+    });
+
+
+    grid.addEventListener("keydown", function(event){
+
+        if(
+            event.key !== "Enter" &&
+            event.key !== " "
+        ){
+            return;
+        }
+
+        const profileSelect =
+            event.target.closest(
+                ".profile-select"
+            );
+
+        if(!profileSelect){
+            return;
+        }
+
+        event.preventDefault();
+
+        selectLocalProfile(
+            profileSelect.dataset.username
+        );
+
+    });
+
+}
+
+
+function selectLocalProfile(username){
+    const profile = db.users && db.users[username];
+
+    if(!profile){
+        refreshProfileManager();
+        return;
+    }
+
+    const loginTab = document.getElementById("loginTab");
+    const registerTab = document.getElementById("registerTab");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    if(loginTab) loginTab.classList.add("active");
+    if(registerTab) registerTab.classList.remove("active");
+    if(loginForm) loginForm.classList.remove("hidden");
+    if(registerForm) registerForm.classList.add("hidden");
+
+    const loginName = document.getElementById("loginName");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginError = document.getElementById("loginError");
+    const selected = document.getElementById("profileSelected");
+
+    if(loginName) loginName.value = profile.username;
+    if(loginPassword){
+        loginPassword.value = "";
+        loginPassword.focus();
+    }
+    if(loginError) loginError.textContent = "";
+
+    if(selected){
+        selected.textContent =
+            "Selected profile: " +
+            (profile.displayName || profile.username) +
+            " — enter its password to continue.";
+        selected.classList.add("show");
+    }
+}
+
+function renameLocalProfile(username){
+
+    username = String(username || "");
+
+    if(
+        !db ||
+        !db.users ||
+        !Object.prototype.hasOwnProperty.call(
+            db.users,
+            username
+        )
+    ){
+        refreshProfileManager();
+        return;
+    }
+
+    const profile =
+        db.users[username];
+
+    const oldName =
+        String(
+            profile.displayName ||
+            profile.name ||
+            profile.username ||
+            "Student"
+        );
+
+    const newName =
+        window.prompt(
+            "Rename this StudyFlow profile:",
+            oldName
+        );
+
+    if(newName === null){
+        return;
+    }
+
+    const cleanName =
+        String(newName).trim();
+
+    if(!cleanName){
+
+        window.alert(
+            "Profile name cannot be empty."
+        );
+
+        return;
+    }
+
+    if(cleanName.length > 40){
+
+        window.alert(
+            "Profile name must be 40 characters or fewer."
+        );
+
+        return;
+    }
+
+
+    /*
+      NEVER change the username key.
+
+      The username is the permanent local-storage identity
+      of this profile. Only displayName is changed.
+    */
+    profile.displayName =
+        cleanName;
+
+    profile.updatedAt =
+        new Date().toISOString();
+
+    db.users[username] =
+        profile;
+
+
+    saveDatabase();
+
+
+    /*
+      Redraw the cards immediately so the new name is visible.
+    */
+    refreshProfileManager();
+
+
+    const selected =
+        document.getElementById(
+            "profileSelected"
+        );
+
+    if(
+        selected &&
+        selected.classList.contains("show") &&
+        db.currentUser === username
+    ){
+        selected.textContent =
+            "Selected profile: " +
+            cleanName +
+            " — enter its password to continue.";
+    }
+}
+
+
+function deleteLocalProfile(username){
+
+    username = String(username || "");
+
+    if(
+        !db ||
+        !db.users ||
+        !Object.prototype.hasOwnProperty.call(
+            db.users,
+            username
+        )
+    ){
+        refreshProfileManager();
+        return;
+    }
+
+
+    const profile =
+        db.users[username];
+
+    const name =
+        String(
+            profile.displayName ||
+            profile.name ||
+            profile.username ||
+            username
+        );
+
+
+    const confirmation =
+        window.confirm(
+            'Delete "' +
+            name +
+            '" from this device?\n\n' +
+            "This permanently removes this profile " +
+            "and all of its local study data.\n\n" +
+            "Press OK to delete or Cancel to keep it."
+        );
+
+
+    if(!confirmation){
+        return;
+    }
+
+
+    /*
+      Delete exactly one profile by its permanent username key.
+    */
+    delete db.users[username];
+
+
+    /*
+      If the deleted profile happened to be the current profile,
+      clear the current-user pointer too.
+    */
+    if(db.currentUser === username){
+        db.currentUser = null;
+    }
+
+
+    saveDatabase();
+
+
+    /*
+      Clear login fields only when they belong to the deleted profile.
+      Then redraw the profile chooser immediately.
+    */
+    const loginName =
+        document.getElementById(
+            "loginName"
+        );
+
+    const loginPassword =
+        document.getElementById(
+            "loginPassword"
+        );
+
+    const loginError =
+        document.getElementById(
+            "loginError"
+        );
+
+    const selected =
+        document.getElementById(
+            "profileSelected"
+        );
+
+
+    if(loginName){
+        loginName.value = "";
+    }
+
+    if(loginPassword){
+        loginPassword.value = "";
+    }
+
+    if(loginError){
+        loginError.textContent = "";
+    }
+
+    if(selected){
+        selected.textContent = "";
+        selected.classList.remove("show");
+    }
+
+
+    refreshProfileManager();
 }
 
 
@@ -3328,6 +4036,8 @@ function registerUser(){
     db.currentUser = username;
 
     saveDatabase();
+
+    refreshProfileManager();
 
     showApp();
 
@@ -3502,6 +4212,9 @@ function logout(){
 
     document.getElementById("loginPassword")
         .value = "";
+
+
+    refreshProfileManager();
 
 }
 
@@ -8003,8 +8716,12 @@ function setCountdownDOM(id,diff){
 
 }
 
+
+// Keep the local profile chooser synchronized on page load.
+document.addEventListener('DOMContentLoaded', function(){
+    if(document.getElementById('profileGrid')) refreshProfileManager();
+});
 </script>
 
 </body>
 </html>
-
