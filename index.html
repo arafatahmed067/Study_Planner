@@ -5,6 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudyFlow — Personal Study Tracker</title>
+<meta name="author" content="Arafat Ahmed">
+<meta name="copyright" content="© 2026 Arafat Ahmed. All Rights Reserved.">
 
 <style>
 /* =========================================================
@@ -69,6 +71,19 @@ textarea{
 
 button{
     cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+}
+
+button:not(:disabled){
+    transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+
+button:not(:disabled):hover{
+    filter:brightness(1.025);
+}
+
+button:not(:disabled):active{
+    transform:scale(.97);
 }
 
 .hidden{
@@ -481,6 +496,47 @@ textarea{
     color:var(--muted);
     font-size:11.5px;
     line-height:1.5;
+}
+
+.landing-quote{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:18px 0 16px;
+    padding:13px 14px;
+    text-align:left;
+    border:1px solid rgba(99,91,255,.18);
+    border-radius:14px;
+    background:linear-gradient(135deg,rgba(99,91,255,.08),rgba(99,91,255,.025));
+    box-shadow:0 10px 28px rgba(99,91,255,.06);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+
+.landing-quote:hover{
+    transform:translateY(-2px);
+    border-color:rgba(99,91,255,.34);
+    box-shadow:0 15px 35px rgba(99,91,255,.12);
+}
+
+.landing-quote-mark{
+    font-size:30px;
+    line-height:.8;
+    color:var(--primary);
+    font-weight:900;
+}
+
+.landing-quote strong{
+    display:block;
+    font-size:11.5px;
+    line-height:1.45;
+}
+
+.landing-quote span:not(.landing-quote-mark){
+    display:block;
+    margin-top:4px;
+    color:var(--muted);
+    font-size:9.5px;
+    line-height:1.4;
 }
 
 .profile-selected{
@@ -1796,6 +1852,678 @@ body.dark .topbar{
 }
 
 /* =========================================================
+   CLASS ROUTINE + CALENDAR DETAILS
+   ========================================================= */
+
+.routine-hero{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:18px;
+    overflow:hidden;
+    position:relative;
+}
+
+.routine-hero::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(99,91,255,.16),transparent 68%);
+    right:-40px;
+    top:-70px;
+    pointer-events:none;
+}
+
+.routine-kicker{
+    display:inline-block;
+    color:var(--primary);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    margin-bottom:6px;
+}
+
+.routine-hero h2{
+    font-size:24px;
+    margin-bottom:5px;
+}
+
+.routine-hero p{
+    color:var(--muted);
+    font-size:13px;
+    max-width:720px;
+    line-height:1.6;
+}
+
+.routine-badge{
+    width:76px;
+    height:76px;
+    border-radius:22px;
+    display:grid;
+    place-items:center;
+    font-size:19px;
+    font-weight:900;
+    color:var(--primary);
+    background:rgba(99,91,255,.10);
+    border:1px solid rgba(99,91,255,.18);
+    box-shadow:var(--shadow);
+    flex-shrink:0;
+}
+
+.routine-today{
+    margin-bottom:18px;
+    border:1px solid rgba(99,91,255,.20);
+    background:linear-gradient(135deg,rgba(99,91,255,.08),var(--card));
+}
+
+.routine-today-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+}
+
+.routine-today-title{
+    font-size:17px;
+    font-weight:900;
+}
+
+.routine-today-date{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.routine-class-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:10px;
+}
+
+.routine-class-item{
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    background:var(--card2);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+
+.routine-class-item:hover{
+    transform:translateY(-3px);
+    border-color:rgba(99,91,255,.35);
+    box-shadow:var(--shadow-hover);
+}
+
+.routine-class-time{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:900;
+    margin-bottom:6px;
+}
+
+.routine-class-name{
+    font-size:14px;
+    font-weight:900;
+}
+
+.routine-class-meta{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+.routine-week-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:12px;
+}
+
+.routine-day-card{
+    min-width:0;
+    transition:transform .25s ease,box-shadow .25s ease;
+}
+
+.routine-day-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-hover);
+}
+
+.routine-day-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:13px;
+}
+
+.routine-day-name{
+    font-weight:900;
+    font-size:15px;
+}
+
+.routine-day-count{
+    font-size:10px;
+    color:var(--muted);
+    font-weight:800;
+}
+
+.routine-slot{
+    padding:10px 0;
+    border-top:1px solid var(--border);
+}
+
+.routine-slot:first-child{
+    border-top:0;
+    padding-top:0;
+}
+
+.routine-slot-time{
+    color:var(--primary);
+    font-size:10px;
+    font-weight:900;
+}
+
+.routine-slot-name{
+    font-size:12px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+.routine-slot-meta{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+    line-height:1.45;
+}
+
+.cal-day{
+    position:relative;
+    cursor:default;
+}
+
+.cal-day.has-routine::after{
+    content:"";
+    position:absolute;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    right:8px;
+    top:8px;
+    background:var(--primary);
+    box-shadow:0 0 0 4px rgba(99,91,255,.10);
+}
+
+.day-detail-tooltip{
+    position:fixed;
+    z-index:9999;
+    width:min(360px,calc(100vw - 24px));
+    max-height:min(520px,calc(100vh - 24px));
+    overflow:auto;
+    padding:16px;
+    border:1px solid rgba(99,91,255,.24);
+    border-radius:17px;
+    background:color-mix(in srgb,var(--card) 90%,transparent);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 24px 70px rgba(20,30,55,.24);
+    opacity:0;
+    transform:translateY(7px) scale(.98);
+    pointer-events:none;
+    transition:opacity .16s ease,transform .16s ease;
+}
+
+.day-detail-tooltip.show{
+    opacity:1;
+    transform:translateY(0) scale(1);
+}
+
+.day-detail-title{
+    font-size:15px;
+    font-weight:900;
+    margin-bottom:3px;
+}
+
+.day-detail-subtitle{
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:13px;
+}
+
+.day-detail-section{
+    margin-top:12px;
+}
+
+.day-detail-section-title{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    color:var(--muted);
+    font-weight:900;
+    margin-bottom:6px;
+}
+
+.day-detail-item{
+    padding:8px 9px;
+    border-radius:10px;
+    background:var(--card2);
+    border:1px solid var(--border);
+    margin-top:5px;
+}
+
+.day-detail-item strong{
+    display:block;
+    font-size:11px;
+}
+
+.day-detail-item span{
+    display:block;
+    color:var(--muted);
+    font-size:9.5px;
+    margin-top:3px;
+    line-height:1.45;
+}
+
+.day-detail-empty{
+    color:var(--muted);
+    font-size:10px;
+    padding:8px 0;
+}
+
+/* =========================================================
+   CGPA / SGPA CALCULATOR
+   ========================================================= */
+
+.cgpa-notice{
+    border-color:rgba(99,91,255,.22);
+    background:linear-gradient(135deg,rgba(99,91,255,.08),var(--card2));
+}
+
+.cgpa-layout{
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:20px;
+    align-items:start;
+}
+
+.cgpa-semester-panel,
+.cgpa-overall-panel{
+    min-width:0;
+}
+
+.semester-tabs{
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.semester-tab{
+    border:1px solid var(--border);
+    background:var(--card2);
+    color:var(--muted);
+    border-radius:11px;
+    padding:10px 7px;
+    font-size:11px;
+    font-weight:850;
+    transition:.25s;
+    position:relative;
+}
+
+.semester-tab:hover{
+    color:var(--text);
+    border-color:rgba(99,91,255,.4);
+    transform:translateY(-2px);
+}
+
+.semester-tab.active{
+    background:rgba(99,91,255,.12);
+    color:var(--primary);
+    border-color:rgba(99,91,255,.45);
+    box-shadow:0 5px 16px rgba(99,91,255,.12);
+}
+
+.semester-tab.saved::after{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--success);
+    position:absolute;
+    top:6px;
+    right:6px;
+}
+
+.cgpa-semester-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    padding:16px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--card2);
+    margin-bottom:14px;
+}
+
+.cgpa-semester-name{
+    font-size:20px;
+    font-weight:900;
+}
+
+.cgpa-semester-meta{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.sgpa-display{
+    text-align:right;
+    flex-shrink:0;
+}
+
+.sgpa-label{
+    color:var(--muted);
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    font-weight:850;
+}
+
+.sgpa-value{
+    color:var(--primary);
+    font-size:30px;
+    line-height:1.05;
+    font-weight:950;
+    margin-top:3px;
+}
+
+.cgpa-course-table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--border);
+    border-radius:15px;
+}
+
+.cgpa-course-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+.cgpa-course-table th,
+.cgpa-course-table td{
+    padding:9px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+    vertical-align:middle;
+}
+
+.cgpa-course-table th{
+    color:var(--muted);
+    font-size:9.5px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    background:var(--card2);
+}
+
+.cgpa-course-table tr:last-child td{
+    border-bottom:0;
+}
+
+.cgpa-course-table .input,
+.cgpa-course-table select{
+    padding:9px 10px;
+    border-radius:9px;
+    min-width:0;
+}
+
+.cgpa-course-number{
+    width:35px;
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    font-weight:850;
+}
+
+.cgpa-course-name{
+    min-width:180px;
+}
+
+.cgpa-course-credit{
+    width:100px;
+}
+
+.cgpa-course-grade{
+    width:140px;
+}
+
+.cgpa-course-point{
+    width:110px;
+}
+
+.cgpa-remove-course{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    font-size:17px;
+    padding:7px;
+    border-radius:8px;
+}
+
+.cgpa-remove-course:hover{
+    color:var(--danger);
+    background:rgba(224,82,82,.1);
+}
+
+.cgpa-semester-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+
+.cgpa-course-count{
+    color:var(--muted);
+    font-size:11px;
+    font-weight:700;
+}
+
+.cgpa-action-group{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.cgpa-overall-result{
+    text-align:center;
+    padding:24px 15px;
+    margin-bottom:18px;
+    border:1px solid rgba(99,91,255,.2);
+    border-radius:17px;
+    background:linear-gradient(135deg,rgba(99,91,255,.10),rgba(99,91,255,.025));
+}
+
+.cgpa-result-label{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:850;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.cgpa-result-value{
+    font-size:48px;
+    line-height:1.05;
+    font-weight:950;
+    color:var(--primary);
+    margin:8px 0 5px;
+}
+
+.cgpa-result-sub{
+    color:var(--muted);
+    font-size:10.5px;
+    line-height:1.5;
+}
+
+.overall-selection-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.overall-selection-head strong{
+    font-size:13px;
+}
+
+.overall-semester-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    max-height:500px;
+    overflow:auto;
+}
+
+.overall-semester-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px 12px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--card2);
+    transition:.2s;
+}
+
+.overall-semester-item:hover{
+    border-color:rgba(99,91,255,.35);
+    transform:translateX(2px);
+}
+
+.overall-semester-item.disabled{
+    opacity:.55;
+}
+
+.overall-semester-check{
+    width:18px;
+    height:18px;
+    accent-color:var(--primary);
+    flex-shrink:0;
+}
+
+.overall-semester-info{
+    flex:1;
+    min-width:0;
+}
+
+.overall-semester-title{
+    font-size:12px;
+    font-weight:850;
+}
+
+.overall-semester-detail{
+    color:var(--muted);
+    font-size:9.5px;
+    margin-top:2px;
+}
+
+.overall-semester-sgpa{
+    font-size:15px;
+    font-weight:900;
+    color:var(--primary);
+}
+
+.cgpa-overall-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:14px;
+}
+
+.cgpa-empty{
+    color:var(--muted);
+    font-size:11px;
+    text-align:center;
+    padding:20px 10px;
+    border:1px dashed var(--border);
+    border-radius:12px;
+}
+
+@media(max-width:1050px){
+    .cgpa-layout{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:700px){
+    .semester-tabs{
+        grid-template-columns:repeat(4,minmax(0,1fr));
+    }
+
+    .cgpa-semester-head{
+        flex-direction:column;
+    }
+
+    .sgpa-display{
+        text-align:left;
+    }
+
+    .cgpa-result-value{
+        font-size:40px;
+    }
+}
+
+@media(max-width:450px){
+    .semester-tabs{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+}
+
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
+
+.site-copyright{
+    position:fixed;
+    left:50%;
+    bottom:8px;
+    transform:translateX(-50%);
+    z-index:2000;
+    padding:5px 11px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:color-mix(in srgb,var(--card) 88%,transparent);
+    color:var(--muted);
+    font-size:10px;
+    font-weight:700;
+    line-height:1.3;
+    letter-spacing:.15px;
+    white-space:nowrap;
+    pointer-events:none;
+    user-select:none;
+    box-shadow:0 5px 18px rgba(20,30,55,.08);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+}
+
+.site-copyright strong{
+    color:var(--primary);
+    font-weight:900;
+}
+
+@media(max-width:600px){
+    .site-copyright{
+        bottom:5px;
+        font-size:9px;
+        padding:4px 9px;
+    }
+}
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 
@@ -1838,7 +2566,8 @@ body.dark .topbar{
     .dashboard-grid,
     .dashboard-grid2,
     .exam-grid,
-    .notes-grid{
+    .notes-grid,
+    .routine-week-grid{
         grid-template-columns:1fr;
     }
 
@@ -1871,6 +2600,17 @@ body.dark .topbar{
 
     .page-heading{
         flex-direction:column;
+    }
+
+    .routine-hero{
+        align-items:flex-start;
+    }
+
+    .routine-badge{
+        width:58px;
+        height:58px;
+        border-radius:17px;
+        font-size:15px;
     }
 
     .stats-grid{
@@ -2020,6 +2760,11 @@ body.dark .topbar{
 
 <body>
 
+<!-- Copyright notice: StudyFlow is created and owned by Arafat Ahmed. -->
+<div class="site-copyright" aria-label="Copyright notice">
+    © 2026 <strong>Arafat Ahmed</strong> — All Rights Reserved.
+</div>
+
 <div class="background-effects">
     <div class="orb one"></div>
     <div class="orb two"></div>
@@ -2043,6 +2788,14 @@ body.dark .topbar{
             Every user gets a completely separate profile
             and their own study data.
         </p>
+
+        <div class="landing-quote">
+            <span class="landing-quote-mark">“</span>
+            <div>
+                <strong>Small progress today becomes confidence tomorrow.</strong>
+                <span>Keep learning. Keep solving. Keep moving forward.</span>
+            </div>
+        </div>
 
 
         <div class="profile-manager" id="profileManager">
@@ -2190,6 +2943,10 @@ body.dark .topbar{
             📚 Subjects
         </button>
 
+        <button class="nav-btn" data-page="cgpa">
+            🎓 CGPA Calculator
+        </button>
+
         <button class="nav-btn" data-page="goals">
             🎯 Goals
         </button>
@@ -2206,6 +2963,10 @@ body.dark .topbar{
 
         <button class="nav-btn" data-page="calendar">
             📅 Calendar
+        </button>
+
+        <button class="nav-btn" data-page="routine">
+            🗓️ Class Routine
         </button>
 
         <button class="nav-btn" data-page="pomodoro">
@@ -2543,6 +3304,80 @@ body.dark .topbar{
 
 
 <!-- =====================================================
+     CGPA / SGPA CALCULATOR
+     ===================================================== -->
+
+<section class="page" id="page-cgpa">
+
+    <div class="page-heading">
+        <div>
+            <h1>CGPA Calculator</h1>
+            <p>Track SGPA semester by semester and calculate your overall CGPA from any semesters you choose.</p>
+        </div>
+    </div>
+
+    <div class="notice cgpa-notice">
+        <strong>How it works:</strong>
+        Each semester has up to 10 courses. Enter at least 4 courses, their credits and grade points.
+        Your semester SGPA is calculated separately and saved automatically. Select any completed
+        semesters below to calculate an overall CGPA.
+    </div>
+
+    <div class="cgpa-layout">
+
+        <div class="card cgpa-semester-panel">
+
+            <div class="card-title">
+                <div>
+                    <h2>Semester Tracker</h2>
+                    <span>1.1 → 4.3</span>
+                </div>
+                <span id="cgpaSavedCount">0 / 12 saved</span>
+            </div>
+
+            <div class="semester-tabs" id="semesterTabs"></div>
+
+            <div id="semesterEditor"></div>
+
+        </div>
+
+        <div class="card cgpa-overall-panel">
+
+            <div class="card-title">
+                <div>
+                    <h2>Overall CGPA</h2>
+                    <span>Choose semesters to include</span>
+                </div>
+                <span id="overallSemesterCount">0 selected</span>
+            </div>
+
+            <div class="cgpa-overall-result">
+                <div class="cgpa-result-label">Current Overall CGPA</div>
+                <div class="cgpa-result-value" id="overallCgpaValue">—</div>
+                <div class="cgpa-result-sub" id="overallCgpaSub">
+                    Select completed semesters to calculate.
+                </div>
+            </div>
+
+            <div class="overall-selection-head">
+                <strong>Select semesters</strong>
+                <button class="small-btn" onclick="toggleAllCgpaSemesters(true)">Select All</button>
+            </div>
+
+            <div class="overall-semester-list" id="overallSemesterList"></div>
+
+            <div class="cgpa-overall-actions">
+                <button class="small-btn" onclick="clearCgpaSelection()">Clear Selection</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
      GOALS
      ===================================================== -->
 
@@ -2681,6 +3516,35 @@ body.dark .topbar{
         ></div>
 
     </div>
+
+</section>
+
+
+<!-- =====================================================
+     CLASS ROUTINE
+     ===================================================== -->
+
+<section class="page" id="page-routine">
+
+    <div class="page-heading">
+        <div>
+            <h1>Class Routine</h1>
+            <p>Batch 65 — Section B • Autumn Term 2026</p>
+        </div>
+    </div>
+
+    <div class="routine-hero card">
+        <div>
+            <span class="routine-kicker">METROPOLITAN UNIVERSITY</span>
+            <h2>Weekly Class Routine</h2>
+            <p>Hover over any date in the calendar to see that day's classes, exams, tasks and study activity together.</p>
+        </div>
+        <div class="routine-badge">65-B</div>
+    </div>
+
+    <div class="routine-today card" id="routineTodayCard"></div>
+
+    <div class="routine-week-grid" id="routineWeekGrid"></div>
 
 </section>
 
@@ -3088,6 +3952,8 @@ body.dark .topbar{
    ========================================================= */
 
 const STORAGE_KEY = "studyflow_multi_user_v2";
+const STORAGE_BACKUP_KEY = "studyflow_multi_user_v2_backup";
+const STORAGE_VERSION = 4;
 const OLD_STORAGE_KEY = "studyflow_db";
 
 const achievementTemplate = () => [
@@ -3152,6 +4018,12 @@ function createEmptyProfile(username,displayName){
         notes:[],
         achievements:achievementTemplate(),
 
+        // Semester-wise SGPA / overall CGPA calculator data.
+        cgpaTracker:{
+            semesters:{},
+            selectedForOverall:[]
+        },
+
         preferences:{
             theme:null
         }
@@ -3191,39 +4063,86 @@ function safeParse(value){
 
 function loadDatabase(){
 
-    let stored = localStorage.getItem(STORAGE_KEY);
+    const defaultDb = {
+        version:STORAGE_VERSION,
+        theme:"light",
+        currentUser:null,
+        users:{},
+        importedProfiles:{},
+        admin:{password:"admin123"}
+    };
 
-    if(stored){
+    const primary = safeParse(
+        localStorage.getItem(STORAGE_KEY)
+    );
 
-        const parsed = safeParse(stored);
+    const backup = safeParse(
+        localStorage.getItem(STORAGE_BACKUP_KEY)
+    );
 
-        if(parsed && typeof parsed === "object"){
+    let parsed = null;
 
-            db = {
-                ...db,
-                ...parsed
-            };
-
-            db.users = parsed.users || {};
-            db.importedProfiles = parsed.importedProfiles || {};
-
-            if(!db.admin){
-                db.admin = {password:"admin123"};
-            }
-
-            return;
-        }
+    if(primary && typeof primary === "object"){
+        parsed = primary;
+    }else if(backup && typeof backup === "object"){
+        parsed = backup;
+        console.warn("StudyFlow recovered the last valid saved database from backup.");
     }
 
+    if(parsed){
+
+        db = {
+            ...defaultDb,
+            ...parsed,
+            version:STORAGE_VERSION
+        };
+
+        db.users =
+            parsed.users && typeof parsed.users === "object"
+            ? parsed.users
+            : {};
+
+        db.importedProfiles =
+            parsed.importedProfiles && typeof parsed.importedProfiles === "object"
+            ? parsed.importedProfiles
+            : {};
+
+        db.admin =
+            parsed.admin && typeof parsed.admin === "object"
+            ? parsed.admin
+            : {password:"admin123"};
+
+        Object.keys(db.users).forEach(username => {
+            normalizeProfile(db.users[username]);
+        });
+
+        if(!db.currentUser || !db.users[db.currentUser]){
+            db.currentUser = null;
+        }
+
+        if(backup && primary === null){
+            try{
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(db)
+                );
+            }catch(e){
+                console.error("StudyFlow recovery save error:",e);
+            }
+        }
+
+        saveDatabase();
+        return;
+    }
 
     /*
        IMPORTANT:
-
-       If the old version exists, migrate it instead
-       of deleting it.
+       Preserve the previous v1 database when migrating.
+       No old data is deleted.
     */
 
-    const oldStored = localStorage.getItem(OLD_STORAGE_KEY);
+    const oldStored =
+        localStorage.getItem(OLD_STORAGE_KEY);
 
     if(oldStored){
 
@@ -3231,19 +4150,27 @@ function loadDatabase(){
 
         if(old && old.currentUser){
 
-            const username = normalizeUsername(old.currentUser);
+            const username =
+                normalizeUsername(old.currentUser);
 
-            const profile = createEmptyProfile(
-                username,
-                old.currentUser
-            );
+            const profile =
+                createEmptyProfile(
+                    username,
+                    old.currentUser
+                );
 
-            profile.tasks = Array.isArray(old.tasks) ? old.tasks : [];
-            profile.subjects = Array.isArray(old.subjects) ? old.subjects : [];
-            profile.goals = Array.isArray(old.goals) ? old.goals : [];
-            profile.exams = Array.isArray(old.exams) ? old.exams : [];
-            profile.sessions = Array.isArray(old.sessions) ? old.sessions : [];
-            profile.notes = Array.isArray(old.notes) ? old.notes : [];
+            profile.tasks =
+                Array.isArray(old.tasks) ? old.tasks : [];
+            profile.subjects =
+                Array.isArray(old.subjects) ? old.subjects : [];
+            profile.goals =
+                Array.isArray(old.goals) ? old.goals : [];
+            profile.exams =
+                Array.isArray(old.exams) ? old.exams : [];
+            profile.sessions =
+                Array.isArray(old.sessions) ? old.sessions : [];
+            profile.notes =
+                Array.isArray(old.notes) ? old.notes : [];
 
             if(Array.isArray(old.achievements)){
                 profile.achievements = old.achievements;
@@ -3255,9 +4182,9 @@ function loadDatabase(){
             db.users[username] = profile;
             db.currentUser = username;
             db.theme = profile.preferences.theme;
+            db.version = STORAGE_VERSION;
 
             saveDatabase();
-
             return;
         }
     }
@@ -3276,9 +4203,9 @@ function saveDatabase(){
 
             current.updatedAt = new Date().toISOString();
 
-            /*
-              Keep the current profile's theme independent.
-            */
+            if(!current.preferences){
+                current.preferences = {};
+            }
 
             current.preferences.theme =
                 document.body.classList.contains("dark")
@@ -3286,9 +4213,45 @@ function saveDatabase(){
                 : "light";
         }
 
+        db.version = Math.max(
+            Number(db.version || 0),
+            STORAGE_VERSION
+        );
+
+        /*
+          Atomic-style local persistence:
+          1. Build the complete snapshot first.
+          2. Keep the previous valid snapshot as a backup.
+          3. Write the new snapshot only after serialization succeeds.
+
+          This protects tasks, progress, exams, notes, sessions and any
+          future fields from being lost by a partial/failed update.
+        */
+        const snapshot = JSON.stringify(db);
+        const previousRaw =
+            localStorage.getItem(STORAGE_KEY);
+
+        if(previousRaw){
+            const previousParsed = safeParse(previousRaw);
+
+            if(previousParsed && typeof previousParsed === "object"){
+                try{
+                    localStorage.setItem(
+                        STORAGE_BACKUP_KEY,
+                        previousRaw
+                    );
+                }catch(backupError){
+                    console.warn(
+                        "StudyFlow could not refresh backup:",
+                        backupError
+                    );
+                }
+            }
+        }
+
         localStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify(db)
+            snapshot
         );
 
     }catch(error){
@@ -3297,7 +4260,7 @@ function saveDatabase(){
 
         alert(
             "StudyFlow could not save the data. " +
-            "Your browser storage may be full."
+            "Your browser storage may be full. Your previous saved data was kept."
         );
     }
 }
@@ -3349,6 +4312,8 @@ window.addEventListener("DOMContentLoaded",function(){
     setupNavigation();
 
     updateCalendar();
+
+    renderRoutinePage();
 
     updateTimerDisplay();
 
@@ -4967,6 +5932,8 @@ function switchPage(pageId){
 
         subjects:"Subjects",
 
+        cgpa:"CGPA Calculator",
+
         goals:"Study Goals",
 
         exams:"Exams & Countdowns",
@@ -4974,6 +5941,8 @@ function switchPage(pageId){
         sessions:"Study Sessions Log",
 
         calendar:"Calendar",
+
+        routine:"Class Routine",
 
         pomodoro:"Focus Timer",
 
@@ -5099,6 +6068,791 @@ function toggleTheme(){
    RENDER ALL
    ========================================================= */
 
+
+/* =========================================================
+   CGPA / SGPA CALCULATOR
+   ========================================================= */
+
+const CGPA_SEMESTERS = Object.freeze([
+    "1.1","1.2","1.3",
+    "2.1","2.2","2.3",
+    "3.1","3.2","3.3",
+    "4.1","4.2","4.3"
+]);
+
+const CGPA_MAX_COURSES = 10;
+const CGPA_MIN_COURSES = 4;
+
+const CGPA_GRADE_SCALE = Object.freeze([
+    {label:"A+ (4.00)", point:4.00},
+    {label:"A (3.75)", point:3.75},
+    {label:"A- (3.50)", point:3.50},
+    {label:"B+ (3.25)", point:3.25},
+    {label:"B (3.00)", point:3.00},
+    {label:"B- (2.75)", point:2.75},
+    {label:"C+ (2.50)", point:2.50},
+    {label:"C (2.25)", point:2.25},
+    {label:"D (2.00)", point:2.00},
+    {label:"F (0.00)", point:0.00}
+]);
+
+let activeCgpaSemester = "1.1";
+
+function getCgpaTracker(){
+
+    const p = getCurrentProfile();
+
+    if(!p){
+        return {
+            semesters:{},
+            selectedForOverall:[]
+        };
+    }
+
+    if(!p.cgpaTracker || typeof p.cgpaTracker !== "object"){
+        p.cgpaTracker = {
+            semesters:{},
+            selectedForOverall:[]
+        };
+    }
+
+    if(!p.cgpaTracker.semesters || typeof p.cgpaTracker.semesters !== "object"){
+        p.cgpaTracker.semesters = {};
+    }
+
+    if(!Array.isArray(p.cgpaTracker.selectedForOverall)){
+        p.cgpaTracker.selectedForOverall = [];
+    }
+
+    return p.cgpaTracker;
+}
+
+function createCgpaCourse(){
+
+    return {
+        id:
+            "course_" +
+            Date.now() +
+            "_" +
+            Math.random().toString(36).slice(2),
+
+        name:"",
+        credit:3,
+        point:4
+    };
+}
+
+function getSemesterData(semester){
+
+    const tracker = getCgpaTracker();
+
+    if(!tracker.semesters[semester]){
+        tracker.semesters[semester] = {
+            courses:[
+                createCgpaCourse(),
+                createCgpaCourse(),
+                createCgpaCourse(),
+                createCgpaCourse()
+            ]
+        };
+    }
+
+    if(!Array.isArray(tracker.semesters[semester].courses)){
+        tracker.semesters[semester].courses = [];
+    }
+
+    tracker.semesters[semester].courses =
+        tracker.semesters[semester].courses
+            .slice(0,CGPA_MAX_COURSES);
+
+    return tracker.semesters[semester];
+}
+
+function getSemesterCalculation(semester){
+
+    const data = getSemesterData(semester);
+
+    const courses = data.courses || [];
+
+    const validCourses = courses.filter(course => {
+
+        const credit = Number(course.credit);
+        const point = Number(course.point);
+
+        return (
+            String(course.name || "").trim() &&
+            isFinite(credit) &&
+            credit > 0 &&
+            isFinite(point) &&
+            point >= 0 &&
+            point <= 4
+        );
+    });
+
+    const totalCredits = validCourses.reduce(
+        (sum,course) => sum + Number(course.credit),
+        0
+    );
+
+    const qualityPoints = validCourses.reduce(
+        (sum,course) =>
+            sum + Number(course.credit) * Number(course.point),
+        0
+    );
+
+    const sgpa =
+        totalCredits > 0
+        ? qualityPoints / totalCredits
+        : null;
+
+    return {
+        validCourses,
+        totalCredits,
+        qualityPoints,
+        sgpa
+    };
+}
+
+function formatCgpa(value){
+
+    if(value === null || !isFinite(value)){
+        return "—";
+    }
+
+    return Number(value).toFixed(2);
+}
+
+function renderCgpaPage(){
+
+    const tabs = document.getElementById("semesterTabs");
+    const editor = document.getElementById("semesterEditor");
+    const overallList = document.getElementById("overallSemesterList");
+
+    if(!tabs || !editor || !overallList){
+        return;
+    }
+
+    const tracker = getCgpaTracker();
+
+    const savedCount =
+        CGPA_SEMESTERS.filter(semester => {
+            const calc = getSemesterCalculation(semester);
+            return calc.validCourses.length >= CGPA_MIN_COURSES;
+        }).length;
+
+    const savedLabel =
+        document.getElementById("cgpaSavedCount");
+
+    if(savedLabel){
+        savedLabel.textContent =
+            `${savedCount} / ${CGPA_SEMESTERS.length} saved`;
+    }
+
+    tabs.innerHTML =
+        CGPA_SEMESTERS.map(semester => {
+
+            const calc = getSemesterCalculation(semester);
+            const isSaved =
+                calc.validCourses.length >= CGPA_MIN_COURSES;
+
+            return `
+                <button
+                    type="button"
+                    class="semester-tab
+                        ${semester === activeCgpaSemester ? "active" : ""}
+                        ${isSaved ? "saved" : ""}"
+                    onclick="selectCgpaSemester('${semester}')"
+                >
+                    ${semester}
+                </button>
+            `;
+
+        }).join("");
+
+    renderCgpaSemesterEditor();
+    renderOverallCgpaSelection();
+
+    /*
+       Remove stale semester selections if a semester is no longer
+       a valid completed semester. This does not remove any course data.
+    */
+    tracker.selectedForOverall =
+        tracker.selectedForOverall.filter(semester => {
+
+            if(!CGPA_SEMESTERS.includes(semester)){
+                return false;
+            }
+
+            return (
+                getSemesterCalculation(semester)
+                    .validCourses.length >= CGPA_MIN_COURSES
+            );
+
+        });
+
+    updateOverallCgpaDisplay();
+}
+
+function selectCgpaSemester(semester){
+
+    if(!CGPA_SEMESTERS.includes(semester)){
+        return;
+    }
+
+    activeCgpaSemester = semester;
+    renderCgpaPage();
+}
+
+function renderCgpaSemesterEditor(){
+
+    const editor =
+        document.getElementById("semesterEditor");
+
+    if(!editor){
+        return;
+    }
+
+    const data =
+        getSemesterData(activeCgpaSemester);
+
+    const calc =
+        getSemesterCalculation(activeCgpaSemester);
+
+    const courses = data.courses;
+
+    editor.innerHTML = `
+
+        <div class="cgpa-semester-head">
+
+            <div>
+                <div class="cgpa-semester-name">
+                    Semester ${activeCgpaSemester}
+                </div>
+
+                <div class="cgpa-semester-meta">
+                    ${calc.validCourses.length} valid course${calc.validCourses.length === 1 ? "" : "s"}
+                    • ${calc.totalCredits.toFixed(2)} total credits
+                    • Minimum ${CGPA_MIN_COURSES} courses required
+                </div>
+            </div>
+
+            <div class="sgpa-display">
+                <div class="sgpa-label">Semester SGPA</div>
+                <div class="sgpa-value">
+                    ${formatCgpa(
+                        calc.validCourses.length >= CGPA_MIN_COURSES
+                        ? calc.sgpa
+                        : null
+                    )}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cgpa-course-table-wrap">
+
+            <table class="cgpa-course-table">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Course name</th>
+                        <th>Credit</th>
+                        <th>Grade</th>
+                        <th>Grade point</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    ${courses.map((course,index) => `
+
+                        <tr>
+
+                            <td class="cgpa-course-number">
+                                ${index + 1}
+                            </td>
+
+                            <td class="cgpa-course-name">
+
+                                <input
+                                    class="input"
+                                    value="${escapeHTML(course.name || "")}"
+                                    placeholder="e.g. Data Structures"
+                                    maxlength="100"
+                                    onchange="updateCgpaCourse('${course.id}','name',this.value)"
+                                >
+
+                            </td>
+
+                            <td class="cgpa-course-credit">
+
+                                <input
+                                    class="input"
+                                    type="number"
+                                    min="0.01"
+                                    max="20"
+                                    step="0.01"
+                                    value="${Number(course.credit) || 0}"
+                                    onchange="updateCgpaCourse('${course.id}','credit',this.value)"
+                                >
+
+                            </td>
+
+                            <td class="cgpa-course-grade">
+
+                                <select
+                                    onchange="updateCgpaCourseGrade('${course.id}',this.value)"
+                                >
+                                    ${CGPA_GRADE_SCALE.map(grade => `
+                                        <option
+                                            value="${grade.point}"
+                                            ${Number(course.point) === grade.point ? "selected" : ""}
+                                        >
+                                            ${grade.label}
+                                        </option>
+                                    `).join("")}
+                                </select>
+
+                            </td>
+
+                            <td class="cgpa-course-point">
+
+                                <input
+                                    class="input"
+                                    type="number"
+                                    min="0"
+                                    max="4"
+                                    step="0.01"
+                                    value="${Number(course.point).toFixed(2)}"
+                                    onchange="updateCgpaCourse('${course.id}','point',this.value)"
+                                >
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="cgpa-remove-course"
+                                    title="Remove course"
+                                    onclick="removeCgpaCourse('${course.id}')"
+                                >
+                                    ×
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `).join("")}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="cgpa-semester-actions">
+
+            <div class="cgpa-course-count">
+                ${courses.length} / ${CGPA_MAX_COURSES} course rows
+            </div>
+
+            <div class="cgpa-action-group">
+
+                ${
+                    courses.length < CGPA_MAX_COURSES
+                    ? `
+                        <button
+                            type="button"
+                            class="small-btn"
+                            onclick="addCgpaCourse()"
+                        >
+                            + Add Course
+                        </button>
+                    `
+                    : `
+                        <button
+                            type="button"
+                            class="small-btn"
+                            disabled
+                            title="Maximum 10 courses"
+                        >
+                            10 Courses Max
+                        </button>
+                    `
+                }
+
+                <button
+                    type="button"
+                    class="small-btn"
+                    onclick="clearCgpaSemester('${activeCgpaSemester}')"
+                >
+                    Clear Semester
+                </button>
+
+                <button
+                    type="button"
+                    class="primary"
+                    onclick="saveCgpaSemester()"
+                >
+                    Save ${activeCgpaSemester}
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+function updateCgpaCourse(courseId,field,value){
+
+    const data =
+        getSemesterData(activeCgpaSemester);
+
+    const course =
+        data.courses.find(c => c.id === courseId);
+
+    if(!course){
+        return;
+    }
+
+    if(field === "name"){
+        course.name = String(value || "").slice(0,100);
+    }
+
+    if(field === "credit"){
+        let credit = Number(value);
+        if(!isFinite(credit) || credit <= 0){
+            credit = 3;
+        }
+        course.credit = Math.min(20,Math.max(.01,credit));
+    }
+
+    if(field === "point"){
+        let point = Number(value);
+        if(!isFinite(point)){
+            point = 0;
+        }
+        course.point = Math.min(4,Math.max(0,point));
+    }
+
+    saveDatabase();
+    renderCgpaPage();
+}
+
+function updateCgpaCourseGrade(courseId,value){
+
+    updateCgpaCourse(
+        courseId,
+        "point",
+        Number(value)
+    );
+}
+
+function addCgpaCourse(){
+
+    const data =
+        getSemesterData(activeCgpaSemester);
+
+    if(data.courses.length >= CGPA_MAX_COURSES){
+        alert("A semester can contain a maximum of 10 courses.");
+        return;
+    }
+
+    data.courses.push(createCgpaCourse());
+
+    saveDatabase();
+    renderCgpaPage();
+}
+
+function removeCgpaCourse(courseId){
+
+    const data =
+        getSemesterData(activeCgpaSemester);
+
+    if(data.courses.length <= CGPA_MIN_COURSES){
+        alert(
+            `At least ${CGPA_MIN_COURSES} course rows are required for a semester.`
+        );
+        return;
+    }
+
+    data.courses =
+        data.courses.filter(
+            course => course.id !== courseId
+        );
+
+    saveDatabase();
+    renderCgpaPage();
+}
+
+function clearCgpaSemester(semester){
+
+    if(!confirm(
+        `Clear all course entries for semester ${semester}?`
+    )){
+        return;
+    }
+
+    const tracker = getCgpaTracker();
+
+    tracker.semesters[semester] = {
+        courses:[
+            createCgpaCourse(),
+            createCgpaCourse(),
+            createCgpaCourse(),
+            createCgpaCourse()
+        ]
+    };
+
+    tracker.selectedForOverall =
+        tracker.selectedForOverall.filter(
+            item => item !== semester
+        );
+
+    saveDatabase();
+    renderCgpaPage();
+}
+
+function saveCgpaSemester(){
+
+    const calc =
+        getSemesterCalculation(activeCgpaSemester);
+
+    if(calc.validCourses.length < CGPA_MIN_COURSES){
+
+        alert(
+            `Please provide at least ${CGPA_MIN_COURSES} complete courses for semester ${activeCgpaSemester}.\n\n` +
+            `A complete course needs a course name, a credit value and a grade point.`
+        );
+
+        return;
+    }
+
+    if(calc.validCourses.length > CGPA_MAX_COURSES){
+        alert("A semester cannot contain more than 10 courses.");
+        return;
+    }
+
+    saveDatabase();
+    renderCgpaPage();
+
+    alert(
+        `Semester ${activeCgpaSemester} saved.\n\n` +
+        `SGPA: ${formatCgpa(calc.sgpa)}`
+    );
+}
+
+function renderOverallCgpaSelection(){
+
+    const list =
+        document.getElementById("overallSemesterList");
+
+    if(!list){
+        return;
+    }
+
+    const tracker = getCgpaTracker();
+
+    list.innerHTML =
+        CGPA_SEMESTERS.map(semester => {
+
+            const calc =
+                getSemesterCalculation(semester);
+
+            const valid =
+                calc.validCourses.length >= CGPA_MIN_COURSES;
+
+            const selected =
+                tracker.selectedForOverall.includes(semester);
+
+            return `
+
+                <label
+                    class="overall-semester-item ${valid ? "" : "disabled"}"
+                >
+
+                    <input
+                        type="checkbox"
+                        class="overall-semester-check"
+                        ${selected && valid ? "checked" : ""}
+                        ${valid ? "" : "disabled"}
+                        onchange="toggleCgpaOverallSemester('${semester}',this.checked)"
+                    >
+
+                    <div class="overall-semester-info">
+
+                        <div class="overall-semester-title">
+                            Semester ${semester}
+                        </div>
+
+                        <div class="overall-semester-detail">
+                            ${
+                                valid
+                                ? `${calc.validCourses.length} courses • ${calc.totalCredits.toFixed(2)} credits`
+                                : `Need at least ${CGPA_MIN_COURSES} complete courses`
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="overall-semester-sgpa">
+                        ${formatCgpa(valid ? calc.sgpa : null)}
+                    </div>
+
+                </label>
+
+            `;
+
+        }).join("");
+}
+
+function toggleCgpaOverallSemester(semester,checked){
+
+    const tracker = getCgpaTracker();
+
+    const calc =
+        getSemesterCalculation(semester);
+
+    if(
+        !CGPA_SEMESTERS.includes(semester) ||
+        calc.validCourses.length < CGPA_MIN_COURSES
+    ){
+        return;
+    }
+
+    if(checked){
+
+        if(!tracker.selectedForOverall.includes(semester)){
+            tracker.selectedForOverall.push(semester);
+        }
+
+    }else{
+
+        tracker.selectedForOverall =
+            tracker.selectedForOverall.filter(
+                item => item !== semester
+            );
+    }
+
+    saveDatabase();
+    renderOverallCgpaSelection();
+    updateOverallCgpaDisplay();
+}
+
+function toggleAllCgpaSemesters(checked){
+
+    const tracker = getCgpaTracker();
+
+    if(checked){
+
+        tracker.selectedForOverall =
+            CGPA_SEMESTERS.filter(semester => {
+
+                return (
+                    getSemesterCalculation(semester)
+                        .validCourses.length >= CGPA_MIN_COURSES
+                );
+
+            });
+
+    }else{
+
+        tracker.selectedForOverall = [];
+    }
+
+    saveDatabase();
+    renderOverallCgpaSelection();
+    updateOverallCgpaDisplay();
+}
+
+function clearCgpaSelection(){
+
+    const tracker = getCgpaTracker();
+
+    tracker.selectedForOverall = [];
+
+    saveDatabase();
+    renderOverallCgpaSelection();
+    updateOverallCgpaDisplay();
+}
+
+function updateOverallCgpaDisplay(){
+
+    const tracker = getCgpaTracker();
+
+    const selected =
+        tracker.selectedForOverall.filter(
+            semester =>
+                CGPA_SEMESTERS.includes(semester) &&
+                getSemesterCalculation(semester)
+                    .validCourses.length >= CGPA_MIN_COURSES
+        );
+
+    /*
+       CGPA is credit-weighted across the selected semesters.
+       If all semesters have equal credits, this is the same as
+       their simple average, e.g. 4.00 + 4.00 + 4.00 => 4.00.
+    */
+    let totalCredits = 0;
+    let totalQualityPoints = 0;
+
+    selected.forEach(semester => {
+
+        const calc =
+            getSemesterCalculation(semester);
+
+        totalCredits += calc.totalCredits;
+        totalQualityPoints += calc.qualityPoints;
+
+    });
+
+    const overall =
+        totalCredits > 0
+        ? totalQualityPoints / totalCredits
+        : null;
+
+    const value =
+        document.getElementById("overallCgpaValue");
+
+    const sub =
+        document.getElementById("overallCgpaSub");
+
+    const count =
+        document.getElementById("overallSemesterCount");
+
+    if(value){
+        value.textContent = formatCgpa(overall);
+    }
+
+    if(sub){
+
+        if(selected.length === 0){
+
+            sub.textContent =
+                "Select completed semesters to calculate.";
+
+        }else{
+
+            sub.textContent =
+                `${selected.length} semester${selected.length === 1 ? "" : "s"} • ` +
+                `${totalCredits.toFixed(2)} total credits • ` +
+                `Credit-weighted overall CGPA`;
+
+        }
+
+    }
+
+    if(count){
+        count.textContent =
+            `${selected.length} selected`;
+    }
+}
+
+
 function renderAll(){
 
     const profile =
@@ -5117,6 +6871,8 @@ function renderAll(){
 
     renderSubjects();
 
+    renderCgpaPage();
+
     renderGoals();
 
     renderExams();
@@ -5126,6 +6882,8 @@ function renderAll(){
     renderNotesList();
 
     renderAchievements();
+
+    renderRoutinePage();
 
     updateCalendar();
 
@@ -5142,31 +6900,69 @@ function renderAll(){
 
 function normalizeProfile(p){
 
-    if(!Array.isArray(p.tasks))
-        p.tasks = [];
+    if(!p || typeof p !== "object"){
+        return;
+    }
 
-    if(!Array.isArray(p.subjects))
-        p.subjects = [];
+    /*
+       Never replace existing user data during a version update.
+       Only missing collections/defaults are added. Unknown future
+       properties are intentionally preserved.
+    */
+    if(!Array.isArray(p.tasks)) p.tasks = [];
+    if(!Array.isArray(p.subjects)) p.subjects = [];
+    if(!Array.isArray(p.goals)) p.goals = [];
+    if(!Array.isArray(p.exams)) p.exams = [];
+    if(!Array.isArray(p.sessions)) p.sessions = [];
+    if(!Array.isArray(p.notes)) p.notes = [];
 
-    if(!Array.isArray(p.goals))
-        p.goals = [];
+    /*
+       CGPA tracker migration:
+       Existing profiles are preserved exactly; only the new
+       calculator collections are created when missing.
+    */
+    if(!p.cgpaTracker || typeof p.cgpaTracker !== "object"){
+        p.cgpaTracker = {
+            semesters:{},
+            selectedForOverall:[]
+        };
+    }
 
-    if(!Array.isArray(p.exams))
-        p.exams = [];
+    if(!p.cgpaTracker.semesters || typeof p.cgpaTracker.semesters !== "object"){
+        p.cgpaTracker.semesters = {};
+    }
 
-    if(!Array.isArray(p.sessions))
-        p.sessions = [];
+    if(!Array.isArray(p.cgpaTracker.selectedForOverall)){
+        p.cgpaTracker.selectedForOverall = [];
+    }
 
-    if(!Array.isArray(p.notes))
-        p.notes = [];
+    if(!Array.isArray(p.achievements)){
+        p.achievements = achievementTemplate();
+    }else{
+        const defaults = achievementTemplate();
+        defaults.forEach(def => {
+            const existing = p.achievements.find(a => a.id === def.id);
+            if(!existing){
+                p.achievements.push(def);
+            }
+        });
+    }
 
-    if(!Array.isArray(p.achievements))
-        p.achievements =
-            achievementTemplate();
-
-    if(!p.preferences)
+    if(!p.preferences || typeof p.preferences !== "object"){
         p.preferences = {};
+    }
 
+    if(!("theme" in p.preferences)){
+        p.preferences.theme = null;
+    }
+
+    if(!p.createdAt){
+        p.createdAt = new Date().toISOString();
+    }
+
+    if(!p.updatedAt){
+        p.updatedAt = p.createdAt;
+    }
 }
 
 
@@ -7060,6 +8856,273 @@ function deleteSession(id){
 
 
 /* =========================================================
+   CLASS ROUTINE
+   ========================================================= */
+
+/*
+   Static academic routine data.
+   This is intentionally kept outside each user's profile so future
+   routine updates cannot overwrite personal progress/data.
+*/
+const CLASS_ROUTINE = Object.freeze({
+    Sunday:[
+        {start:"12:00 PM",end:"1:30 PM",name:"IS (GL-2)",room:"—",faculty:"AH"},
+        {start:"1:30 PM",end:"3:00 PM",name:"DS",room:"109",faculty:"AIA"}
+    ],
+    Monday:[
+        {start:"12:00 PM",end:"1:30 PM",name:"IS (GL-1)",room:"—",faculty:"AH"},
+        {start:"1:30 PM",end:"3:00 PM",name:"BS&EC",room:"306",faculty:"ATB"}
+    ],
+    Tuesday:[
+        {start:"12:00 PM",end:"3:00 PM",name:"BS&EC Lab",room:"311",faculty:"ATB"},
+        {start:"3:00 PM",end:"4:30 PM",name:"MG&VA",room:"109",faculty:"RMD"}
+    ],
+    Wednesday:[
+        {start:"9:00 AM",end:"12:00 PM",name:"DS Lab",room:"405",faculty:"AIA"},
+        {start:"12:00 PM",end:"1:30 PM",name:"BS&EC",room:"507",faculty:"ATB"}
+    ],
+    Thursday:[
+        {start:"10:30 AM",end:"12:00 PM",name:"DS",room:"403",faculty:"AIA"},
+        {start:"1:30 PM",end:"3:00 PM",name:"MG&VA",room:"306",faculty:"RMD"}
+    ],
+    Friday:[],
+    Saturday:[]
+});
+
+const ROUTINE_DAYS = [
+    "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
+];
+
+function routineForDate(date){
+    return CLASS_ROUTINE[
+        date.toLocaleDateString("en-US",{weekday:"long"})
+    ] || [];
+}
+
+function renderRoutinePage(){
+
+    const weekGrid =
+        document.getElementById("routineWeekGrid");
+
+    const todayCard =
+        document.getElementById("routineTodayCard");
+
+    if(!weekGrid || !todayCard){
+        return;
+    }
+
+    const today = new Date();
+    const todayName = today.toLocaleDateString(
+        "en-US",
+        {weekday:"long"}
+    );
+    const todayClasses = CLASS_ROUTINE[todayName] || [];
+
+    todayCard.innerHTML = `
+        <div class="routine-today-head">
+            <div>
+                <div class="routine-today-title">Today — ${escapeHTML(todayName)}</div>
+                <div class="routine-today-date">${escapeHTML(formatDate(today))}</div>
+            </div>
+            <span class="reminder-chip">${todayClasses.length} class${todayClasses.length === 1 ? "" : "es"}</span>
+        </div>
+        <div class="routine-class-list">
+            ${todayClasses.length ? todayClasses.map(c => `
+                <div class="routine-class-item">
+                    <div class="routine-class-time">${escapeHTML(c.start)} – ${escapeHTML(c.end)}</div>
+                    <div class="routine-class-name">${escapeHTML(c.name)}</div>
+                    <div class="routine-class-meta">Room: ${escapeHTML(c.room)} • Faculty: ${escapeHTML(c.faculty)}</div>
+                </div>
+            `).join("") : `
+                <div class="empty">No regular classes today.</div>
+            `}
+        </div>
+    `;
+
+    weekGrid.innerHTML = ROUTINE_DAYS.map(day => {
+        const items = CLASS_ROUTINE[day] || [];
+
+        return `
+            <div class="card routine-day-card">
+                <div class="routine-day-head">
+                    <div class="routine-day-name">${day}</div>
+                    <div class="routine-day-count">${items.length} class${items.length === 1 ? "" : "es"}</div>
+                </div>
+                ${items.length ? items.map(c => `
+                    <div class="routine-slot">
+                        <div class="routine-slot-time">${escapeHTML(c.start)} – ${escapeHTML(c.end)}</div>
+                        <div class="routine-slot-name">${escapeHTML(c.name)}</div>
+                        <div class="routine-slot-meta">Room ${escapeHTML(c.room)} • ${escapeHTML(c.faculty)}</div>
+                    </div>
+                `).join("") : `
+                    <div class="day-detail-empty">No regular class</div>
+                `}
+            </div>
+        `;
+    }).join("");
+}
+
+function getDayPersonalEvents(date){
+
+    const p = getCurrentProfile();
+    const key = dateKey(date);
+
+    if(!p){
+        return {exams:[],tasks:[],sessions:[]};
+    }
+
+    const exams = Array.isArray(p.exams)
+        ? p.exams.filter(e => e && e.date && dateKey(new Date(e.date)) === key)
+        : [];
+
+    const tasks = Array.isArray(p.tasks)
+        ? p.tasks.filter(t => t && t.dueDate && dateKey(new Date(t.dueDate)) === key)
+        : [];
+
+    const sessions = Array.isArray(p.sessions)
+        ? p.sessions.filter(s => sessionDateKey(s) === key)
+        : [];
+
+    return {exams,tasks,sessions};
+}
+
+function dayDetailHTML(date){
+
+    const routine = routineForDate(date);
+    const events = getDayPersonalEvents(date);
+    const hasAnything =
+        routine.length ||
+        events.exams.length ||
+        events.tasks.length ||
+        events.sessions.length;
+
+    const sections = [];
+
+    if(routine.length){
+        sections.push(`
+            <div class="day-detail-section">
+                <div class="day-detail-section-title">Class Routine</div>
+                ${routine.map(c => `
+                    <div class="day-detail-item">
+                        <strong>📚 ${escapeHTML(c.name)}</strong>
+                        <span>${escapeHTML(c.start)} – ${escapeHTML(c.end)} • Room ${escapeHTML(c.room)} • Faculty ${escapeHTML(c.faculty)}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `);
+    }
+
+    if(events.exams.length){
+        sections.push(`
+            <div class="day-detail-section">
+                <div class="day-detail-section-title">Exams / Important Dates</div>
+                ${events.exams.map(e => `
+                    <div class="day-detail-item">
+                        <strong>📝 ${escapeHTML(e.title || "Exam")}</strong>
+                        <span>Subject: ${escapeHTML(e.subject || "—")} • ${escapeHTML(formatDateTime(e.date))}${e.notes ? ` • ${escapeHTML(e.notes)}` : ""}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `);
+    }
+
+    if(events.tasks.length){
+        sections.push(`
+            <div class="day-detail-section">
+                <div class="day-detail-section-title">Tasks Due</div>
+                ${events.tasks.map(t => `
+                    <div class="day-detail-item">
+                        <strong>✓ ${escapeHTML(t.name || "Task")}</strong>
+                        <span>${escapeHTML(t.priority || "Normal")} priority • ${t.completed ? "Completed" : "Pending"}${t.notes ? ` • ${escapeHTML(t.notes)}` : ""}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `);
+    }
+
+    if(events.sessions.length){
+        const total = events.sessions.reduce((a,s) => a + Number(s.duration || 0),0);
+        sections.push(`
+            <div class="day-detail-section">
+                <div class="day-detail-section-title">Study Activity</div>
+                <div class="day-detail-item">
+                    <strong>⏱ ${total} minutes studied</strong>
+                    <span>${events.sessions.length} session${events.sessions.length === 1 ? "" : "s"} logged on this date.</span>
+                </div>
+            </div>
+        `);
+    }
+
+    if(!hasAnything){
+        sections.push(`<div class="day-detail-empty">No classes or saved events for this date.</div>`);
+    }
+
+    return `
+        <div class="day-detail-title">${escapeHTML(date.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"}))}</div>
+        <div class="day-detail-subtitle">Batch 65 • Section B</div>
+        ${sections.join("")}
+    `;
+}
+
+let dayDetailTooltip = null;
+
+function ensureDayDetailTooltip(){
+    if(dayDetailTooltip) return dayDetailTooltip;
+
+    dayDetailTooltip = document.createElement("div");
+    dayDetailTooltip.className = "day-detail-tooltip";
+    dayDetailTooltip.id = "dayDetailTooltip";
+    document.body.appendChild(dayDetailTooltip);
+    return dayDetailTooltip;
+}
+
+function positionDayTooltip(x,y){
+    const tip = ensureDayDetailTooltip();
+    const pad = 12;
+    const rect = tip.getBoundingClientRect();
+
+    let left = x + 16;
+    let top = y + 16;
+
+    if(left + rect.width > window.innerWidth - pad){
+        left = x - rect.width - 16;
+    }
+
+    if(top + rect.height > window.innerHeight - pad){
+        top = y - rect.height - 16;
+    }
+
+    left = Math.max(pad,Math.min(left,window.innerWidth - rect.width - pad));
+    top = Math.max(pad,Math.min(top,window.innerHeight - rect.height - pad));
+
+    tip.style.left = left + "px";
+    tip.style.top = top + "px";
+}
+
+function showDayDetailTooltip(dayKey,event){
+    const tip = ensureDayDetailTooltip();
+    const parts = dayKey.split("-").map(Number);
+    const date = new Date(parts[0],parts[1]-1,parts[2]);
+
+    tip.innerHTML = dayDetailHTML(date);
+    tip.classList.add("show");
+    positionDayTooltip(event.clientX,event.clientY);
+}
+
+function moveDayDetailTooltip(event){
+    if(dayDetailTooltip && dayDetailTooltip.classList.contains("show")){
+        positionDayTooltip(event.clientX,event.clientY);
+    }
+}
+
+function hideDayDetailTooltip(){
+    if(dayDetailTooltip){
+        dayDetailTooltip.classList.remove("show");
+    }
+}
+
+
+/* =========================================================
    CALENDAR
    ========================================================= */
 
@@ -7214,12 +9277,20 @@ function updateCalendar(){
             )
             : [];
 
+        const routine =
+            routineForDate(currDate);
+
 
         html += `
 
             <div
                 class="cal-day
-                ${isToday ? "today" : ""}"
+                ${isToday ? "today" : ""}
+                ${routine.length ? "has-routine" : ""}"
+                data-day-key="${key}"
+                onmouseenter="showDayDetailTooltip('${key}',event)"
+                onmousemove="moveDayDetailTooltip(event)"
+                onmouseleave="hideDayDetailTooltip()"
             >
 
                 <div class="cal-num">
@@ -8716,6 +10787,9 @@ function setCountdownDOM(id,diff){
 
 }
 
+
+window.addEventListener("scroll",hideDayDetailTooltip,true);
+window.addEventListener("resize",hideDayDetailTooltip);
 
 // Keep the local profile chooser synchronized on page load.
 document.addEventListener('DOMContentLoaded', function(){
