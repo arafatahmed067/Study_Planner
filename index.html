@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2758,6 +2757,21 @@ body.dark .topbar{
 </style>
 </head>
 
+<!--
+    STUDYFLOW DEPLOYMENT SAFETY
+    ---------------------------
+    This app stores each student's profile locally in that student's browser.
+    All users therefore have separate data even when everyone uses the same
+    GitHub Pages deployment.
+
+    IMPORTANT:
+    - Keep STORAGE_KEY unchanged.
+    - Updating/redeploying the same GitHub Pages origin will not reset profiles.
+    - Do not clear site data/localStorage if you want to retain a student's data.
+    - If the website is moved to a DIFFERENT domain/origin, browser localStorage
+      cannot automatically move with it; students would need Export/Import.
+-->
+
 <body>
 
 <!-- Copyright notice: StudyFlow is created and owned by Arafat Ahmed. -->
@@ -3951,7 +3965,15 @@ body.dark .topbar{
    DATABASE
    ========================================================= */
 
+// IMPORTANT: Keep this key stable across deployments.
+// Changing it would make existing browser-local profiles appear missing.
 const STORAGE_KEY = "studyflow_multi_user_v2";
+const STORAGE_COMPAT_KEYS = [
+    "studyflow_multi_user_v2",
+    "studyflow_multi_user_v1",
+    "studyflow_multi_user",
+    "studyflow_db"
+];
 const STORAGE_BACKUP_KEY = "studyflow_multi_user_v2_backup";
 const STORAGE_VERSION = 4;
 const OLD_STORAGE_KEY = "studyflow_db";
@@ -4114,6 +4136,7 @@ function loadDatabase(){
 
         Object.keys(db.users).forEach(username => {
             normalizeProfile(db.users[username]);
+            migrateCourseName(db.users[username]);
         });
 
         if(!db.currentUser || !db.users[db.currentUser]){
@@ -4136,57 +4159,117 @@ function loadDatabase(){
     }
 
     /*
-       IMPORTANT:
-       Preserve the previous v1 database when migrating.
-       No old data is deleted.
+       IMPORTANT DEPLOYMENT-SAFE MIGRATION
+       ----------------------------------
+       Existing student data must survive future GitHub deployments.
+       The primary key above is intentionally unchanged. If an older build
+       used another key, look for it and migrate it without deleting it.
+       This migration only copies data into the current database.
     */
 
-    const oldStored =
-        localStorage.getItem(OLD_STORAGE_KEY);
+    let legacyStored = null;
+    let legacyKeyUsed = null;
 
-    if(oldStored){
+    for(const key of STORAGE_COMPAT_KEYS){
+        const candidate = localStorage.getItem(key);
 
-        const old = safeParse(oldStored);
+        if(!candidate){
+            continue;
+        }
 
-        if(old && old.currentUser){
+        const candidateDb = safeParse(candidate);
 
-            const username =
-                normalizeUsername(old.currentUser);
+        if(candidateDb && typeof candidateDb === "object"){
+            legacyStored = candidateDb;
+            legacyKeyUsed = key;
+            break;
+        }
+    }
 
-            const profile =
-                createEmptyProfile(
+    // Also preserve the original v1 single-user database format.
+    if(!legacyStored){
+        const oldStored = localStorage.getItem(OLD_STORAGE_KEY);
+
+        if(oldStored){
+            const old = safeParse(oldStored);
+
+            if(old && old.currentUser){
+                const username = normalizeUsername(old.currentUser);
+                const profile = createEmptyProfile(
                     username,
                     old.currentUser
                 );
 
-            profile.tasks =
-                Array.isArray(old.tasks) ? old.tasks : [];
-            profile.subjects =
-                Array.isArray(old.subjects) ? old.subjects : [];
-            profile.goals =
-                Array.isArray(old.goals) ? old.goals : [];
-            profile.exams =
-                Array.isArray(old.exams) ? old.exams : [];
-            profile.sessions =
-                Array.isArray(old.sessions) ? old.sessions : [];
-            profile.notes =
-                Array.isArray(old.notes) ? old.notes : [];
+                profile.tasks =
+                    Array.isArray(old.tasks) ? old.tasks : [];
+                profile.subjects =
+                    Array.isArray(old.subjects) ? old.subjects : [];
+                profile.goals =
+                    Array.isArray(old.goals) ? old.goals : [];
+                profile.exams =
+                    Array.isArray(old.exams) ? old.exams : [];
+                profile.sessions =
+                    Array.isArray(old.sessions) ? old.sessions : [];
+                profile.notes =
+                    Array.isArray(old.notes) ? old.notes : [];
 
-            if(Array.isArray(old.achievements)){
-                profile.achievements = old.achievements;
+                if(Array.isArray(old.achievements)){
+                    profile.achievements = old.achievements;
+                }
+
+                profile.preferences.theme =
+                    old.theme === "dark" ? "dark" : "light";
+
+                migrateCourseName(profile);
+                db.users[username] = profile;
+                db.currentUser = username;
+                db.theme = profile.preferences.theme;
+                db.version = STORAGE_VERSION;
+
+                saveDatabase();
+                return;
             }
-
-            profile.preferences.theme =
-                old.theme === "dark" ? "dark" : "light";
-
-            db.users[username] = profile;
-            db.currentUser = username;
-            db.theme = profile.preferences.theme;
-            db.version = STORAGE_VERSION;
-
-            saveDatabase();
-            return;
         }
+    }
+
+    if(legacyStored && legacyKeyUsed !== STORAGE_KEY){
+
+        db = {
+            ...defaultDb,
+            ...legacyStored,
+            version:STORAGE_VERSION
+        };
+
+        db.users =
+            legacyStored.users &&
+            typeof legacyStored.users === "object"
+            ? legacyStored.users
+            : {};
+
+        db.importedProfiles =
+            legacyStored.importedProfiles &&
+            typeof legacyStored.importedProfiles === "object"
+            ? legacyStored.importedProfiles
+            : {};
+
+        db.admin =
+            legacyStored.admin &&
+            typeof legacyStored.admin === "object"
+            ? legacyStored.admin
+            : {password:"admin123"};
+
+        Object.keys(db.users).forEach(username => {
+            normalizeProfile(db.users[username]);
+            migrateCourseName(db.users[username]);
+        });
+
+        if(!db.currentUser || !db.users[db.currentUser]){
+            db.currentUser = null;
+        }
+
+        // Do NOT remove the old key. Keep it as a rollback/recovery copy.
+        saveDatabase();
+        return;
     }
 
     saveDatabase();
@@ -4201,6 +4284,7 @@ function saveDatabase(){
 
         if(current){
 
+            migrateCourseName(current);
             current.updatedAt = new Date().toISOString();
 
             if(!current.preferences){
@@ -4273,6 +4357,48 @@ function normalizeUsername(value){
         .toLowerCase()
         .replace(/\s+/g,"_")
         .replace(/[^a-z0-9_\-]/g,"");
+}
+
+
+function migrateCourseName(profile){
+
+    if(!profile || typeof profile !== "object"){
+        return;
+    }
+
+    const rename = value =>
+        typeof value === "string"
+        ? value.replace(/BS&EC Lab/g,"BE&EC Lab").replace(/BS&EC/g,"BE&EC")
+        : value;
+
+    if(Array.isArray(profile.subjects)){
+        profile.subjects.forEach(subject => {
+            if(subject && typeof subject === "object"){
+                if("name" in subject){
+                    subject.name = rename(subject.name);
+                }
+                if("code" in subject){
+                    subject.code = rename(subject.code);
+                }
+            }
+        });
+    }
+
+    if(Array.isArray(profile.sessions)){
+        profile.sessions.forEach(session => {
+            if(session && typeof session === "object" && "subject" in session){
+                session.subject = rename(session.subject);
+            }
+        });
+    }
+
+    if(Array.isArray(profile.exams)){
+        profile.exams.forEach(exam => {
+            if(exam && typeof exam === "object" && "subject" in exam){
+                exam.subject = rename(exam.subject);
+            }
+        });
+    }
 }
 
 
@@ -8871,15 +8997,15 @@ const CLASS_ROUTINE = Object.freeze({
     ],
     Monday:[
         {start:"12:00 PM",end:"1:30 PM",name:"IS (GL-1)",room:"—",faculty:"AH"},
-        {start:"1:30 PM",end:"3:00 PM",name:"BS&EC",room:"306",faculty:"ATB"}
+        {start:"1:30 PM",end:"3:00 PM",name:"BE&EC",room:"306",faculty:"ATB"}
     ],
     Tuesday:[
-        {start:"12:00 PM",end:"3:00 PM",name:"BS&EC Lab",room:"311",faculty:"ATB"},
+        {start:"12:00 PM",end:"3:00 PM",name:"BE&EC Lab",room:"311",faculty:"ATB"},
         {start:"3:00 PM",end:"4:30 PM",name:"MG&VA",room:"109",faculty:"RMD"}
     ],
     Wednesday:[
         {start:"9:00 AM",end:"12:00 PM",name:"DS Lab",room:"405",faculty:"AIA"},
-        {start:"12:00 PM",end:"1:30 PM",name:"BS&EC",room:"507",faculty:"ATB"}
+        {start:"12:00 PM",end:"1:30 PM",name:"BE&EC",room:"507",faculty:"ATB"}
     ],
     Thursday:[
         {start:"10:30 AM",end:"12:00 PM",name:"DS",room:"403",faculty:"AIA"},
