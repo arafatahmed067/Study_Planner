@@ -2483,6 +2483,207 @@ body.dark .topbar{
 }
 
 /* =========================================================
+   MOTIVATION QUOTE — ADDITIVE ONLY
+   ========================================================= */
+
+.dashboard-motivation{
+    position:relative;
+    margin:0 0 20px;
+    padding:20px 22px;
+    border:1px solid rgba(99,91,255,.28);
+    border-radius:20px;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(99,91,255,.13),
+            rgba(57,132,255,.07),
+            var(--card)
+        );
+    box-shadow:
+        0 14px 35px rgba(99,91,255,.10),
+        inset 0 1px 0 rgba(255,255,255,.16);
+    isolation:isolate;
+    animation:motivationFloat 4s ease-in-out infinite;
+}
+
+.dashboard-motivation::before{
+    content:"";
+    position:absolute;
+    inset:-80%;
+    background:linear-gradient(
+        115deg,
+        transparent 42%,
+        rgba(255,255,255,.34) 50%,
+        transparent 58%
+    );
+    transform:translateX(-55%) rotate(8deg);
+    animation:motivationShine 5s ease-in-out infinite;
+    pointer-events:none;
+    z-index:-1;
+}
+
+.dashboard-motivation::after{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-70px;
+    top:-95px;
+    border-radius:50%;
+    background:radial-gradient(
+        circle,
+        rgba(99,91,255,.24),
+        transparent 68%
+    );
+    pointer-events:none;
+    z-index:-1;
+}
+
+.motivation-inner{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    position:relative;
+    z-index:1;
+}
+
+.motivation-icon{
+    width:50px;
+    height:50px;
+    min-width:50px;
+    display:grid;
+    place-items:center;
+    border-radius:15px;
+    background:linear-gradient(135deg,var(--primary),#8b83ff);
+    color:#fff;
+    font-size:23px;
+    box-shadow:0 9px 24px rgba(99,91,255,.28);
+    animation:motivationPulse 2.4s ease-in-out infinite;
+}
+
+.motivation-copy{
+    min-width:0;
+}
+
+.motivation-label{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:6px;
+    color:var(--primary);
+    font-size:9.5px;
+    font-weight:950;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+
+.motivation-label::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--primary);
+    box-shadow:0 0 0 5px rgba(99,91,255,.10);
+    animation:motivationDot 1.7s ease-in-out infinite;
+}
+
+.motivation-quote{
+    font-size:17px;
+    line-height:1.5;
+    font-weight:900;
+    letter-spacing:-.15px;
+}
+
+.motivation-quote strong{
+    color:var(--primary);
+}
+
+.motivation-sub{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:11.5px;
+    line-height:1.45;
+    font-weight:600;
+}
+
+@keyframes motivationFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-3px);
+    }
+}
+
+@keyframes motivationShine{
+    0%,55%,100%{
+        transform:translateX(-65%) rotate(8deg);
+    }
+    75%{
+        transform:translateX(65%) rotate(8deg);
+    }
+}
+
+@keyframes motivationPulse{
+    0%,100%{
+        transform:scale(1);
+        box-shadow:0 9px 24px rgba(99,91,255,.28);
+    }
+    50%{
+        transform:scale(1.06);
+        box-shadow:0 12px 30px rgba(99,91,255,.42);
+    }
+}
+
+@keyframes motivationDot{
+    0%,100%{
+        opacity:.45;
+        transform:scale(.8);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.15);
+    }
+}
+
+@media(max-width:600px){
+    .dashboard-motivation{
+        padding:17px;
+    }
+
+    .motivation-inner{
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .motivation-icon{
+        width:43px;
+        height:43px;
+        min-width:43px;
+        border-radius:13px;
+        font-size:20px;
+    }
+
+    .motivation-quote{
+        font-size:14px;
+    }
+
+    .motivation-sub{
+        font-size:10.5px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    .dashboard-motivation,
+    .dashboard-motivation::before,
+    .motivation-icon,
+    .motivation-label::before{
+        animation:none!important;
+    }
+}
+
+/* =========================================================
    COPYRIGHT
    ========================================================= */
 
@@ -3138,6 +3339,27 @@ body.dark .topbar{
             <div class="stat-extra">Enrolled</div>
         </div>
 
+    </div>
+
+
+    <!-- Motivation quote: visual-only addition; does not read/write user data. -->
+    <div class="dashboard-motivation" aria-label="Daily motivation">
+        <div class="motivation-inner">
+            <div class="motivation-icon">⚡</div>
+
+            <div class="motivation-copy">
+                <div class="motivation-label">Keep going</div>
+
+                <div class="motivation-quote">
+                    “Your maximum is <strong>someone's minimum</strong> — and with the same goal,
+                    someone is working harder than you. <strong>So don't give up.</strong>”
+                </div>
+
+                <div class="motivation-sub">
+                    Keep showing up. Your progress is built one focused session at a time.
+                </div>
+            </div>
+        </div>
     </div>
 
 
