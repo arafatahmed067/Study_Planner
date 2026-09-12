@@ -1341,6 +1341,201 @@ body.dark .topbar{
     flex-wrap:wrap;
 }
 
+.subject-attendance{
+    margin-top:20px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+}
+
+.subject-attendance-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.subject-attendance-title{
+    font-size:13px;
+    font-weight:850;
+}
+
+.subject-attendance-summary{
+    color:var(--muted);
+    font-size:10.5px;
+    margin-top:3px;
+}
+
+.attendance-add-row{
+    display:grid;
+    grid-template-columns:72px 1fr auto;
+    gap:7px;
+    margin-bottom:10px;
+}
+
+.attendance-add-row .input{
+    padding:9px 10px;
+    font-size:11px;
+}
+
+.attendance-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:230px;
+    overflow-y:auto;
+    padding-right:2px;
+}
+
+.attendance-row{
+    display:grid;
+    grid-template-columns:48px 1fr auto auto;
+    align-items:center;
+    gap:8px;
+    padding:8px 9px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card2);
+}
+
+.attendance-class{
+    font-size:11px;
+    font-weight:850;
+}
+
+.attendance-date{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.attendance-status{
+    min-width:38px;
+    height:30px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--card);
+    color:var(--danger);
+    font-weight:900;
+    font-size:11px;
+    transition:.2s;
+}
+
+.attendance-status.present{
+    color:var(--success);
+    border-color:rgba(22,166,115,.35);
+    background:rgba(22,166,115,.09);
+}
+
+.attendance-delete{
+    width:28px;
+    height:28px;
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    border-radius:7px;
+}
+
+.attendance-delete:hover{
+    color:var(--danger);
+    background:rgba(224,82,82,.09);
+}
+
+.attendance-empty{
+    color:var(--muted);
+    font-size:10.5px;
+    padding:9px;
+    border:1px dashed var(--border);
+    border-radius:9px;
+    text-align:center;
+}
+
+.cgpa-graph-card{
+    margin-top:20px;
+}
+
+.cgpa-graph-wrap{
+    width:100%;
+    min-height:300px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:linear-gradient(180deg,rgba(99,91,255,.055),transparent);
+    overflow:hidden;
+}
+
+.cgpa-graph-svg{
+    display:block;
+    width:100%;
+    height:300px;
+}
+
+.cgpa-graph-grid{
+    stroke:var(--border);
+    stroke-width:1;
+    opacity:.9;
+}
+
+.cgpa-graph-line{
+    fill:none;
+    stroke:var(--primary);
+    stroke-width:3.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:drop-shadow(0 4px 8px rgba(99,91,255,.2));
+}
+
+.cgpa-graph-area{
+    fill:url(#cgpaGraphFill);
+}
+
+.cgpa-graph-point{
+    fill:var(--card);
+    stroke:var(--primary);
+    stroke-width:3;
+}
+
+.cgpa-graph-label{
+    fill:var(--muted);
+    font-size:11px;
+    font-weight:700;
+}
+
+.cgpa-graph-value{
+    fill:var(--text);
+    font-size:11px;
+    font-weight:900;
+}
+
+.cgpa-graph-empty{
+    min-height:300px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:30px;
+    text-align:center;
+}
+
+@media(max-width:600px){
+    .attendance-add-row{
+        grid-template-columns:65px 1fr;
+    }
+
+    .attendance-add-row button{
+        grid-column:1/-1;
+        width:100%;
+    }
+
+    .attendance-row{
+        grid-template-columns:42px 1fr auto auto;
+        gap:6px;
+    }
+
+    .subject-card{
+        padding:17px;
+    }
+}
+
 /* =========================================================
    GOALS
    ========================================================= */
@@ -3608,6 +3803,17 @@ body.dark .topbar{
 
         </div>
 
+    </div>
+
+    <div class="card cgpa-graph-card">
+        <div class="card-title">
+            <div>
+                <h2>CGPA / SGPA Progress Graph</h2>
+                <span>Your completed semesters over time</span>
+            </div>
+            <span id="cgpaGraphSummary">No completed semesters</span>
+        </div>
+        <div class="cgpa-graph-wrap" id="cgpaGraph"></div>
     </div>
 
 </section>
@@ -6639,6 +6845,88 @@ function renderCgpaPage(){
         });
 
     updateOverallCgpaDisplay();
+    renderCgpaGraph();
+}
+
+function renderCgpaGraph(){
+
+    const graph = document.getElementById("cgpaGraph");
+    const summary = document.getElementById("cgpaGraphSummary");
+
+    if(!graph){
+        return;
+    }
+
+    const points = CGPA_SEMESTERS.map(semester => {
+        const calc = getSemesterCalculation(semester);
+        if(calc.validCourses.length < CGPA_MIN_COURSES || calc.sgpa === null){
+            return null;
+        }
+        return {semester, value:Number(calc.sgpa.toFixed(2))};
+    }).filter(Boolean);
+
+    if(summary){
+        summary.textContent = points.length
+            ? `${points.length} completed semester${points.length === 1 ? "" : "s"}`
+            : "No completed semesters";
+    }
+
+    if(!points.length){
+        graph.innerHTML = `
+            <div class="cgpa-graph-empty">
+                Complete and save at least one semester with ${CGPA_MIN_COURSES} courses to see your SGPA progress here.
+            </div>
+        `;
+        return;
+    }
+
+    const width = 1000;
+    const height = 300;
+    const pad = {left:48,right:28,top:30,bottom:42};
+    const plotW = width - pad.left - pad.right;
+    const plotH = height - pad.top - pad.bottom;
+    const yMin = 0;
+    const yMax = 4;
+
+    const x = i => points.length === 1
+        ? pad.left + plotW / 2
+        : pad.left + (i / (points.length - 1)) * plotW;
+
+    const y = value => pad.top + (yMax - value) / (yMax - yMin) * plotH;
+
+    const coords = points.map((p,i) => [x(i),y(p.value)]);
+    const linePath = coords.map((c,i) => `${i ? "L" : "M"}${c[0].toFixed(1)},${c[1].toFixed(1)}`).join(" ");
+    const areaPath = `M${coords[0][0].toFixed(1)},${(pad.top+plotH).toFixed(1)} ${coords.map(c => `L${c[0].toFixed(1)},${c[1].toFixed(1)}`).join(" ")} L${coords[coords.length-1][0].toFixed(1)},${(pad.top+plotH).toFixed(1)} Z`;
+
+    const gridLines = [0,1,2,3,4].map(v => `
+        <line class="cgpa-graph-grid" x1="${pad.left}" y1="${y(v)}" x2="${width-pad.right}" y2="${y(v)}"></line>
+        <text class="cgpa-graph-label" x="${pad.left-10}" y="${y(v)+4}" text-anchor="end">${v.toFixed(0)}</text>
+    `).join("");
+
+    const labels = points.map((p,i) => `
+        <text class="cgpa-graph-label" x="${x(i)}" y="${height-14}" text-anchor="middle">${p.semester}</text>
+    `).join("");
+
+    const markers = points.map((p,i) => `
+        <circle class="cgpa-graph-point" cx="${x(i)}" cy="${y(p.value)}" r="5"></circle>
+        <text class="cgpa-graph-value" x="${x(i)}" y="${y(p.value)-12}" text-anchor="middle">${p.value.toFixed(2)}</text>
+    `).join("");
+
+    graph.innerHTML = `
+        <svg class="cgpa-graph-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="SGPA progress graph">
+            <defs>
+                <linearGradient id="cgpaGraphFill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="rgba(99,91,255,.22)"></stop>
+                    <stop offset="100%" stop-color="rgba(99,91,255,0)"></stop>
+                </linearGradient>
+            </defs>
+            ${gridLines}
+            <path class="cgpa-graph-area" d="${areaPath}"></path>
+            <path class="cgpa-graph-line" d="${linePath}"></path>
+            ${markers}
+            ${labels}
+        </svg>
+    `;
 }
 
 function selectCgpaSemester(semester){
@@ -7259,6 +7547,15 @@ function normalizeProfile(p){
     */
     if(!Array.isArray(p.tasks)) p.tasks = [];
     if(!Array.isArray(p.subjects)) p.subjects = [];
+
+    /* Attendance migration: preserve existing subjects and add only
+       the missing per-course attendance collection. */
+    p.subjects.forEach(subject => {
+        if(!Array.isArray(subject.attendance)){
+            subject.attendance = [];
+        }
+    });
+
     if(!Array.isArray(p.goals)) p.goals = [];
     if(!Array.isArray(p.exams)) p.exams = [];
     if(!Array.isArray(p.sessions)) p.sessions = [];
@@ -7875,49 +8172,48 @@ function deleteTask(id){
 
 function renderSubjects(){
 
-    const p =
-        getCurrentProfile();
+    const p = getCurrentProfile();
+    const grid = document.getElementById("subjectGrid");
 
-    const grid =
-        document.getElementById(
-            "subjectGrid"
-        );
-
-
-    if(!p || !p.subjects.length){
-
-        grid.innerHTML =
-            `<div class="empty">
-                No subjects added yet.
-            </div>`;
-
+    if(!grid){
         return;
     }
 
+    if(!p || !p.subjects.length){
+        grid.innerHTML = `<div class="empty">No subjects added yet.</div>`;
+        return;
+    }
 
-    grid.innerHTML =
-        p.subjects.map(s => `
+    p.subjects.forEach(s => {
+        if(!Array.isArray(s.attendance)){
+            s.attendance = [];
+        }
+    });
 
+    grid.innerHTML = p.subjects.map(s => {
+
+        const attendance = [...s.attendance].sort((a,b) => {
+            const na = Number(a.classNo || 0);
+            const nb = Number(b.classNo || 0);
+            return na - nb;
+        });
+
+        const total = attendance.length;
+        const present = attendance.filter(a => a.present === true).length;
+        const percentage = total ? Math.round(present / total * 100) : 0;
+
+        return `
             <div class="subject-card">
 
                 <div class="subject-top">
-
                     <div>
-
                         <div class="subject-name">
-                            ${escapeHTML(
-                                s.name || ""
-                            )}
+                            ${escapeHTML(s.name || "")}
                         </div>
-
                         <div class="subject-code">
-                            ${escapeHTML(
-                                s.code || ""
-                            )}
+                            ${escapeHTML(s.code || "")}
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="subject-progress">
@@ -7925,43 +8221,166 @@ function renderSubjects(){
                 </div>
 
                 <div class="progress">
-
                     <div
                         class="progress-inner"
                         style="width:${Number(s.progress || 0)}%"
                     ></div>
-
                 </div>
 
                 <div class="subject-actions">
+                    <button class="small-btn" onclick="updateSubjectProgress('${s.id}',10)">+10%</button>
+                    <button class="small-btn" onclick="setSubjectProgress('${s.id}')">Set %</button>
+                    <button class="small-btn" onclick="deleteSubject('${s.id}')">Delete</button>
+                </div>
 
-                    <button
-                        class="small-btn"
-                        onclick="updateSubjectProgress('${s.id}',10)"
-                    >
-                        +10%
-                    </button>
+                <div class="subject-attendance">
 
-                    <button
-                        class="small-btn"
-                        onclick="setSubjectProgress('${s.id}')"
-                    >
-                        Set %
-                    </button>
+                    <div class="subject-attendance-head">
+                        <div>
+                            <div class="subject-attendance-title">Course Attendance</div>
+                            <div class="subject-attendance-summary">
+                                ${present} / ${total} present${total === 1 ? "" : "s"} • ${percentage}% attendance
+                            </div>
+                        </div>
+                        <strong style="color:${percentage >= 75 ? "var(--success)" : "var(--danger)"};font-size:15px;">
+                            ${percentage}%
+                        </strong>
+                    </div>
 
-                    <button
-                        class="small-btn"
-                        onclick="deleteSubject('${s.id}')"
-                    >
-                        Delete
-                    </button>
+                    <div class="attendance-add-row">
+                        <input
+                            id="attClass_${s.id}"
+                            class="input"
+                            type="number"
+                            min="1"
+                            step="1"
+                            placeholder="Class #"
+                        >
+                        <input
+                            id="attDate_${s.id}"
+                            class="input"
+                            type="date"
+                            value="${new Date().toISOString().slice(0,10)}"
+                        >
+                        <button
+                            class="small-btn"
+                            type="button"
+                            onclick="addAttendanceClass('${s.id}')"
+                        >
+                            + Add Class
+                        </button>
+                    </div>
+
+                    <div class="attendance-list">
+                        ${attendance.length ? attendance.map(a => `
+                            <div class="attendance-row">
+                                <div class="attendance-class">#${Number(a.classNo || 0)}</div>
+                                <div class="attendance-date">${escapeHTML(formatDate(a.date))}</div>
+                                <button
+                                    type="button"
+                                    class="attendance-status ${a.present ? "present" : ""}"
+                                    title="Click to toggle attendance"
+                                    onclick="toggleAttendance('${s.id}','${a.id}')"
+                                >
+                                    ${a.present ? "P" : "A"}
+                                </button>
+                                <button
+                                    type="button"
+                                    class="attendance-delete"
+                                    title="Delete class record"
+                                    onclick="deleteAttendance('${s.id}','${a.id}')"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        `).join("") : `
+                            <div class="attendance-empty">
+                                No classes added yet. Add a class above — each new class starts as <strong>A</strong> (absent).
+                            </div>
+                        `}
+                    </div>
 
                 </div>
 
             </div>
+        `;
+    }).join("");
 
-        `).join("");
+    saveDatabase();
+}
 
+function addAttendanceClass(subjectId){
+
+    const p = getCurrentProfile();
+    if(!p) return;
+
+    const subject = p.subjects.find(s => s.id === subjectId);
+    if(!subject) return;
+
+    if(!Array.isArray(subject.attendance)){
+        subject.attendance = [];
+    }
+
+    const classInput = document.getElementById(`attClass_${subjectId}`);
+    const dateInput = document.getElementById(`attDate_${subjectId}`);
+
+    const classNo = Number(classInput && classInput.value);
+    const date = dateInput && dateInput.value;
+
+    if(!Number.isInteger(classNo) || classNo < 1){
+        alert("Enter a valid class number.");
+        return;
+    }
+
+    if(!date){
+        alert("Please select the class date.");
+        return;
+    }
+
+    if(subject.attendance.some(a => Number(a.classNo) === classNo)){
+        alert(`Class #${classNo} already exists for this subject.`);
+        return;
+    }
+
+    subject.attendance.push({
+        id:"att_" + Date.now() + "_" + Math.random().toString(36).slice(2),
+        classNo:classNo,
+        date:date,
+        present:false
+    });
+
+    subject.attendance.sort((a,b) => Number(a.classNo) - Number(b.classNo));
+    saveDatabase();
+    renderAll();
+}
+
+function toggleAttendance(subjectId,attendanceId){
+
+    const p = getCurrentProfile();
+    if(!p) return;
+
+    const subject = p.subjects.find(s => s.id === subjectId);
+    if(!subject || !Array.isArray(subject.attendance)) return;
+
+    const record = subject.attendance.find(a => a.id === attendanceId);
+    if(!record) return;
+
+    record.present = !record.present;
+    saveDatabase();
+    renderAll();
+}
+
+function deleteAttendance(subjectId,attendanceId){
+
+    const p = getCurrentProfile();
+    if(!p) return;
+
+    const subject = p.subjects.find(s => s.id === subjectId);
+    if(!subject || !Array.isArray(subject.attendance)) return;
+
+    subject.attendance = subject.attendance.filter(a => a.id !== attendanceId);
+    saveDatabase();
+    renderAll();
 }
 
 
@@ -8091,7 +8510,9 @@ function handleAddSubject(e){
                         ).value
                     ) || 0
                 )
-            )
+            ),
+
+        attendance:[]
 
     });
 
