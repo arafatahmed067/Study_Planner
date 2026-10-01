@@ -10,7 +10,7 @@
 <style>
 /* =========================================================
    STUDYFLOW
-   Complete standalone HTML / CSS / JavaScript
+   Complete standalone HTML / CSS / JavaScript — StudyFlow v2.1
    ========================================================= */
 
 *{
@@ -3357,6 +3357,134 @@ body.dark::after{
     .pomodoro-ring .timer-display{font-size:54px;}
 }
 
+
+/* =========================================================
+   V2.1 VISUAL / USABILITY UPGRADES
+   ========================================================= */
+.dashboard-today-classes{margin:20px 0;background:linear-gradient(135deg,rgba(101,92,246,.07),var(--card));}
+.dashboard-class-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;}
+.dashboard-class-card{display:flex;align-items:center;gap:11px;padding:13px;border:1px solid var(--border);border-radius:14px;background:var(--card2);transition:.25s;}
+.dashboard-class-card:hover{transform:translateY(-3px);border-color:rgba(101,92,246,.35);box-shadow:var(--shadow-hover);}
+.dashboard-class-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:rgba(101,92,246,.12);font-size:17px;flex-shrink:0;}
+.dashboard-class-main{min-width:0;flex:1;}
+.dashboard-class-main strong{display:block;font-size:13px;overflow-wrap:anywhere;}
+.dashboard-class-main span{display:block;margin-top:3px;color:var(--primary);font-size:10.5px;font-weight:800;}
+.dashboard-class-main small{display:block;margin-top:3px;color:var(--muted);font-size:9px;overflow-wrap:anywhere;}
+.dashboard-class-status,.routine-status{display:inline-flex;align-items:center;justify-content:center;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:900;background:rgba(101,92,246,.09);color:var(--primary);white-space:nowrap;}
+.dashboard-class-status.now,.routine-status.now{background:rgba(22,166,115,.12);color:var(--success);}
+.dashboard-class-status.upcoming,.routine-status.upcoming{background:rgba(232,163,23,.13);color:var(--warning);}
+.dashboard-class-status.finished,.routine-status.finished{background:rgba(115,124,143,.12);color:var(--muted);}
+.dashboard-no-classes{display:flex;align-items:center;gap:12px;padding:18px;border:1px dashed var(--border);border-radius:13px;color:var(--muted);}
+.dashboard-no-classes span{font-size:22px;}
+.dashboard-no-classes strong{display:block;color:var(--text);font-size:12px;}
+.dashboard-no-classes small{display:block;margin-top:3px;font-size:10px;}
+
+.goal-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px;}
+.goal-actions .small-btn{flex:1 1 auto;}
+
+.routine-table-card{margin-top:20px;}
+.routine-table-wrap{overflow-x:auto;}
+.routine-table{min-width:760px;}
+.routine-table td,.routine-table th{vertical-align:middle;}
+.routine-table-time{font-weight:800;color:var(--primary);white-space:nowrap;}
+.routine-table-empty{opacity:.72;}
+.routine-table-empty td{background:rgba(115,124,143,.025);}
+.routine-table-live{font-size:10px;font-weight:900;color:var(--success);}
+
+.cal-day{min-height:115px;position:relative;background:linear-gradient(145deg,var(--card2),rgba(101,92,246,.025));}
+.cal-day.has-exam{background:linear-gradient(145deg,rgba(224,82,82,.055),var(--card2));}
+.cal-day.has-routine{box-shadow:inset 0 0 0 1px rgba(101,92,246,.06);}
+.cal-day.today{box-shadow:0 0 0 2px var(--primary),0 12px 28px rgba(101,92,246,.12);}
+.cal-num{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:8px;}
+.cal-day.today .cal-num{background:var(--primary);color:#fff;box-shadow:0 5px 15px rgba(101,92,246,.3);}
+.cal-event{position:relative;display:flex;align-items:center;gap:4px;margin-top:5px;padding:5px 6px;border-radius:7px;font-size:9px;font-weight:800;line-height:1.2;}
+.cal-preview-icon{box-shadow:0 4px 12px rgba(20,30,55,.06);}
+
+/* Study Notes v3 — Course → Class → Main Note */
+.notes-v3-workspace{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;min-height:690px;}
+.notes-v3-library,.notes-v3-editor{min-width:0;}
+.notes-v3-library{display:flex;flex-direction:column;}
+.notes-v3-head,.notes-v3-class-head,.notes-v3-editor-head{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.notes-v3-head{margin-bottom:15px;}
+.notes-v3-head h2{font-size:18px;margin-top:3px;}
+.notes-v3-head>span,.notes-v3-class-head>span{font-size:11px;color:var(--muted);font-weight:900;}
+.notes-v3-course-list,.notes-v3-class-list{display:flex;flex-direction:column;gap:7px;overflow:auto;}
+.notes-v3-course-list{max-height:300px;margin-top:12px;}
+.notes-v3-class-list{max-height:360px;margin-top:10px;}
+.notes-v3-course-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:7px;width:100%;text-align:left;border:1px solid var(--border);background:var(--card2);color:var(--text);border-radius:13px;padding:11px;cursor:pointer;transition:.22s;}
+.notes-v3-course-item:hover,.notes-v3-course-item.active{border-color:rgba(99,91,255,.45);background:rgba(99,91,255,.08);box-shadow:0 8px 20px rgba(99,91,255,.08);}
+.notes-v3-course-main{min-width:0;}
+.notes-v3-course-name{display:block;font-size:12.5px;font-weight:850;overflow-wrap:anywhere;}
+.notes-v3-course-meta{display:block;color:var(--muted);font-size:9.5px;margin-top:4px;}
+.notes-v3-course-actions{display:flex;gap:3px;}
+.notes-v3-icon-btn{width:28px;height:28px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:12px;}
+.notes-v3-icon-btn:hover{background:rgba(99,91,255,.1);color:var(--primary);}
+.notes-v3-icon-btn.danger:hover{background:rgba(224,82,82,.1);color:var(--danger);}
+.notes-v3-class-head{border-top:1px solid var(--border);margin-top:16px;padding-top:17px;}
+.notes-v3-class-head strong{display:block;font-size:12.5px;margin-top:3px;overflow-wrap:anywhere;}
+#addClassNoteBtn{margin-top:10px;}
+.notes-v3-class-item{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;width:100%;text-align:left;border:1px solid var(--border);background:var(--card2);color:var(--text);border-radius:12px;padding:10px;cursor:pointer;transition:.22s;}
+.notes-v3-class-item:hover,.notes-v3-class-item.active{border-color:var(--primary);background:rgba(99,91,255,.08);transform:translateX(3px);}
+.notes-v3-class-number{min-width:45px;padding:5px 7px;border-radius:8px;background:rgba(99,91,255,.12);color:var(--primary);font-size:10px;font-weight:900;text-align:center;}
+.notes-v3-class-info{min-width:0;}
+.notes-v3-class-title{display:block;font-size:11.5px;font-weight:800;overflow-wrap:anywhere;}
+.notes-v3-class-meta{display:block;color:var(--muted);font-size:9px;margin-top:3px;}
+.notes-v3-class-actions{display:flex;gap:2px;}
+.notes-v3-editor{overflow:hidden;}
+.notes-v3-editor-head{padding-bottom:15px;border-bottom:1px solid var(--border);}
+.notes-v3-course-label{font-size:13px;font-weight:800;color:var(--muted);margin-top:5px;}
+.notes-v3-class-label{font-size:27px;font-weight:950;margin-top:4px;background:linear-gradient(135deg,var(--text),var(--primary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.notes-v3-title{font-size:13px!important;font-weight:700!important;margin-top:8px!important;color:var(--muted)!important;}
+.notes-v3-editor-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;}
+.notes-v3-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:15px 0;padding:9px;border:1px solid var(--border);border-radius:12px;background:var(--card2);}
+.notes-v3-toolbar .notes-saved-indicator{margin-right:auto;}
+.notes-v3-main-note{border:1px solid var(--border);border-radius:15px;padding:15px;background:linear-gradient(135deg,rgba(99,91,255,.035),transparent);}
+.notes-v3-section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:13px;font-weight:900;}
+.notes-content-v3{min-height:370px;border:0!important;background:transparent!important;border-radius:0!important;box-shadow:none!important;transform:none!important;line-height:1.85;resize:vertical;padding:8px 2px;}
+.notes-v3-attachments{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+@media(max-width:900px){.notes-v3-workspace{grid-template-columns:1fr;}.notes-v3-course-list{max-height:240px;}.notes-v3-class-list{max-height:300px;}}
+@media(max-width:600px){.notes-v3-attachments{grid-template-columns:1fr;}.notes-v3-editor-head{align-items:flex-start;flex-direction:column;}.notes-v3-editor-actions{width:100%;justify-content:flex-start;}.notes-v3-class-label{font-size:23px;}}
+
+.notes-workspace-simple{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;min-height:650px;}
+.notes-library-panel,.notes-editor-panel-simple{min-width:0;}
+.notes-library-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px;}
+.notes-class-divider{height:1px;background:var(--border);margin:18px 0 12px;}
+.notes-panel-subtitle{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);}
+.notes-panel-subtitle span{font-size:10px;}
+.notes-editor-panel-simple{position:relative;overflow:hidden;}
+.notes-toolbar-simple{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 15px;padding:9px;border:1px solid var(--border);border-radius:12px;background:var(--card2);}
+.notes-toolbar-simple .notes-saved-indicator{margin-left:0;margin-right:auto;}
+.notes-main-writing{margin-bottom:0;}
+.notes-content-simple{min-height:330px;line-height:1.8;}
+.notes-attachment-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.notes-mini-block{border:1px solid var(--border);border-radius:14px;padding:14px;background:rgba(101,92,246,.025);min-width:0;}
+.notes-mini-block .notes-subhead{margin-bottom:10px;}
+.notes-drawing-simple{margin-top:16px;border:1px solid rgba(101,92,246,.2);border-radius:14px;padding:14px;background:linear-gradient(135deg,rgba(101,92,246,.06),var(--card));}
+.notes-drawing-actions{display:flex;align-items:center;gap:7px;}
+.drawing-wrap-simple{border:1px solid var(--border);border-radius:11px;background:#fff;overflow:hidden;box-shadow:inset 0 0 25px rgba(0,0,0,.05);}
+.notes-drawing-simple #studyNoteCanvas{display:block;width:100%;height:280px;touch-action:none;cursor:crosshair;}
+
+@media(max-width:900px){
+    .notes-workspace-simple{grid-template-columns:1fr;}
+    .notes-library-panel{min-height:0;}
+    .notes-attachment-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+    .dashboard-class-card{align-items:flex-start;}
+    .dashboard-class-status{display:none;}
+    .notes-library-actions{grid-template-columns:1fr;}
+    .routine-table{min-width:680px;}
+}
+
+.calendar-legend{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:800;}
+.calendar-legend span{display:inline-flex;align-items:center;gap:6px;}
+.legend-dot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:0 0 10px currentColor;}
+.legend-dot.exam{background:var(--danger);color:var(--danger);}
+.legend-dot.routine{background:var(--primary);color:var(--primary);}
+.legend-dot.task{background:var(--blue);color:var(--blue);}
+.legend-dot.session{background:var(--success);color:var(--success);}
+.calendar-legend-note{margin-left:auto;color:var(--muted);font-weight:600;}
+@media(max-width:600px){.calendar-legend-note{margin-left:0;width:100%;}}
 </style>
 </head>
 
@@ -3765,6 +3893,21 @@ body.dark::after{
     </div>
 
 
+    <div class="dashboard-today-classes card" id="dashboardTodayClassesCard">
+
+        <div class="card-title">
+            <div>
+                <h2>Today’s Classes</h2>
+                <span id="dashboardTodayClassesDate">--</span>
+            </div>
+            <button class="small-btn" onclick="switchPage('routine')">View Routine</button>
+        </div>
+
+        <div id="dashboardTodayClasses"></div>
+
+    </div>
+
+
     <div class="dashboard-grid">
 
         <div class="card">
@@ -4164,6 +4307,14 @@ body.dark::after{
             id="calendarGrid"
         ></div>
 
+        <div class="calendar-legend">
+            <span><i class="legend-dot exam"></i> Exam</span>
+            <span><i class="legend-dot routine"></i> Class</span>
+            <span><i class="legend-dot task"></i> Task</span>
+            <span><i class="legend-dot session"></i> Study</span>
+            <span class="calendar-legend-note">Hover any date for full details</span>
+        </div>
+
     </div>
 
 </section>
@@ -4194,6 +4345,30 @@ body.dark::after{
 
     <div class="routine-today card" id="routineTodayCard"></div>
     <div class="routine-week-grid" id="routineWeekGrid"></div>
+
+    <div class="card routine-table-card">
+        <div class="card-title">
+            <div>
+                <h2>Weekly Routine Table</h2>
+                <span>Visual timetable — your saved routine is unchanged</span>
+            </div>
+            <span class="routine-table-live">● Live</span>
+        </div>
+        <div class="routine-table-wrap">
+            <table class="data-table routine-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Course</th>
+                        <th>Room / Teacher</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="routineTableBody"></tbody>
+            </table>
+        </div>
+    </div>
 
 </section>
 
@@ -4241,94 +4416,104 @@ body.dark::after{
      ======================================================= -->
 
 <section class="page" id="page-notes">
-
     <div class="page-heading">
         <div>
             <h1>Study Notes</h1>
-            <p>Organize notes by course and class. Changes are saved locally as you work.</p>
-        </div>
-        <div class="heading-actions">
-            <button class="small-btn" onclick="createNoteCourse()">+ Course</button>
-            <button class="primary" onclick="createNoteClass()">+ Class Note</button>
+            <p>Course → Class → Main Note. Every class has its own text, links, images and drawing.</p>
         </div>
     </div>
 
-    <div class="notes-workspace">
-
-        <aside class="card notes-course-panel">
-            <div class="notes-panel-head">
+    <div class="notes-v3-workspace">
+        <aside class="card notes-v3-library">
+            <div class="notes-v3-head">
                 <div>
-                    <div class="notes-eyebrow">NOTEBOOK</div>
+                    <div class="notes-eyebrow">MY NOTEBOOK</div>
                     <h2>Courses</h2>
                 </div>
                 <span id="notesCourseCount">0</span>
             </div>
-            <div id="notesCourseList" class="notes-course-list"></div>
-        </aside>
 
-        <aside class="card notes-class-panel">
-            <div class="notes-panel-head">
+            <button class="primary full" onclick="createNoteCourse()">+ Add Course</button>
+            <div id="notesCourseList" class="notes-v3-course-list"></div>
+
+            <div class="notes-v3-class-head">
                 <div>
-                    <div class="notes-eyebrow">CLASS NOTES</div>
-                    <h2 id="notesClassPanelTitle">Select a course</h2>
+                    <div class="notes-eyebrow">SELECTED COURSE</div>
+                    <strong id="notesClassPanelTitle">Select a course</strong>
                 </div>
                 <span id="notesClassCount">0</span>
             </div>
-            <div id="notesClassList" class="notes-class-list"></div>
+
+            <button class="small-btn full" id="addClassNoteBtn" onclick="createNoteClass()">+ Add Class</button>
+            <div id="notesClassList" class="notes-v3-class-list"></div>
         </aside>
 
-        <main class="card notes-editor-panel">
+        <main class="card notes-v3-editor">
             <div id="notesEmptyState" class="notes-empty-state">
                 <div class="notes-empty-icon">✦</div>
-                <h2>Your study notebook</h2>
-                <p>Create a course, then add class-wise notes with text, images, drawings and useful links.</p>
+                <h2>Course → Class → Note</h2>
+                <p>First create a course. Then add Class 01, Class 02, and so on. Select a class to open its separate note.</p>
                 <button class="primary" onclick="createNoteCourse()">Create First Course</button>
             </div>
 
             <div id="notesEditor" class="hidden">
-                <div class="notes-editor-head">
+                <div class="notes-v3-editor-head">
                     <div>
-                        <div class="notes-eyebrow">EDITING CLASS NOTE</div>
-                        <input id="studyNoteTitle" class="notes-title-input" placeholder="Class title" oninput="saveStudyNoteField('title',this.value)">
-                        <div id="studyNoteCourseLabel" class="notes-editor-course"></div>
+                        <div class="notes-eyebrow">CURRENT NOTE</div>
+                        <div class="notes-v3-course-label" id="studyNoteCourseLabel">Course</div>
+                        <div class="notes-v3-class-label" id="studyNoteClassLabel">Class 01</div>
+                        <input id="studyNoteTitle" class="notes-title-input notes-v3-title" maxlength="120" placeholder="Optional class topic / title" oninput="saveStudyNoteField('title',this.value)">
                     </div>
-                    <button class="small-btn danger-soft" onclick="deleteActiveStudyNote()">Delete</button>
+                    <div class="notes-v3-editor-actions">
+                        <button class="small-btn" onclick="renameActiveStudyNote()">Rename Class</button>
+                        <button class="small-btn danger-soft" onclick="deleteActiveStudyNote()">Delete Class</button>
+                    </div>
                 </div>
 
-                <div class="notes-toolbar">
-                    <button class="small-btn" onclick="document.getElementById('noteImageInput').click()">🖼 Add Image</button>
-                    <button class="small-btn" onclick="addStudyNoteLink()">🔗 Add Link</button>
-                    <button class="small-btn" onclick="clearNoteDrawing()">⌫ Clear Drawing</button>
-                    <span id="studyNoteSaved" class="notes-saved-indicator">● Saved locally</span>
+                <div class="notes-v3-toolbar">
+                    <span class="notes-saved-indicator" id="studyNoteSaved">● Saved locally</span>
+                    <button class="small-btn" onclick="document.getElementById('noteImageInput').click()">🖼 Image</button>
+                    <button class="small-btn" onclick="addStudyNoteLink()">🔗 Link</button>
+                    <button class="small-btn" onclick="toggleNoteDrawing()" id="noteDrawingToggle">✏ Open Drawing</button>
                 </div>
 
                 <input id="noteImageInput" class="hidden" type="file" accept="image/*" onchange="addStudyNoteImage(event)">
 
-                <div class="form-group">
-                    <label>Class note</label>
-                    <textarea id="studyNoteContent" class="notes-content" placeholder="Write your class notes here..." oninput="saveStudyNoteField('content',this.value)"></textarea>
+                <div class="notes-v3-main-note">
+                    <div class="notes-v3-section-title">
+                        <span>Main Note</span>
+                        <span class="muted-small">Auto-saved</span>
+                    </div>
+                    <textarea id="studyNoteContent" class="notes-content-v3" placeholder="Write everything for this class here..." oninput="saveStudyNoteField('content',this.value)"></textarea>
                 </div>
 
-                <div class="notes-links-block">
-                    <div class="notes-subhead"><span>Useful links</span><button class="small-btn" onclick="addStudyNoteLink()">+ Link</button></div>
-                    <div id="studyNoteLinks"></div>
+                <div class="notes-v3-attachments">
+                    <div class="notes-mini-block">
+                        <div class="notes-subhead"><span>Useful Links</span><button class="small-btn" onclick="addStudyNoteLink()">+ Add</button></div>
+                        <div id="studyNoteLinks"></div>
+                    </div>
+                    <div class="notes-mini-block">
+                        <div class="notes-subhead"><span>Images</span><span class="muted-small">Stored locally</span></div>
+                        <div id="studyNoteImages" class="notes-image-grid"></div>
+                    </div>
                 </div>
 
-                <div class="notes-media-block">
-                    <div class="notes-subhead"><span>Images</span><span class="muted-small">Stored inside this browser</span></div>
-                    <div id="studyNoteImages" class="notes-image-grid"></div>
-                </div>
-
-                <div class="notes-drawing-block">
-                    <div class="notes-subhead"><span>Freehand board</span><span class="muted-small">Draw with mouse or touch</span></div>
-                    <div class="drawing-wrap">
-                        <canvas id="studyNoteCanvas" width="900" height="320"></canvas>
+                <div class="notes-drawing-simple hidden" id="notesDrawingPanel">
+                    <div class="notes-subhead">
+                        <span>Quick Drawing</span>
+                        <div class="notes-drawing-actions">
+                            <span class="muted-small">Mouse / touch</span>
+                            <button class="small-btn danger-soft" onclick="clearNoteDrawing()">Clear</button>
+                            <button class="small-btn" onclick="toggleNoteDrawing(false)">Close</button>
+                        </div>
+                    </div>
+                    <div class="drawing-wrap-simple">
+                        <canvas id="studyNoteCanvas" width="1200" height="420"></canvas>
                     </div>
                 </div>
             </div>
         </main>
     </div>
-
 </section>
 
 
@@ -5859,6 +6044,7 @@ function showApp(){
 
 
     renderAll();
+    startExamCountdown();
 
 }
 
@@ -7724,6 +7910,7 @@ function normalizeProfile(p){
 
     // New systems are additive. Existing legacy notes are never overwritten.
     if(!Array.isArray(p.studyNotes)) p.studyNotes = [];
+    normalizeStudyNotesData(p);
 
     const routineDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     if(!p.routine || typeof p.routine !== "object") p.routine = {};
@@ -8042,7 +8229,31 @@ function renderDashboard(){
 
 
     renderNextExam();
+    renderDashboardTodayClasses();
 
+}
+
+function renderDashboardTodayClasses(){
+    const p=getCurrentProfile();
+    const container=document.getElementById("dashboardTodayClasses");
+    const dateEl=document.getElementById("dashboardTodayClassesDate");
+    if(!container) return;
+
+    const today=new Date();
+    const day=today.toLocaleDateString("en-US",{weekday:"long"});
+    const items=routineSort(p?.routine?.[day]||[]);
+
+    if(dateEl) dateEl.textContent=`${day} • ${formatDate(today)}`;
+
+    if(!items.length){
+        container.innerHTML=`<div class="dashboard-no-classes"><span>☕</span><div><strong>No classes today</strong><small>Your dashboard will automatically show today’s routine here.</small></div></div>`;
+        return;
+    }
+
+    container.innerHTML=`<div class="dashboard-class-strip">${items.map(c=>{
+        const status=routineStatusForClass(day,c);
+        return `<div class="dashboard-class-card"><div class="dashboard-class-icon">📚</div><div class="dashboard-class-main"><strong>${escapeHTML(c.subject)}</strong><span>${escapeHTML(c.start)} – ${escapeHTML(c.end)}</span><small>${c.room?`Room ${escapeHTML(c.room)}`:"No room"}${c.teacher?` • ${escapeHTML(c.teacher)}`:""}</small></div><span class="dashboard-class-status ${status.cls}" data-dashboard-routine-id="${escapeHTML(c.id)}">${escapeHTML(status.label)}</span></div>`;
+    }).join("")}</div>`;
 }
 
 
@@ -8892,16 +9103,13 @@ function renderGoals(){
 
                 </div>
 
-                <button
-                    class="small-btn full"
-                    onclick="toggleGoal('${g.id}')"
-                >
-                    ${
-                        g.completed
-                        ? "Mark Incomplete"
-                        : "Complete Goal"
-                    }
-                </button>
+                <div class="goal-actions">
+                    <button class="small-btn" onclick="toggleGoal('${g.id}')">
+                        ${g.completed ? "Mark Incomplete" : "Complete Goal"}
+                    </button>
+                    <button class="small-btn" onclick="openGoalModal('${g.id}')">✎ Edit</button>
+                    <button class="small-btn danger-soft" onclick="deleteGoal('${g.id}')">Delete</button>
+                </div>
 
             </div>
 
@@ -8910,154 +9118,88 @@ function renderGoals(){
 }
 
 
-function openGoalModal(){
+function openGoalModal(existingId=null){
+
+    const p = getCurrentProfile();
+    if(!p) return;
+
+    const existing = existingId ? p.goals.find(g => g.id === existingId) : null;
 
     showModal(`
-
-        <h2>
-            New Study Goal
-        </h2>
-
-        <form onsubmit="handleAddGoal(event)">
-
+        <h2>${existing ? "Edit Study Goal" : "New Study Goal"}</h2>
+        <form onsubmit="handleGoalSave(event,'${existing ? existing.id : ""}')">
             <div class="form-group full-width">
-
-                <label>
-                    Goal Title
-                </label>
-
-                <input
-                    type="text"
-                    id="modalGoalTitle"
-                    class="input"
-                    required
-                    placeholder="e.g., Study 15 hours this week"
-                >
-
+                <label>Goal Title</label>
+                <input type="text" id="modalGoalTitle" class="input" required maxlength="120" value="${escapeHTML(existing?.title || "")}" placeholder="e.g., Study 15 hours this week">
             </div>
-
             <div class="form-group">
-
-                <label>
-                    Category
-                </label>
-
-                <select
-                    id="modalGoalType"
-                    class="input"
-                >
-
-                    <option>
-                        Weekly Target
-                    </option>
-
-                    <option>
-                        Exam Milestone
-                    </option>
-
-                    <option>
-                        Habit
-                    </option>
-
+                <label>Category</label>
+                <select id="modalGoalType" class="input">
+                    <option ${existing?.type === "Weekly Target" ? "selected" : ""}>Weekly Target</option>
+                    <option ${existing?.type === "Exam Milestone" ? "selected" : ""}>Exam Milestone</option>
+                    <option ${existing?.type === "Habit" ? "selected" : ""}>Habit</option>
                 </select>
-
             </div>
-
             <div class="form-group">
-
-                <label>
-                    Target Value
-                </label>
-
-                <input
-                    type="text"
-                    id="modalGoalTarget"
-                    class="input"
-                    required
-                    placeholder="e.g., 15 Hours"
-                >
-
+                <label>Target Value</label>
+                <input type="text" id="modalGoalTarget" class="input" required value="${escapeHTML(existing?.target || "")}" placeholder="e.g., 15 Hours">
             </div>
-
             <div class="form-actions">
-
-                <button
-                    type="button"
-                    class="small-btn"
-                    onclick="closeModal()"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="primary"
-                >
-                    Save Goal
-                </button>
-
+                <button type="button" class="small-btn" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="primary">${existing ? "Save Changes" : "Save Goal"}</button>
             </div>
-
         </form>
-
     `);
-
 }
 
-
-function handleAddGoal(e){
-
+function handleGoalSave(e,id){
     e.preventDefault();
+    const p = getCurrentProfile();
+    if(!p) return;
 
-    const p =
-        getCurrentProfile();
+    const title = document.getElementById("modalGoalTitle").value.trim();
+    const type = document.getElementById("modalGoalType").value;
+    const target = document.getElementById("modalGoalTarget").value.trim();
+    if(!title || !target) return;
 
-    if(!p){
-        return;
+    if(id){
+        const goal = p.goals.find(g => g.id === id);
+        if(goal){
+            goal.title = title;
+            goal.type = type;
+            goal.target = target;
+            goal.updatedAt = new Date().toISOString();
+        }
+    }else{
+        p.goals.push({
+            id:"goal_" + Date.now() + "_" + Math.random().toString(36).slice(2),
+            title,
+            type,
+            target,
+            completed:false,
+            createdAt:new Date().toISOString()
+        });
     }
 
-
-    p.goals.push({
-
-        id:
-            "goal_" +
-            Date.now() +
-            "_" +
-            Math.random()
-                .toString(36)
-                .slice(2),
-
-        title:
-            document.getElementById(
-                "modalGoalTitle"
-            ).value.trim(),
-
-        type:
-            document.getElementById(
-                "modalGoalType"
-            ).value,
-
-        target:
-            document.getElementById(
-                "modalGoalTarget"
-            ).value.trim(),
-
-        completed:false,
-
-        createdAt:
-            new Date().toISOString()
-
-    });
-
-
     saveDatabase();
-
     closeModal();
-
     renderAll();
-
 }
 
+function handleAddGoal(e){
+    handleGoalSave(e,"");
+}
+
+function deleteGoal(id){
+    const p = getCurrentProfile();
+    if(!p) return;
+    const goal = p.goals.find(g => g.id === id);
+    if(!goal) return;
+    if(!confirm(`Delete the goal "${goal.title}"?`)) return;
+    p.goals = p.goals.filter(g => g.id !== id);
+    saveDatabase();
+    renderAll();
+}
 
 function toggleGoal(id){
 
@@ -9107,9 +9249,9 @@ function renderExams(){
     const p=getCurrentProfile(),grid=document.getElementById("examGrid");if(!grid)return;
     if(!p||!p.exams.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">No exams scheduled. Add your first exam reminder to connect it with Calendar.</div>`;return;}
     const exams=[...p.exams].sort((a,b)=>new Date(a.date)-new Date(b.date));
-    grid.innerHTML=exams.map(e=>{const diff=new Date(e.date)-new Date(),parts=countdownParts(diff),u=examUrgency(e);return `<div class="exam-card ${u.cls==='soon'||u.cls==='today'?"exam-soon":""}">
+    grid.innerHTML=exams.map(e=>{const diff=new Date(e.date)-new Date(),parts=countdownParts(diff),u=examUrgency(e);return `<div class="exam-card ${u.cls==='soon'||u.cls==='today'?"exam-soon":""}" data-exam-id="${escapeHTML(e.id)}" data-exam-date="${escapeHTML(e.date)}">
         <div class="exam-top"><div><div class="exam-title">${escapeHTML(e.title||"")}</div><div class="exam-subject">${escapeHTML(e.subject||"")} — ${formatDateTime(e.date)}</div></div><span class="exam-status ${u.cls}">📝 ${u.label}</span></div>
-        <div class="exam-countdown"><div class="exam-count-item"><strong>${parts.days}</strong><span>Days</span></div><div class="exam-count-item"><strong>${parts.hours}</strong><span>Hours</span></div><div class="exam-count-item"><strong>${parts.minutes}</strong><span>Mins</span></div><div class="exam-count-item"><strong>${parts.seconds}</strong><span>Secs</span></div></div>
+        <div class="exam-countdown"><div class="exam-count-item"><strong class="exam-live-days">${parts.days}</strong><span>Days</span></div><div class="exam-count-item"><strong class="exam-live-hours">${parts.hours}</strong><span>Hours</span></div><div class="exam-count-item"><strong class="exam-live-minutes">${parts.minutes}</strong><span>Mins</span></div><div class="exam-count-item"><strong class="exam-live-seconds">${parts.seconds}</strong><span>Secs</span></div></div>
         <div class="reminder-list">${examReminderDays(e).map(d=>`<div class="reminder-chip">🔔 ${d}d reminder</div>`).join("")}</div>
         <div class="subject-actions"><button class="small-btn" onclick="editExam('${e.id}')">Edit</button><button class="small-btn danger-soft" onclick="deleteExam('${e.id}')">Delete</button></div>
     </div>`;}).join("");
@@ -9391,43 +9533,50 @@ function renderNextExam(){
 }
 
 
-function startExamCountdown(){
+function updateLiveExamCards(){
+    const cards=document.querySelectorAll("[data-exam-date]");
+    const now=Date.now();
+    cards.forEach(card=>{
+        const target=new Date(card.dataset.examDate).getTime();
+        const diff=target-now;
+        const parts=countdownParts(diff);
+        const set=(selector,value)=>{const el=card.querySelector(selector);if(el)el.textContent=value;};
+        set(".exam-live-days",parts.days);
+        set(".exam-live-hours",parts.hours);
+        set(".exam-live-minutes",parts.minutes);
+        set(".exam-live-seconds",parts.seconds);
+        const status=card.querySelector(".exam-status");
+        if(status){
+            const exam={date:card.dataset.examDate};
+            const urgency=examUrgency(exam);
+            status.textContent=`📝 ${urgency.label}`;
+            status.className=`exam-status ${urgency.cls||""}`;
+            card.classList.toggle("exam-soon",urgency.cls==="soon"||urgency.cls==="today");
+        }
+    });
+}
 
-    if(countdownInterval){
-        clearInterval(
-            countdownInterval
-        );
+function updateLiveDashboardExam(){
+    const p=getCurrentProfile();
+    if(!p) return;
+    const exam=getNextExam();
+    if(!exam){
+        setCountdownDOM("dashCountdown",0);
+        return;
     }
+    setCountdownDOM("dashCountdown",new Date(exam.date).getTime()-Date.now());
+}
 
-
-    countdownInterval =
-        setInterval(
-            () => {
-
-                if(getCurrentProfile()){
-
-                    renderNextExam();
-
-                    const page =
-                        document.getElementById(
-                            "page-exams"
-                        );
-
-                    if(
-                        page &&
-                        page.classList.contains(
-                            "active"
-                        )
-                    ){
-                        renderExams();
-                    }
-
-                }
-
-            },
-            1000
-        );
-
+function startExamCountdown(){
+    if(countdownInterval) clearInterval(countdownInterval);
+    const tick=()=>{
+        if(!getCurrentProfile()) return;
+        updateLiveDashboardExam();
+        updateLiveExamCards();
+        updateRoutineLiveStatus();
+    };
+    tick();
+    countdownInterval=setInterval(tick,1000);
 }
 
 
@@ -9814,6 +9963,64 @@ function renderRoutinePage(){
             </div>
         `;
     }).join("");
+
+    renderRoutineTable();
+}
+
+function routineStatusForClass(day,classItem,now=new Date()){
+    const dayIndex=ROUTINE_DAYS.indexOf(day);
+    if(dayIndex<0 || !classItem.start || !classItem.end) return {label:"Scheduled",cls:""};
+    const currentDay=now.getDay();
+    if(currentDay!==dayIndex) return {label:"Scheduled",cls:""};
+    const [sh,sm]=classItem.start.split(":").map(Number),[eh,em]=classItem.end.split(":").map(Number);
+    const start=new Date(now);start.setHours(sh,sm,0,0);
+    const end=new Date(now);end.setHours(eh,em,0,0);
+    if(now<start){
+        const mins=Math.max(0,Math.ceil((start-now)/60000));
+        return {label:`Starts in ${mins}m`,cls:"upcoming"};
+    }
+    if(now<end){
+        const mins=Math.max(0,Math.ceil((end-now)/60000));
+        return {label:`Now • ${mins}m left`,cls:"now"};
+    }
+    return {label:"Finished",cls:"finished"};
+}
+
+function renderRoutineTable(){
+    const body=document.getElementById("routineTableBody");
+    if(!body) return;
+    const rows=[];
+    ROUTINE_DAYS.forEach(day=>{
+        const items=routineSort(getRoutine()[day]||[]);
+        if(!items.length){
+            rows.push(`<tr class="routine-table-empty"><td><strong>${day}</strong></td><td>—</td><td>—</td><td>—</td><td><span class="routine-status empty">No classes</span></td></tr>`);
+            return;
+        }
+        items.forEach(c=>{
+            const status=routineStatusForClass(day,c);
+            rows.push(`<tr><td><strong>${day}</strong></td><td class="routine-table-time">${escapeHTML(c.start)} – ${escapeHTML(c.end)}</td><td><strong>${escapeHTML(c.subject)}</strong></td><td>${c.room?`Room ${escapeHTML(c.room)}`:"—"}${c.teacher?` • ${escapeHTML(c.teacher)}`:""}</td><td><span class="routine-status ${status.cls}" data-routine-status="${escapeHTML(day)}" data-routine-id="${escapeHTML(c.id)}">${escapeHTML(status.label)}</span></td></tr>`);
+        });
+    });
+    body.innerHTML=rows.join("");
+}
+
+function updateRoutineLiveStatus(){
+    const now=new Date();
+    document.querySelectorAll("[data-routine-status]").forEach(el=>{
+        const day=el.dataset.routineStatus,id=el.dataset.routineId;
+        const item=(getRoutine()[day]||[]).find(c=>c.id===id);
+        if(!item) return;
+        const status=routineStatusForClass(day,item,now);
+        el.textContent=status.label;
+        el.className=`routine-status ${status.cls}`;
+    });
+
+    const today=new Date();
+    const todayName=today.toLocaleDateString("en-US",{weekday:"long"});
+    document.querySelectorAll("[data-dashboard-routine-id]").forEach(el=>{
+        const item=(getRoutine()[todayName]||[]).find(c=>c.id===el.dataset.dashboardRoutineId);
+        if(item) el.textContent=routineStatusForClass(todayName,item,today).label;
+    });
 }
 
 function routineCardHTML(c){
@@ -10051,114 +10258,415 @@ function getStudyNotes(){
     return p.studyNotes;
 }
 
+function normalizeStudyNotesData(p){
+    if(!p || !Array.isArray(p.studyNotes)) return;
+    p.studyNotes.forEach(course=>{
+        if(!course || typeof course!=="object") return;
+        if(!course.id) course.id="course_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+        if(!String(course.name||"").trim()) course.name="Untitled Course";
+        if(!Array.isArray(course.classes)) course.classes=[];
+        course.classes.forEach((note,index)=>{
+            if(!note || typeof note!=="object") return;
+            if(!note.id) note.id="classnote_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+            if(!Number.isFinite(Number(note.classNo)) || Number(note.classNo)<1){
+                note.classNo=index+1;
+            }else{
+                note.classNo=Math.max(1,Math.floor(Number(note.classNo)));
+            }
+            if(typeof note.title!=="string") note.title="";
+            if(typeof note.content!=="string") note.content="";
+            if(!Array.isArray(note.links)) note.links=[];
+            if(!Array.isArray(note.images)) note.images=[];
+            if(typeof note.drawing!=="string") note.drawing="";
+            if(!note.createdAt) note.createdAt=new Date().toISOString();
+            if(!note.updatedAt) note.updatedAt=note.createdAt;
+        });
+    });
+}
+
 function createNoteCourse(){
-    const p=getCurrentProfile(); if(!p) return;
+    const p=getCurrentProfile();
+    if(!p) return;
     const name=prompt("Course name","");
     if(!name || !name.trim()) return;
     const course={id:"course_"+Date.now()+"_"+Math.random().toString(36).slice(2),name:name.trim(),classes:[],createdAt:new Date().toISOString()};
-    p.studyNotes.push(course); activeNoteCourseId=course.id; activeStudyNoteId=null; saveDatabase(); renderNotesWorkspace();
+    p.studyNotes.push(course);
+    activeNoteCourseId=course.id;
+    activeStudyNoteId=null;
+    saveDatabase();
+    renderNotesWorkspace();
+}
+
+function renameNoteCourse(id){
+    const p=getCurrentProfile();
+    if(!p) return;
+    const course=p.studyNotes.find(c=>c.id===id);
+    if(!course) return;
+    const name=prompt("Rename course",course.name||"");
+    if(name===null || !name.trim()) return;
+    course.name=name.trim();
+    course.updatedAt=new Date().toISOString();
+    saveDatabase();
+    renderNotesWorkspace();
+}
+
+function deleteNoteCourse(id){
+    const p=getCurrentProfile();
+    if(!p) return;
+    const course=p.studyNotes.find(c=>c.id===id);
+    if(!course) return;
+    const classCount=Array.isArray(course.classes)?course.classes.length:0;
+    const message=classCount
+        ? `Delete course "${course.name}" and its ${classCount} class note${classCount===1?"":"s"}? This cannot be undone.`
+        : `Delete course "${course.name}"?`;
+    if(!confirm(message)) return;
+    p.studyNotes=p.studyNotes.filter(c=>c.id!==id);
+    if(activeNoteCourseId===id){
+        activeNoteCourseId=p.studyNotes[0]?.id||null;
+        activeStudyNoteId=null;
+        if(activeNoteCourseId){
+            const next=p.studyNotes.find(c=>c.id===activeNoteCourseId);
+            activeStudyNoteId=next?.classes?.[0]?.id||null;
+        }
+    }
+    saveDatabase();
+    renderNotesWorkspace();
+    if(activeStudyNoteId) loadActiveStudyNote();
+}
+
+function nextClassNumber(course){
+    const used=new Set((course.classes||[]).map(n=>Number(n.classNo)).filter(n=>Number.isFinite(n)&&n>0));
+    let n=1;
+    while(used.has(n)) n++;
+    return n;
 }
 
 function createNoteClass(){
-    const p=getCurrentProfile(); if(!p) return;
+    const p=getCurrentProfile();
+    if(!p) return;
     normalizeProfile(p);
-    if(!p.studyNotes.length){ createNoteCourse(); return; }
-    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId) || p.studyNotes[0];
-    const title=prompt("Class note title","");
-    if(!title || !title.trim()) return;
-    const item={id:"classnote_"+Date.now()+"_"+Math.random().toString(36).slice(2),title:title.trim(),content:"",links:[],images:[],drawing:"",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
-    course.classes.push(item); activeNoteCourseId=course.id; activeStudyNoteId=item.id; saveDatabase(); renderNotesWorkspace(); loadActiveStudyNote();
+    if(!p.studyNotes.length){
+        createNoteCourse();
+        return;
+    }
+    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId)||p.studyNotes[0];
+    activeNoteCourseId=course.id;
+    const defaultNo=nextClassNumber(course);
+    const rawNo=prompt("Class number",String(defaultNo));
+    if(rawNo===null) return;
+    const classNo=Number(rawNo);
+    if(!Number.isInteger(classNo)||classNo<1){alert("Please enter a valid class number.");return;}
+    if((course.classes||[]).some(n=>Number(n.classNo)===classNo)){alert("That class number already exists in this course.");return;}
+    const title=prompt("Optional class topic / title","");
+    if(title===null) return;
+    const now=new Date().toISOString();
+    const item={
+        id:"classnote_"+Date.now()+"_"+Math.random().toString(36).slice(2),
+        classNo,
+        title:title.trim(),
+        content:"",
+        links:[],
+        images:[],
+        drawing:"",
+        createdAt:now,
+        updatedAt:now
+    };
+    course.classes.push(item);
+    course.classes.sort((a,b)=>Number(a.classNo)-Number(b.classNo));
+    activeStudyNoteId=item.id;
+    saveDatabase();
+    renderNotesWorkspace();
+    loadActiveStudyNote();
 }
 
-function selectNoteCourse(id){activeNoteCourseId=id;activeStudyNoteId=null;renderNotesWorkspace();}
-function selectStudyNote(id){activeStudyNoteId=id;renderNotesWorkspace();loadActiveStudyNote();}
+function selectNoteCourse(id){
+    const p=getCurrentProfile();
+    if(!p) return;
+    activeNoteCourseId=id;
+    const course=p.studyNotes.find(c=>c.id===id);
+    activeStudyNoteId=course?.classes?.[0]?.id||null;
+    renderNotesWorkspace();
+    if(activeStudyNoteId) loadActiveStudyNote();
+}
+
+function selectStudyNote(id){
+    activeStudyNoteId=id;
+    renderNotesWorkspace();
+    loadActiveStudyNote();
+}
+
+function renameActiveStudyNote(){
+    const note=getActiveStudyNote();
+    if(!note) return;
+    const p=getCurrentProfile();
+    const course=p?.studyNotes.find(c=>c.id===activeNoteCourseId);
+    const current=note.title||`Class ${String(note.classNo||1).padStart(2,"0")}`;
+    const title=prompt("Class topic / title",current);
+    if(title===null) return;
+    note.title=title.trim();
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    renderNotesWorkspace();
+    loadActiveStudyNote();
+}
+
+function renameStudyNoteClassNumber(id){
+    const p=getCurrentProfile();
+    if(!p) return;
+    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId);
+    const note=course?.classes.find(n=>n.id===id);
+    if(!note) return;
+    const raw=prompt("Class number",String(note.classNo||1));
+    if(raw===null) return;
+    const n=Number(raw);
+    if(!Number.isInteger(n)||n<1){alert("Please enter a valid class number.");return;}
+    if(course.classes.some(x=>x.id!==id&&Number(x.classNo)===n)){alert("That class number already exists in this course.");return;}
+    note.classNo=n;
+    note.updatedAt=new Date().toISOString();
+    course.classes.sort((a,b)=>Number(a.classNo)-Number(b.classNo));
+    saveDatabase();
+    renderNotesWorkspace();
+    loadActiveStudyNote();
+}
 
 function renderNotesWorkspace(){
     const p=getCurrentProfile();
-    const courseList=document.getElementById("notesCourseList"),classList=document.getElementById("notesClassList");
+    const courseList=document.getElementById("notesCourseList");
+    const classList=document.getElementById("notesClassList");
     if(!p||!courseList||!classList) return;
     normalizeProfile(p);
+    normalizeStudyNotesData(p);
+
     if(!activeNoteCourseId && p.studyNotes.length) activeNoteCourseId=p.studyNotes[0].id;
-    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId) || null;
+    let course=p.studyNotes.find(c=>c.id===activeNoteCourseId)||null;
+    if(!course && p.studyNotes.length){
+        course=p.studyNotes[0];
+        activeNoteCourseId=course.id;
+    }
+    if(course && activeStudyNoteId && !course.classes.some(n=>n.id===activeStudyNoteId)) activeStudyNoteId=null;
     if(course && !activeStudyNoteId && course.classes.length) activeStudyNoteId=course.classes[0].id;
+
     document.getElementById("notesCourseCount").textContent=p.studyNotes.length;
-    courseList.innerHTML=p.studyNotes.length?p.studyNotes.map(c=>`<button class="notes-course-item ${c.id===activeNoteCourseId?"active":""}" onclick="selectNoteCourse('${c.id}')"><span class="notes-course-name">${escapeHTML(c.name)}</span><span class="notes-course-meta">${c.classes.length} class note${c.classes.length===1?"":"s"}</span></button>`).join(""):`<div class="empty">No courses yet.</div>`;
+    courseList.innerHTML=p.studyNotes.length ? p.studyNotes.map(c=>`<div class="notes-v3-course-item ${c.id===activeNoteCourseId?"active":""}">
+        <button class="notes-v3-course-main" style="border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;min-width:0" onclick="selectNoteCourse('${c.id}')">
+            <span class="notes-v3-course-name">${escapeHTML(c.name)}</span>
+            <span class="notes-v3-course-meta">${c.classes.length} class${c.classes.length===1?"":"es"}</span>
+        </button>
+        <div class="notes-v3-course-actions">
+            <button class="notes-v3-icon-btn" title="Rename course" onclick="event.stopPropagation();renameNoteCourse('${c.id}')">✎</button>
+            <button class="notes-v3-icon-btn danger" title="Delete course" onclick="event.stopPropagation();deleteNoteCourse('${c.id}')">×</button>
+        </div>
+    </div>`).join("") : `<div class="empty">No courses yet.</div>`;
+
     document.getElementById("notesClassPanelTitle").textContent=course?course.name:"Select a course";
     document.getElementById("notesClassCount").textContent=course?course.classes.length:0;
-    classList.innerHTML=course&&course.classes.length?course.classes.map(n=>`<button class="notes-class-item ${n.id===activeStudyNoteId?"active":""}" onclick="selectStudyNote('${n.id}')"><span class="notes-class-name">${escapeHTML(n.title||"Untitled class")}</span><span class="notes-class-meta">${formatDate(n.updatedAt||n.createdAt)}</span></button>`).join(""):`<div class="empty">${course?"No class notes yet.":"Choose a course first."}</div>`;
-    const empty=document.getElementById("notesEmptyState"),editor=document.getElementById("notesEditor");
+    const addBtn=document.getElementById("addClassNoteBtn");
+    if(addBtn) addBtn.disabled=!course;
+
+    classList.innerHTML=course&&course.classes.length ? course.classes.slice().sort((a,b)=>Number(a.classNo)-Number(b.classNo)).map(n=>`<div class="notes-v3-class-item ${n.id===activeStudyNoteId?"active":""}">
+        <button style="border:0;background:transparent;color:inherit;text-align:left;display:contents;cursor:pointer" onclick="selectStudyNote('${n.id}')">
+            <span class="notes-v3-class-number">Class ${String(n.classNo||1).padStart(2,"0")}</span>
+            <span class="notes-v3-class-info"><span class="notes-v3-class-title">${escapeHTML(n.title||"No title")}</span><span class="notes-v3-class-meta">${formatDate(n.updatedAt||n.createdAt)}</span></span>
+        </button>
+        <div class="notes-v3-class-actions">
+            <button class="notes-v3-icon-btn" title="Rename class" onclick="event.stopPropagation();renameActiveStudyNoteById('${n.id}')">✎</button>
+            <button class="notes-v3-icon-btn" title="Change class number" onclick="event.stopPropagation();renameStudyNoteClassNumber('${n.id}')">#</button>
+            <button class="notes-v3-icon-btn danger" title="Delete class" onclick="event.stopPropagation();deleteStudyNoteById('${n.id}')">×</button>
+        </div>
+    </div>`).join("") : `<div class="empty">${course?"No classes yet. Click + Add Class.":"Choose a course first."}</div>`;
+
+    const empty=document.getElementById("notesEmptyState");
+    const editor=document.getElementById("notesEditor");
     const active=course?.classes.find(n=>n.id===activeStudyNoteId);
-    if(active){empty.classList.add("hidden");editor.classList.remove("hidden");}else{empty.classList.remove("hidden");editor.classList.add("hidden");}
+    if(active){empty.classList.add("hidden");editor.classList.remove("hidden");}
+    else{empty.classList.remove("hidden");editor.classList.add("hidden");}
 }
 
 function getActiveStudyNote(){
-    const p=getCurrentProfile(); if(!p||!activeNoteCourseId||!activeStudyNoteId) return null;
-    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId); return course?.classes.find(n=>n.id===activeStudyNoteId)||null;
+    const p=getCurrentProfile();
+    if(!p||!activeNoteCourseId||!activeStudyNoteId) return null;
+    normalizeStudyNotesData(p);
+    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId);
+    return course?.classes.find(n=>n.id===activeStudyNoteId)||null;
 }
 
 function loadActiveStudyNote(){
-    const note=getActiveStudyNote(); if(!note) return;
-    document.getElementById("studyNoteTitle").value=note.title||"";
-    document.getElementById("studyNoteContent").value=note.content||"";
-    const p=getCurrentProfile(),course=p.studyNotes.find(c=>c.id===activeNoteCourseId);
-    document.getElementById("studyNoteCourseLabel").textContent=course?course.name:"";
-    renderStudyNoteLinks(note); renderStudyNoteImages(note); setupNoteCanvas(note.drawing||"");
+    const note=getActiveStudyNote();
+    if(!note) return;
+    const p=getCurrentProfile();
+    const course=p?.studyNotes.find(c=>c.id===activeNoteCourseId);
+    const title=document.getElementById("studyNoteTitle");
+    const content=document.getElementById("studyNoteContent");
+    const courseLabel=document.getElementById("studyNoteCourseLabel");
+    const classLabel=document.getElementById("studyNoteClassLabel");
+    if(title) title.value=note.title||"";
+    if(content) content.value=note.content||"";
+    if(courseLabel) courseLabel.textContent=course?.name||"Course";
+    if(classLabel) classLabel.textContent=`Class ${String(note.classNo||1).padStart(2,"0")}`;
+    renderStudyNoteLinks(note);
+    renderStudyNoteImages(note);
+    const drawingPanel=document.getElementById("notesDrawingPanel");
+    const drawingButton=document.getElementById("noteDrawingToggle");
+    if(drawingPanel) drawingPanel.classList.add("hidden");
+    if(drawingButton) drawingButton.textContent="✏ Open Drawing";
+    noteDrawingState=null;
 }
 
 function saveStudyNoteField(field,value){
-    const note=getActiveStudyNote(); if(!note) return;
-    note[field]=value; note.updatedAt=new Date().toISOString(); saveDatabase();
-    const el=document.getElementById("studyNoteSaved"); if(el){el.textContent="● Saved locally";el.style.color="var(--success)";}
-    if(field==="title") {
-        const list=document.getElementById("notesClassList");
-        if(list) {
-            const p=getCurrentProfile(),course=p?.studyNotes.find(c=>c.id===activeNoteCourseId);
-            if(course) list.innerHTML=course.classes.map(n=>`<button class="notes-class-item ${n.id===activeStudyNoteId?"active":""}" onclick="selectStudyNote('${n.id}')"><span class="notes-class-name">${escapeHTML(n.title||"Untitled class")}</span><span class="notes-class-meta">${formatDate(n.updatedAt||n.createdAt)}</span></button>`).join("");
-        }
+    const note=getActiveStudyNote();
+    if(!note) return;
+    note[field]=value;
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    const el=document.getElementById("studyNoteSaved");
+    if(el){el.textContent="● Saved locally";el.style.color="var(--success)";}
+    if(field==="title") renderNotesWorkspace();
+}
+
+function renameActiveStudyNoteById(id){
+    const p=getCurrentProfile();
+    if(!p) return;
+    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId);
+    const note=course?.classes.find(n=>n.id===id);
+    if(!note) return;
+    const title=prompt("Class topic / title",note.title||"");
+    if(title===null) return;
+    note.title=title.trim();
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    renderNotesWorkspace();
+    if(activeStudyNoteId===id) loadActiveStudyNote();
+}
+
+function deleteStudyNoteById(id){
+    const p=getCurrentProfile();
+    if(!p) return;
+    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId);
+    const note=course?.classes.find(n=>n.id===id);
+    if(!course||!note) return;
+    if(!confirm(`Delete Class ${String(note.classNo||1).padStart(2,"0")}${note.title?` — ${note.title}`:""}?`)) return;
+    course.classes=course.classes.filter(n=>n.id!==id);
+    if(activeStudyNoteId===id){
+        const sorted=course.classes.slice().sort((a,b)=>Number(a.classNo)-Number(b.classNo));
+        activeStudyNoteId=sorted[0]?.id||null;
     }
+    saveDatabase();
+    renderNotesWorkspace();
+    if(activeStudyNoteId) loadActiveStudyNote();
 }
 
 function renderStudyNoteLinks(note){
-    const el=document.getElementById("studyNoteLinks"); if(!el) return;
-    el.innerHTML=note.links?.length?note.links.map((l,i)=>`<div class="note-link-row"><a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">🔗 ${escapeHTML(l.title||l.url)}</a><button onclick="removeStudyNoteLink(${i})">×</button></div>`).join(""):`<div class="empty" style="padding:12px">No links added.</div>`;
+    const el=document.getElementById("studyNoteLinks");
+    if(!el) return;
+    el.innerHTML=note.links?.length ? note.links.map((l,i)=>`<div class="note-link-row"><a href="${escapeHTML(l.url)}" target="_blank" rel="noopener">🔗 ${escapeHTML(l.title||l.url)}</a><button onclick="removeStudyNoteLink(${i})">×</button></div>`).join("") : `<div class="empty" style="padding:12px">No links added.</div>`;
 }
+
 function addStudyNoteLink(){
-    const note=getActiveStudyNote(); if(!note) return;
-    const title=prompt("Link title",""); if(title===null) return;
-    const url=prompt("URL (https://...)","https://"); if(!url||!/^https?:\/\//i.test(url)) {alert("Please enter a valid http/https link.");return;}
-    if(!Array.isArray(note.links)) note.links=[]; note.links.push({title:title.trim()||url,url:url.trim()}); note.updatedAt=new Date().toISOString(); saveDatabase(); renderStudyNoteLinks(note);
+    const note=getActiveStudyNote();
+    if(!note) return;
+    const title=prompt("Link title","");
+    if(title===null) return;
+    const url=prompt("URL (https://...)","https://");
+    if(!url||!/^https?:\/\//i.test(url)){alert("Please enter a valid http/https link.");return;}
+    if(!Array.isArray(note.links)) note.links=[];
+    note.links.push({title:title.trim()||url.trim(),url:url.trim()});
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    renderStudyNoteLinks(note);
 }
-function removeStudyNoteLink(index){const note=getActiveStudyNote();if(!note)return;note.links.splice(index,1);note.updatedAt=new Date().toISOString();saveDatabase();renderStudyNoteLinks(note);}
+
+function removeStudyNoteLink(index){
+    const note=getActiveStudyNote();
+    if(!note) return;
+    note.links.splice(index,1);
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    renderStudyNoteLinks(note);
+}
 
 function addStudyNoteImage(event){
-    const note=getActiveStudyNote(),file=event.target.files?.[0]; if(!note||!file)return;
+    const note=getActiveStudyNote();
+    const file=event.target.files?.[0];
+    if(!note||!file) return;
     if(file.size>4*1024*1024){alert("Please use an image smaller than 4 MB.");event.target.value="";return;}
-    const reader=new FileReader(); reader.onload=()=>{if(!Array.isArray(note.images))note.images=[];note.images.push({id:"img_"+Date.now(),name:file.name,data:reader.result});note.updatedAt=new Date().toISOString();saveDatabase();renderStudyNoteImages(note);event.target.value="";}; reader.readAsDataURL(file);
+    const reader=new FileReader();
+    reader.onload=()=>{
+        if(!Array.isArray(note.images)) note.images=[];
+        note.images.push({id:"img_"+Date.now(),name:file.name,data:reader.result});
+        note.updatedAt=new Date().toISOString();
+        saveDatabase();
+        renderStudyNoteImages(note);
+        event.target.value="";
+    };
+    reader.readAsDataURL(file);
 }
+
 function renderStudyNoteImages(note){
-    const el=document.getElementById("studyNoteImages");if(!el)return;
-    el.innerHTML=note.images?.length?note.images.map((img,i)=>`<div class="note-image-card"><img src="${img.data}" alt="${escapeHTML(img.name||"Study image")}"><button onclick="removeStudyNoteImage(${i})">×</button></div>`).join(""):`<div class="empty" style="padding:12px;grid-column:1/-1">No images added.</div>`;
+    const el=document.getElementById("studyNoteImages");
+    if(!el) return;
+    el.innerHTML=note.images?.length ? note.images.map((img,i)=>`<div class="note-image-card"><img src="${img.data}" alt="${escapeHTML(img.name||"Study image")}"><button onclick="removeStudyNoteImage(${i})">×</button></div>`).join("") : `<div class="empty" style="padding:12px;grid-column:1/-1">No images added.</div>`;
 }
-function removeStudyNoteImage(index){const note=getActiveStudyNote();if(!note)return;note.images.splice(index,1);note.updatedAt=new Date().toISOString();saveDatabase();renderStudyNoteImages(note);}
+
+function removeStudyNoteImage(index){
+    const note=getActiveStudyNote();
+    if(!note) return;
+    note.images.splice(index,1);
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    renderStudyNoteImages(note);
+}
+
+function toggleNoteDrawing(forceOpen=null){
+    const panel=document.getElementById("notesDrawingPanel");
+    const button=document.getElementById("noteDrawingToggle");
+    if(!panel) return;
+    const shouldOpen=forceOpen===null ? panel.classList.contains("hidden") : Boolean(forceOpen);
+    panel.classList.toggle("hidden",!shouldOpen);
+    if(button) button.textContent=shouldOpen?"✏ Close Drawing":"✏ Open Drawing";
+    if(shouldOpen){
+        const note=getActiveStudyNote();
+        setupNoteCanvas(note?.drawing||"");
+    }
+}
 
 function setupNoteCanvas(drawing){
-    const canvas=document.getElementById("studyNoteCanvas");if(!canvas)return;
-    const ctx=canvas.getContext("2d");ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(drawing){const img=new Image();img.onload=()=>ctx.drawImage(img,0,0);img.src=drawing;}
-    if(noteDrawingState?.canvas===canvas)return;
+    const canvas=document.getElementById("studyNoteCanvas");
+    if(!canvas) return;
+    const ctx=canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(drawing){
+        const img=new Image();
+        img.onload=()=>ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        img.src=drawing;
+    }
+    if(noteDrawingState?.canvas===canvas) return;
     const point=e=>{const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height};};
     let drawingNow=false;
     const start=e=>{drawingNow=true;ctx.beginPath();const p=point(e);ctx.moveTo(p.x,p.y);canvas.setPointerCapture?.(e.pointerId);};
     const move=e=>{if(!drawingNow)return;const p=point(e);ctx.lineWidth=3;ctx.lineCap="round";ctx.strokeStyle="#655cf6";ctx.lineTo(p.x,p.y);ctx.stroke();};
-    const end=()=>{if(!drawingNow)return;drawingNow=false;const note=getActiveStudyNote();if(note){note.drawing=canvas.toDataURL("image/png");note.updatedAt=new Date().toISOString();saveDatabase();}};
-    canvas.addEventListener("pointerdown",start);canvas.addEventListener("pointermove",move);canvas.addEventListener("pointerup",end);canvas.addEventListener("pointercancel",end);canvas.addEventListener("pointerleave",end);
+    const end=()=>{if(!drawingNow)return;drawingNow=false;const note=getActiveStudyNote();if(note){note.drawing=canvas.toDataURL("image/png");note.updatedAt=new Date().toISOString();saveDatabase();const saved=document.getElementById("studyNoteSaved");if(saved)saved.textContent="● Drawing saved";}};
+    canvas.addEventListener("pointerdown",start);
+    canvas.addEventListener("pointermove",move);
+    canvas.addEventListener("pointerup",end);
+    canvas.addEventListener("pointercancel",end);
+    canvas.addEventListener("pointerleave",end);
     noteDrawingState={canvas};
 }
-function clearNoteDrawing(){const note=getActiveStudyNote(),canvas=document.getElementById("studyNoteCanvas");if(!note||!canvas)return;canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);note.drawing="";note.updatedAt=new Date().toISOString();saveDatabase();}
+
+function clearNoteDrawing(){
+    const note=getActiveStudyNote();
+    const canvas=document.getElementById("studyNoteCanvas");
+    if(!note||!canvas) return;
+    canvas.getContext("2d").clearRect(0,0,canvas.width,canvas.height);
+    note.drawing="";
+    note.updatedAt=new Date().toISOString();
+    saveDatabase();
+    const saved=document.getElementById("studyNoteSaved");
+    if(saved) saved.textContent="● Drawing cleared";
+}
 
 function deleteActiveStudyNote(){
-    const p=getCurrentProfile(),note=getActiveStudyNote();if(!p||!note||!confirm("Delete this class note?"))return;
-    const course=p.studyNotes.find(c=>c.id===activeNoteCourseId);course.classes=course.classes.filter(n=>n.id!==activeStudyNoteId);activeStudyNoteId=course.classes[0]?.id||null;saveDatabase();renderNotesWorkspace();if(activeStudyNoteId)loadActiveStudyNote();
+    if(activeStudyNoteId) deleteStudyNoteById(activeStudyNoteId);
 }
 
 /* =========================================================
